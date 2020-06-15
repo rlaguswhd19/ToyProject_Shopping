@@ -25,6 +25,8 @@ public class Account {
 	@Id @GeneratedValue
 	private Integer id;
 	
+	private Integer age;
+	
 	private String email;
 	
 	private String password;
