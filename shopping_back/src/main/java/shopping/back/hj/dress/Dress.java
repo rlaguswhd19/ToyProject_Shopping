@@ -31,10 +31,10 @@ public class Dress {
 	private Sex sex;
 	
 	// 판매 가격
-	private Integer sales;
+	private Integer sale;
 	
 	// 할인 가격
-	private Integer discount = 0;
+	private Integer discount;
 	
 	// 색상
 	private String color;

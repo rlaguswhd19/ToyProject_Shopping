@@ -1,5 +1,6 @@
 package shopping.back.hj.pages;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.persistence.Entity;
@@ -35,6 +36,9 @@ public class Page {
 	
 	// 사이즈, 남은수량
 	private HashMap<DressSize, Integer> size_arr;
+	
+	// 옷 색상들
+	private ArrayList<String> color_arr;
 	
 	// account(게시글의 주인) 게시글주인은 많은 페이지를 가질 수 있다.
 	@ManyToOne

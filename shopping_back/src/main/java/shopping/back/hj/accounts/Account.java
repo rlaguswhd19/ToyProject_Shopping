@@ -37,7 +37,7 @@ public class Account {
 	
 	private String phone_number;
 	
-	// 옷 찜 목록
+	// 찜 목록
 	@OneToMany
 	private Set<Dress> dress_arr;
 	
