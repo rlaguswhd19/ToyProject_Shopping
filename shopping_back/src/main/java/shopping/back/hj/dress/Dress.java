@@ -41,4 +41,7 @@ public class Dress {
 	
 	// 옷 사이즈
 	private DressSize dsize;
+	
+	// 설명
+	private String explanation;
 }
