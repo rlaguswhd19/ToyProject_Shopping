@@ -1,11 +1,12 @@
-package shopping.back.hj.order;
+package shopping.back.hj.pages;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,29 +16,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.Dress;
+import shopping.back.hj.dress.DressSize;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
-public class Order {
+public class Page {
 	
 	@Id @GeneratedValue
 	private Integer id;
 	
-	// 주문 날짜
-	private LocalDateTime order_time = LocalDateTime.now();
-	
-	// 상품정보 = 상품, 사이즈, 수량, 할인정보
-	@ManyToOne
+	// 옷 page당 하나씩 매칭
+	@OneToOne
 	private Dress dress;
 	
-	private Integer cnt;
-	// 결제정보 = 상품가격 * 수량 % 할인률
+	// 이미지 경로
+	private String image_path;
 	
-	// 배송정보 = 수령인, 주소, 핸드폰
+	// 사이즈, 남은수량
+	private HashMap<DressSize, Integer> size_arr;
+	
+	// account(게시글의 주인) 게시글주인은 많은 페이지를 가질 수 있다.
 	@ManyToOne
 	private Account account;
 	
-	// 입금안내?
-	
+	// 조회수
+	private Integer views;
 }
