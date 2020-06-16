@@ -33,6 +33,8 @@ public class Account {
 	
 	private String address;
 	
+	private String phone_number;
+	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<AccountRole> role;
