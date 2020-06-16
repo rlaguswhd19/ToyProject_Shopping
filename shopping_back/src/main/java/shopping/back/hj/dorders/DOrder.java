@@ -1,4 +1,4 @@
-package shopping.back.hj.dressorders;
+package shopping.back.hj.dorders;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ import shopping.back.hj.dress.Dress;
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
-public class DressOrder {
+public class DOrder {
 	
 	@Id @GeneratedValue
 	private Integer id;

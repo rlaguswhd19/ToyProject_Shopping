@@ -43,6 +43,7 @@ public class Dress {
 	private String color;
 	
 	// 옷 사이즈
+	@Enumerated(EnumType.STRING)
 	private DressSize dsize;
 	
 	// 설명
