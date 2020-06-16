@@ -26,6 +26,9 @@ public class Dress {
 	// 품번
 	private String article_number;
 	
+	// 상의 1, 하의 1
+	private DressType dress_type;
+	
 	// 성별
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
@@ -44,4 +47,12 @@ public class Dress {
 	
 	// 설명
 	private String explanation;
+
+	@Override
+	public String toString() {
+		return "Dress [id=" + id + ", brand=" + brand + ", article_number=" + article_number + ", sex=" + sex
+				+ ", sale=" + sale + ", discount=" + discount + ", color=" + color + ", dsize=" + dsize
+				+ ", explanation=" + explanation + "]";
+	}
+	
 }
