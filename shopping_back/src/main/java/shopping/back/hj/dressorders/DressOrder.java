@@ -1,4 +1,4 @@
-package shopping.back.hj.orders;
+package shopping.back.hj.dressorders;
 
 import java.time.LocalDateTime;
 
@@ -19,25 +19,23 @@ import shopping.back.hj.dress.Dress;
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
-public class Order {
+public class DressOrder {
 	
 	@Id @GeneratedValue
 	private Integer id;
 	
 	// 주문 날짜
-	private LocalDateTime order_time = LocalDateTime.now();
+	private LocalDateTime order_time;
 	
+	// 조회수
+	private Integer clickcount;
+	
+	// 결제정보 = 상품가격 * 수량 % 할인률
 	// 상품정보 = 상품, 사이즈, 수량, 할인정보
 	@ManyToOne
 	private Dress dress;
-	
-	private Integer cnt;
-	// 결제정보 = 상품가격 * 수량 % 할인률
-	
+
 	// 배송정보 = 수령인, 주소, 핸드폰
 	@ManyToOne
 	private Account account;
-	
-	// 입금안내?
-	
 }
