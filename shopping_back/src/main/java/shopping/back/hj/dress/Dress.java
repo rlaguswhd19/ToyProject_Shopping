@@ -27,6 +27,7 @@ public class Dress {
 	private String article_number;
 	
 	// 상의 1, 하의 1
+	@Enumerated(EnumType.STRING)
 	private DressType dress_type;
 	
 	// 성별
