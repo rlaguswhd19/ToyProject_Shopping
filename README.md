@@ -41,8 +41,6 @@
 | sex            | Sex (enum)       | 성별     |
 | sale           | Integer          | 판매가격 |
 | discount       | Integer          | 할인율   |
-| color          | String           | 색상     |
-| dsize          | DressSize (enum) | 옷사이즈 |
 | explanation    | String           | 설명     |
 
 
@@ -56,6 +54,8 @@
 | count      | Integer       | 갯수        |
 | dress      | Dress (FK)    | 옷          |
 | account    | Account (FK)  | 구매자 계정 |
+| color      | String        | 색상        |
+| dsize      | DressSize     | 옷사이즈    |
 
 
 
