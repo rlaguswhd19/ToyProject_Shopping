@@ -3,6 +3,8 @@ package shopping.back.hj.dorders;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.Dress;
+import shopping.back.hj.dress.DressSize;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -27,6 +30,13 @@ public class Dorder {
 	// 주문 날짜
 	private LocalDateTime order_time;
 	
+	// 색상
+	private String color;
+	
+	// 옷 사이즈
+	@Enumerated(EnumType.STRING)
+	private DressSize dsize;
+
 	// 갯수
 	private Integer count;
 	

@@ -26,7 +26,7 @@ public class Dress {
 	// 품번
 	private String article_number;
 	
-	// 상의 1, 하의 1
+	// 상의  하의
 	@Enumerated(EnumType.STRING)
 	private DressType dress_type;
 	
@@ -39,13 +39,6 @@ public class Dress {
 	
 	// 할인 가격
 	private Integer discount;
-	
-	// 색상
-	private String color;
-	
-	// 옷 사이즈
-	@Enumerated(EnumType.STRING)
-	private DressSize dsize;
 	
 	// 설명
 	private String explanation;
