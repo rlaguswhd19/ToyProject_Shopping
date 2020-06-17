@@ -48,12 +48,5 @@ public class Dress {
 	
 	// 설명
 	private String explanation;
-
-	@Override
-	public String toString() {
-		return "Dress [id=" + id + ", brand=" + brand + ", article_number=" + article_number + ", sex=" + sex
-				+ ", sale=" + sale + ", discount=" + discount + ", color=" + color + ", dsize=" + dsize
-				+ ", explanation=" + explanation + "]";
-	}
 	
 }

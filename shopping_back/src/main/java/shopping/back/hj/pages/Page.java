@@ -1,7 +1,7 @@
 package shopping.back.hj.pages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.Dress;
-import shopping.back.hj.dress.DressSize;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -34,11 +33,8 @@ public class Page {
 	// 이미지 경로
 	private String image_path;
 	
-	// 사이즈, 남은수량
-	private HashMap<DressSize, Integer> size_arr;
-	
-	// 옷 색상들
-	private ArrayList<String> color_arr;
+	// 색상당 사이즈 및 수량
+	private HashMap<String, ColorInfo> size_info;
 	
 	// account(게시글의 주인) 게시글주인은 많은 페이지를 가질 수 있다.
 	@ManyToOne
@@ -46,4 +42,5 @@ public class Page {
 	
 	// 조회수
 	private Integer views;
+	
 }

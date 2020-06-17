@@ -19,7 +19,7 @@ import shopping.back.hj.dress.Dress;
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
-public class DOrder {
+public class Dorder {
 	
 	@Id @GeneratedValue
 	private Integer id;
@@ -27,8 +27,8 @@ public class DOrder {
 	// 주문 날짜
 	private LocalDateTime order_time;
 	
-	// 조회수
-	private Integer clickcount;
+	// 갯수
+	private Integer count;
 	
 	// 결제정보 = 상품가격 * 수량 % 할인률
 	// 상품정보 = 상품, 사이즈, 수량, 할인정보
