@@ -16,7 +16,7 @@ public class DressController {
 	DressService dressService;
 	
 	@PostMapping
-	public ResponseEntity<Dress> createDress(@RequestBody Dress dress) {
-		return dressService.createDress(dress);
+	public ResponseEntity<Dress> createDress(@RequestBody DressDto dressDto) {
+		return dressService.createDress(dressDto);
 	}
 }
