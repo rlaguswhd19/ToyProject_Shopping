@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.Dress;
+import shopping.back.hj.enums.ColorInfo;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor

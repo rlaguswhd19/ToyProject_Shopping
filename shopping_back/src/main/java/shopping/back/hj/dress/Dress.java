@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.enums.DressType;
+import shopping.back.hj.enums.Sex;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor

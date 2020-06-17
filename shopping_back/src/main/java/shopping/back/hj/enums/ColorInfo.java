@@ -1,10 +1,9 @@
-package shopping.back.hj.pages;
+package shopping.back.hj.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import shopping.back.hj.dress.DressSize;
 
 @Builder @AllArgsConstructor
 @Getter @Setter
