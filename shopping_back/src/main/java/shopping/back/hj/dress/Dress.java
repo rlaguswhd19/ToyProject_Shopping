@@ -1,10 +1,13 @@
 package shopping.back.hj.dress;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,12 +37,14 @@ public class Dress {
 	
 	// 성별
 	@Enumerated(EnumType.STRING)
+	@Column(columnDefinition = "varchar(255) default 'Public'")
 	private Sex sex;
 	
 	// 판매 가격
 	private Integer sale;
 	
 	// 할인 가격
+	@Column(columnDefinition = "Integer default '0'")
 	private Integer discount;
 	
 	// 설명
