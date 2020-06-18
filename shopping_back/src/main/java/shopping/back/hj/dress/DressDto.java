@@ -26,13 +26,13 @@ public class DressDto {
 		
 		// 성별
 		@Enumerated(EnumType.STRING)
-		private Sex sex;
+		private Sex sex = Sex.Man;
 		
 		// 판매 가격
 		private Integer sale;
 		
 		// 할인 가격
-		private Integer discount;
+		private Integer discount = 0;
 		
 		// 설명
 		private String explanation;

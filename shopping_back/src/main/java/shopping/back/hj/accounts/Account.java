@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.sun.istack.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -27,7 +29,7 @@ public class Account {
 	
 	@Id @GeneratedValue
 	private Integer id;
-	
+
 	private Integer age;
 	
 	private String email;
