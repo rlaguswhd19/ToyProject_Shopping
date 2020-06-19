@@ -14,10 +14,10 @@ import org.springframework.ui.ModelMap;
 public class DressService {
 
 	@Autowired
-	DressRepository dressRepository;
+	private DressRepository dressRepository;
 	
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	
 	public ResponseEntity createDress(DressDto dressDto) {
 		Dress dress = modelMapper.map(dressDto, Dress.class);

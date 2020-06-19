@@ -2,6 +2,7 @@ package shopping.back.hj.dress;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -40,7 +41,7 @@ public class DressDto {
 		private Integer sale;
 		
 		// 할인 가격
-		@Min(0)
+		@Min(0) @Max(100)
 		private Integer discount = 0;
 		
 		// 설명

@@ -16,10 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class DressController {
 	
 	@Autowired
-	DressService dressService;
+	private DressService dressService;
+	
+	@Autowired
+	private DressValidator dressValidator;
 	
 	@PostMapping
 	public ResponseEntity createDress(@RequestBody @Valid DressDto dressDto, Errors errors) {
+		if(errors.hasErrors()) {
+			return ResponseEntity.badRequest().build();
+		}
+		
+		dressValidator.validate(dressDto, errors);
+		
 		if(errors.hasErrors()) {
 			return ResponseEntity.badRequest().build();
 		}
