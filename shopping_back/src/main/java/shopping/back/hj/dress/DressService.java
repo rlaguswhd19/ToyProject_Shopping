@@ -19,7 +19,7 @@ public class DressService {
 	@Autowired
 	ModelMapper modelMapper;
 	
-	public ResponseEntity<Dress> createDress(DressDto dressDto) {
+	public ResponseEntity createDress(DressDto dressDto) {
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		Dress newDress = dressRepository.save(dress);
 
