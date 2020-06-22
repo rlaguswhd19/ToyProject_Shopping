@@ -24,13 +24,13 @@ public class DressController {
 	@PostMapping
 	public ResponseEntity createDress(@RequestBody @Valid DressDto dressDto, Errors errors) {
 		if(errors.hasErrors()) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().body(errors);
 		}
 		
 		dressValidator.validate(dressDto, errors);
 		
 		if(errors.hasErrors()) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().body(errors);
 		}
 		
 		return dressService.createDress(dressDto);
