@@ -22,9 +22,8 @@ public class DressService {
 	public ResponseEntity createDress(DressDto dressDto) {
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		Dress newDress = dressRepository.save(dress);
-
+		
 		URI createUri = linkTo(DressController.class).slash(newDress.getId()).toUri();
 		return ResponseEntity.created(createUri).body(newDress);
 	}
-
 }
