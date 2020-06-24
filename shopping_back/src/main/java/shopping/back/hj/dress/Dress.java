@@ -47,5 +47,4 @@ public class Dress {
 	
 	// 설명
 	private String explanation;
-
 }
