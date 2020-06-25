@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.accounts.Account;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -38,10 +39,12 @@ public class DressDto {
 		
 		// 판매 가격
 		@Min(0)
+		@NotNull
 		private Integer sale;
 		
 		// 할인 가격
 		@Min(0) @Max(100)
+		@NotNull
 		private Integer discount = 0;
 		
 		// 설명

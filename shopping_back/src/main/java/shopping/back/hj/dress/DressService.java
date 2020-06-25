@@ -6,6 +6,7 @@ import java.net.URI;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class DressService {
 		WebMvcLinkBuilder selfLinkBuilder= linkTo(DressController.class).slash(newDress.getId());
 		URI createUri = selfLinkBuilder.toUri();
 		
+		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
 		dressModel.link_Lists(dressModel);
 		dressModel.link_Update(dressModel);
 		
