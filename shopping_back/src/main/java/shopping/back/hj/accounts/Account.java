@@ -28,7 +28,7 @@ import shopping.back.hj.enums.AccountRole;
 public class Account {
 	
 	@Id @GeneratedValue
-	private Integer id;
+	private Long id;
 
 	private Integer age;
 	

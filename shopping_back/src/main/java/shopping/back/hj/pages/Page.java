@@ -25,7 +25,7 @@ import shopping.back.hj.enums.ColorInfo;
 public class Page {
 	
 	@Id @GeneratedValue
-	private Integer id;
+	private Long id;
 	
 	// 옷 page당 하나씩 매칭
 	@OneToOne

@@ -23,7 +23,7 @@ import shopping.back.hj.enums.Sex;
 public class Dress {
 
 	@Id @GeneratedValue
-	private Integer id;
+	private Long id;
 	
 	// 브랜드
 	private String brand;
