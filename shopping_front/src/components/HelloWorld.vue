@@ -1,5 +1,5 @@
 <template>
-	<div></div>
+	<v-container> </v-container>
 </template>
 
 <script>
@@ -7,13 +7,18 @@ import axios from 'axios'
 
 export default {
 	name: 'HelloWorld',
+
 	data() {
-		return {}
+		return {
+			dress: {},
+		}
 	},
 	methods: {
-		test_multipartfile: function () {
+		test_multipart: function () {
 			axios({
 				method: 'post',
+				url: 'http://localhost/api/dress',
+				data: this.dress,
 			})
 		},
 	},
