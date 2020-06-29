@@ -3,13 +3,19 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
 	name: 'HelloWorld',
-	props: {
-		msg: String,
+	data() {
+		return {}
 	},
 	methods: {
-		test_multipartfile: function () {},
+		test_multipartfile: function () {
+			axios({
+				method: 'post',
+			})
+		},
 	},
 }
 </script>
