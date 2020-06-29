@@ -52,5 +52,4 @@ public class Dress {
 	
 	// 이미지 경로
 	private String image_path;
-
 }
