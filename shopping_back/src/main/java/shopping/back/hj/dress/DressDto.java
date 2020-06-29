@@ -2,10 +2,13 @@ package shopping.back.hj.dress;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

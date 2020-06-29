@@ -10,6 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Service
 public class DressService {
@@ -20,8 +21,14 @@ public class DressService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private CommonsMultipartResolver commonsMultipartResolver;
+	
 	public ResponseEntity createDress(DressDto dressDto) {
+		
 		Dress dress = modelMapper.map(dressDto, Dress.class);
+		//TODO 여기서 dressDto의 이미지를 저장하고 이지미 path를 dress에 셋해야한다.
+		
 		Dress newDress = dressRepository.save(dress);
 		DressModel dressModel = new DressModel(newDress);
 		

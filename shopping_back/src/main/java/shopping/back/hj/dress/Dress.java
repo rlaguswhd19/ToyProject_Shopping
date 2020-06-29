@@ -49,4 +49,8 @@ public class Dress {
 	
 	// 설명
 	private String explanation;
+	
+	// 이미지 경로
+	private String image_path;
+
 }

@@ -31,9 +31,6 @@ public class Page {
 	@OneToOne
 	private Dress dress;
 	
-	// 이미지 경로
-	private String image_path;
-	
 	// 색상당 사이즈 및 수량
 	private HashMap<String, ColorInfo> size_info;
 	
