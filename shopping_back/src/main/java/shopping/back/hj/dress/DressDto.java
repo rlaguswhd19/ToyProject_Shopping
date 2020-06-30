@@ -53,4 +53,5 @@ public class DressDto {
 		// 설명
 		@NotEmpty
 		private String explanation;
+		
 }

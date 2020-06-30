@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +31,7 @@ public class DressController {
 	
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) {
+		
 		if(errors.hasErrors()) {
 			return badRequest(errors);
 		}
@@ -43,7 +46,9 @@ public class DressController {
 	}
 	
 	@PostMapping("/multipart")
-	public ResponseEntity<?> createDress_Multipart(@RequestBody @Valid DressDto dressDto, @RequestParam MultipartFile file, Errors errors) {
+	public ResponseEntity<?> createDress_Multipart(@RequestPart("DressDto") @Valid DressDto dressDto, @RequestPart("file") MultipartFile file, Errors errors) {
+		System.out.println(dressDto);
+		System.out.println(file.getName());
 		
 		if(errors.hasErrors()) {
 			return badRequest(errors);
@@ -55,9 +60,12 @@ public class DressController {
 			return badRequest(errors);
 		}
 		
-		System.out.println(file.getName());
-		
 		return dressService.createDress(dressDto);
+	}
+
+	@PostMapping("/test")
+	public void ImageTest(@RequestPart MultipartFile file) {
+		System.out.println(file.getName());
 	}
 	
 	private ResponseEntity<?> badRequest(Errors errors){

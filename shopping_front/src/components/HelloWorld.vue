@@ -42,7 +42,15 @@
 			outlined
 			v-model="dressDto.explanation"
 		></v-text-field>
+		<v-file-input
+			show-size
+			counter
+			multiple
+			label="File input"
+			v-model="file"
+		></v-file-input>
 		<v-btn @click="test_multipart" style="float: right;">등록</v-btn>
+		<v-btn @click="test_image" style="float: right;">이미지</v-btn>
 	</v-container>
 </template>
 
@@ -55,22 +63,54 @@ export default {
 	data() {
 		return {
 			dressDto: {
-				brand: '',
-				article_number: '',
-				dress_type: '',
-				sex: '',
-				sale: '',
-				discount: '',
-				explanation: '',
+				brand: '현지',
+				article_number: '현지',
+				dress_type: 'top',
+				sex: 'Man',
+				sale: '123000',
+				discount: '10',
+				explanation: '현지',
 			},
+			file: '',
 		}
 	},
 	methods: {
-		test_multipart: function () {
+		test_dress: function () {
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress',
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+				},
 				data: this.dressDto,
+			}).then(response => {
+				console.log(response)
+			})
+		},
+		test_multipart: function () {
+			console.log(this.file)
+			console.log(this.dressDto)
+			let formData = new FormData()
+			formData.append('DressDto', this.dressDto)
+			formData.append('file', this.file)
+
+			axios({
+				method: 'post',
+				url: 'http://localhost:8080/api/dress/multipart',
+				data: formData,
+			}).then(response => {
+				console.log(response)
+			})
+		},
+		test_image: function () {
+			console.log(this.file)
+			let formData = new FormData()
+			formData.append('image', this.file)
+
+			axios({
+				method: 'post',
+				url: 'http://localhost:8080/api/dress/test',
+				data: formData,
 			}).then(response => {
 				console.log(response)
 			})

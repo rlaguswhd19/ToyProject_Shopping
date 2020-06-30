@@ -23,10 +23,10 @@ public class DressValidator {
 		}
 
 		// TODO begin
-//		Sex sex = dressDto.getSex();
-//		if(sex == Sex.Man || sex == Sex.Woman || sex == Sex.Public) {
-//			errors.rejectValue("discount", "discount = 100 is wrongValue", "할인율은 100%일 수 없습니다.");
-//			errors.reject("wrongDiscount", "Discount is Wrong");
-//		}
+		Sex sex = dressDto.getSex();
+		if(!(sex == Sex.Man || sex == Sex.Woman || sex == Sex.Public)) {
+			errors.rejectValue("sex", "sex is wrongValue", "다른 성별이 올 수 없습니다.");
+			errors.reject("wrongSex", "Sex is Wrong");
+		}
 	}
 }

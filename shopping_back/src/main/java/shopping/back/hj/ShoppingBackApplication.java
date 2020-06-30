@@ -22,10 +22,10 @@ public class ShoppingBackApplication {
 	public CommonsMultipartResolver getMultipartResolver() {
 		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
 		// 하나의 용량
-		commonsMultipartResolver.setMaxUploadSize(10000000);
+		commonsMultipartResolver.setMaxUploadSize(-1);
 		
 		// 전체 용량
-		commonsMultipartResolver.setMaxUploadSizePerFile(100000000);
+		commonsMultipartResolver.setMaxUploadSizePerFile(-1);
 		
 		// 인코딩
 		commonsMultipartResolver.setDefaultEncoding("UTF-8");
