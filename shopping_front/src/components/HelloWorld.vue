@@ -43,11 +43,12 @@
 			v-model="dressDto.explanation"
 		></v-text-field>
 		<v-file-input
+			type="file"
 			show-size
 			counter
 			multiple
 			label="File input"
-			v-model="file"
+			v-model="files"
 		></v-file-input>
 		<v-btn @click="test_multipart" style="float: right;">등록</v-btn>
 		<v-btn @click="test_image" style="float: right;">이미지</v-btn>
@@ -71,11 +72,11 @@ export default {
 				discount: '10',
 				explanation: '현지',
 			},
-			file: '',
+			files: '',
 		}
 	},
 	methods: {
-		test_dress: function () {
+		test_dress() {
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress',
@@ -87,30 +88,41 @@ export default {
 				console.log(response)
 			})
 		},
-		test_multipart: function () {
-			console.log(this.file)
+		test_multipart() {
+			console.log(this.files[0])
 			console.log(this.dressDto)
+
 			let formData = new FormData()
-			formData.append('DressDto', this.dressDto)
-			formData.append('file', this.file)
+			formData.append('dressDto', this.dressDto)
+			formData.append('files', this.files[0])
 
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress/multipart',
 				data: formData,
-			}).then(response => {
-				console.log(response)
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+				error(error) {
+					console.log(error)
+				},
+				success(response) {
+					console.log(response)
+				},
 			})
 		},
-		test_image: function () {
-			console.log(this.file)
+		test_image() {
+			console.log(this.files[0])
 			let formData = new FormData()
-			formData.append('image', this.file)
+			formData.append('files', this.files[0])
 
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress/test',
 				data: formData,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+				},
 			}).then(response => {
 				console.log(response)
 			})

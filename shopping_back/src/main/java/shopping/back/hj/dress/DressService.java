@@ -21,9 +21,6 @@ public class DressService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	@Autowired
-	private CommonsMultipartResolver commonsMultipartResolver;
-	
 	public ResponseEntity createDress(DressDto dressDto) {
 		
 		Dress dress = modelMapper.map(dressDto, Dress.class);
