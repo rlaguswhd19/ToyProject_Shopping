@@ -3,6 +3,8 @@ package shopping.back.hj.dress;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import shopping.back.hj.enums.Sex;
+
 @Component
 public class DressValidator {
 
@@ -21,5 +23,10 @@ public class DressValidator {
 		}
 
 		// TODO begin
+//		Sex sex = dressDto.getSex();
+//		if(sex == Sex.Man || sex == Sex.Woman || sex == Sex.Public) {
+//			errors.rejectValue("discount", "discount = 100 is wrongValue", "할인율은 100%일 수 없습니다.");
+//			errors.reject("wrongDiscount", "Discount is Wrong");
+//		}
 	}
 }
