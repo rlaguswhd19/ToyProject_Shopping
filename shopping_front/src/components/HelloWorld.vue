@@ -90,25 +90,24 @@ export default {
 		},
 		test_multipart() {
 			console.log(this.files[0])
-			console.log(this.dressDto)
-
+			console.log('dressDto', this.dressDto)
 			let formData = new FormData()
-			formData.append('dressDto', this.dressDto)
+			formData.append('brand', this.dressDto.brand)
+			formData.append('article_number', this.dressDto.article_number)
+			formData.append('dress_type', this.dressDto.dress_type)
+			formData.append('sex', this.dressDto.sex)
+			formData.append('sale', this.dressDto.sale)
+			formData.append('discount', this.dressDto.discount)
+			formData.append('explanation', this.dressDto.explanation)
 			formData.append('files', this.files[0])
+			// formData.append('dressDto', this.dressDto)
 
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress/multipart',
 				data: formData,
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-				error(error) {
-					console.log(error)
-				},
-				success(response) {
-					console.log(response)
-				},
+			}).then(response => {
+				console.log(response)
 			})
 		},
 		test_image() {
@@ -121,7 +120,7 @@ export default {
 				url: 'http://localhost:8080/api/dress/test',
 				data: formData,
 				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
+					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
 				console.log(response)

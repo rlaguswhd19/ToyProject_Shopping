@@ -7,10 +7,10 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,7 @@ import shopping.back.hj.common.ErrorsModel;
 
 @RestController
 @CrossOrigin(origins = { "*" })
-@RequestMapping(value = "/api/dress", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = "/api/dress", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8", consumes = {"multipart/form-data"})
 public class DressController {
 
 	@Autowired
@@ -44,10 +44,10 @@ public class DressController {
 		return dressService.createDress(dressDto);
 	}
 
-	@PostMapping("/multipart")
-	public ResponseEntity<?> createDress_Multipart(@RequestPart("dressDto") @Valid DressDto dressDto,
+	@PostMapping(value = "/multipart")
+	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") DressDto dressDto,
 			@RequestPart("files") MultipartFile files, Errors errors) {
-		
+
 		System.out.println(dressDto);
 		System.out.println(files.getOriginalFilename());
 
@@ -65,7 +65,7 @@ public class DressController {
 	}
 
 	@PostMapping("/test")
-	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile files) {
+	public ResponseEntity<?> ImageTest(@RequestPart("files") MultipartFile files) {
 		System.out.println(files.getOriginalFilename());
 		
 		return ResponseEntity.ok().build();

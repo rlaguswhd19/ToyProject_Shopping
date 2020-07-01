@@ -53,5 +53,11 @@ public class DressDto {
 		// 설명
 		@NotEmpty
 		private String explanation;
-		
+
+		@Override
+		public String toString() {
+			return "DressDto [brand=" + brand + ", article_number=" + article_number + ", dress_type=" + dress_type
+					+ ", sex=" + sex + ", sale=" + sale + ", discount=" + discount + ", explanation=" + explanation
+					+ "]";
+		}
 }
