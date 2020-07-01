@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,10 +49,11 @@ public class DressController {
 
 	@PostMapping(value = "/multipart")
 	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") DressDto dressDto,
-			@RequestPart("files") MultipartFile files, Errors errors) {
+			@RequestPart("files") MultipartFile[] files, Errors errors) {
 
-		System.out.println(dressDto);
-		System.out.println(files.getOriginalFilename());
+		for(MultipartFile file : files) {
+			System.out.println(file.getOriginalFilename());
+		}
 
 		if (errors.hasErrors()) {
 			return badRequest(errors);
@@ -67,11 +69,13 @@ public class DressController {
 	}
 
 	@PostMapping("/test")
-	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile[] files) {
+	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile file) {
 		
-		for(MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-		}
+		System.out.println("#############################################");
+		System.out.println(file.getOriginalFilename());
+//		for(MultipartFile file : files) {
+//			System.out.println(file.getOriginalFilename());
+//		}
 		
 		return ResponseEntity.ok().build();
 	}

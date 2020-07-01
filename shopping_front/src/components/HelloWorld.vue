@@ -89,7 +89,7 @@ export default {
 			})
 		},
 		test_multipart() {
-			console.log(this.files[0])
+			console.log(this.files)
 			console.log('dressDto', this.dressDto)
 			let formData = new FormData()
 			formData.append('brand', this.dressDto.brand)
@@ -99,8 +99,10 @@ export default {
 			formData.append('sale', this.dressDto.sale)
 			formData.append('discount', this.dressDto.discount)
 			formData.append('explanation', this.dressDto.explanation)
-			formData.append('files', this.files[0])
-			// formData.append('dressDto', this.dressDto)
+
+			for (let i = 0; i < this.files.length; i++) {
+				formData.append('files', this.files[i])
+			}
 
 			axios({
 				method: 'post',
