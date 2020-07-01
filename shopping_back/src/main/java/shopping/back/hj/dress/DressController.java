@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,13 +68,13 @@ public class DressController {
 	}
 
 	@PostMapping("/test")
-	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile file) {
+	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile[] files) {
 		
 		System.out.println("#############################################");
-		System.out.println(file.getOriginalFilename());
-//		for(MultipartFile file : files) {
-//			System.out.println(file.getOriginalFilename());
-//		}
+//		System.out.println(files.getOriginalFilename());
+		for(MultipartFile file : files) {
+			System.out.println(file.getOriginalFilename());
+		}
 		
 		return ResponseEntity.ok().build();
 	}
