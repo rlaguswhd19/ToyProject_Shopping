@@ -1,5 +1,7 @@
 package shopping.back.hj.dress;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +67,11 @@ public class DressController {
 	}
 
 	@PostMapping("/test")
-	public ResponseEntity<?> ImageTest(@RequestPart("files") MultipartFile files) {
-		System.out.println(files.getOriginalFilename());
+	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile[] files) {
+		
+		for(MultipartFile file : files) {
+			System.out.println(file.getOriginalFilename());
+		}
 		
 		return ResponseEntity.ok().build();
 	}

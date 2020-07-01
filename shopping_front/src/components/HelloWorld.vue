@@ -106,14 +106,20 @@ export default {
 				method: 'post',
 				url: 'http://localhost:8080/api/dress/multipart',
 				data: formData,
+				headers: {
+					'Content-Type': 'multipart/data-form',
+				},
 			}).then(response => {
 				console.log(response)
 			})
 		},
 		test_image() {
-			console.log(this.files[0])
+			console.log(this.files)
+
 			let formData = new FormData()
-			formData.append('files', this.files[0])
+			for (let i = 0; i < this.files.length; i++) {
+				formData.append('files', this.files[i])
+			}
 
 			axios({
 				method: 'post',
