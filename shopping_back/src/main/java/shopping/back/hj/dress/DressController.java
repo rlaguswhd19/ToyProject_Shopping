@@ -49,7 +49,10 @@ public class DressController {
 	@PostMapping(value = "/multipart")
 	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") DressDto dressDto,
 			@RequestPart("files") MultipartFile[] files, Errors errors) {
-
+		
+		System.out.println("####################################################");
+		System.out.println(dressDto);
+		
 		for(MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}

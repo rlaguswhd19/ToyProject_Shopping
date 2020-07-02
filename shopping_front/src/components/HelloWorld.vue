@@ -89,9 +89,8 @@ export default {
 			})
 		},
 		test_multipart() {
-			console.log(this.files)
-			console.log('dressDto', this.dressDto)
 			let formData = new FormData()
+
 			formData.append('brand', this.dressDto.brand)
 			formData.append('article_number', this.dressDto.article_number)
 			formData.append('dress_type', this.dressDto.dress_type)
@@ -107,7 +106,16 @@ export default {
 			axios({
 				method: 'post',
 				url: 'http://localhost:8080/api/dress/multipart',
-				data: formData,
+				data: {
+					formData,
+					brand: this.dressDto.brand,
+					article_number: this.dressDto.article_number,
+					dress_type: this.dressDto.dress_type,
+					sex: this.dressDto.sex,
+					sale: this.dressDto.sale,
+					discount: this.dressDto.discount,
+					explanation: this.dressDto.explanation,
+				},
 				headers: {
 					'Content-Type': 'multipart/data-form',
 				},
