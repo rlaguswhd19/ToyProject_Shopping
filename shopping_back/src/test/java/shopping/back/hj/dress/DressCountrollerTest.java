@@ -69,7 +69,7 @@ public class DressCountrollerTest {
 				.explanation("Test")
 				.build();
 		
-		mockMvc.perform(multipart("/api/dress/multipart")
+		mockMvc.perform(multipart("/api/dress")
 				.file(file1)
 				.file(file2)
 				.param("brand", dressDto.getBrand())
@@ -169,32 +169,6 @@ public class DressCountrollerTest {
 	@Test
 	@TestDescription("DressDto에 비어있는 값들을 보내는 Test, Valid 수행")
 	public void createDress_BadRequest_EmptyInput() throws Exception {
-		DressDto dressDto = DressDto.builder().build();
-		
-		mockMvc.perform(post("/api/dress/dressDto")
-//				.file(file1)
-//				.file(file2)
-//				.param("brand", dressDto.getBrand())
-//				.param("article_number", dressDto.getArticle_number())
-//				.param("sex", dressDto.getSex().toString())
-//				.param("sale", dressDto.getSale().toString())
-//				.param("dress_type", dressDto.getDress_type().toString())
-//				.param("discount", dressDto.getDiscount().toString())
-//				.param("explanation", dressDto.getExplanation())
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaTypes.HAL_JSON)
-				.content(objectMapper.writeValueAsString(dressDto))
-				)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("_links.index").exists())
-			;
-	}
-	
-	@Test
-	@TestDescription("DressDto에 비어있는 값들을 보내는 Test, Valid 수행")
-	public void createDress_BadRequest_EmptyInput2() throws Exception {
-		DressDto dressDto = DressDto.builder().build();
 		
 		mockMvc.perform(multipart("/api/dress")
 				.file(file1)
