@@ -79,7 +79,7 @@ export default {
 		test_dress() {
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dress',
+				url: 'http://localhost:8080/api/dress/dressDto',
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
 				},
@@ -90,6 +90,9 @@ export default {
 		},
 		test_multipart() {
 			let formData = new FormData()
+			for (let i = 0; i < this.files.length; i++) {
+				formData.append('files', this.files[i])
+			}
 
 			formData.append('brand', this.dressDto.brand)
 			formData.append('article_number', this.dressDto.article_number)
@@ -99,25 +102,12 @@ export default {
 			formData.append('discount', this.dressDto.discount)
 			formData.append('explanation', this.dressDto.explanation)
 
-			for (let i = 0; i < this.files.length; i++) {
-				formData.append('files', this.files[i])
-			}
-
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dress/multipart',
-				data: {
-					formData,
-					brand: this.dressDto.brand,
-					article_number: this.dressDto.article_number,
-					dress_type: this.dressDto.dress_type,
-					sex: this.dressDto.sex,
-					sale: this.dressDto.sale,
-					discount: this.dressDto.discount,
-					explanation: this.dressDto.explanation,
-				},
+				url: 'http://localhost:8080/api/dress',
+				data: formData,
 				headers: {
-					'Content-Type': 'multipart/data-form',
+					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
 				console.log(response)

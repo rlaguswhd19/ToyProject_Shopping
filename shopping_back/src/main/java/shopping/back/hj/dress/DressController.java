@@ -21,7 +21,7 @@ import shopping.back.hj.common.ErrorsModel;
 
 @RestController
 @CrossOrigin(origins = { "*" })
-@RequestMapping(value = "/api/dress", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8", consumes = {"multipart/form-data"})
+@RequestMapping(value = "/api/dress", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 public class DressController {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class DressController {
 	@Autowired
 	private DressValidator dressValidator;
 
-	@PostMapping
+	@PostMapping("dressDto")
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) {
 
 		if (errors.hasErrors()) {
@@ -46,14 +46,14 @@ public class DressController {
 		return dressService.createDress(dressDto);
 	}
 
-	@PostMapping(value = "/multipart")
-	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") DressDto dressDto,
-			@RequestPart("files") MultipartFile[] files, Errors errors) {
-		
+	@PostMapping
+	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") @Valid DressDto dressDto, Errors errors,
+			@RequestPart("files") MultipartFile[] files) {
+
 		System.out.println("####################################################");
 		System.out.println(dressDto);
-		
-		for(MultipartFile file : files) {
+
+		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}
 
@@ -72,13 +72,13 @@ public class DressController {
 
 	@PostMapping("/test")
 	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile[] files) {
-		
+
 		System.out.println("#############################################");
 //		System.out.println(files.getOriginalFilename());
-		for(MultipartFile file : files) {
+		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}
-		
+
 		return ResponseEntity.ok().build();
 	}
 
