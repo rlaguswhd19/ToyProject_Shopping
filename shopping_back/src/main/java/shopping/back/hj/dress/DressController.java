@@ -30,29 +30,10 @@ public class DressController {
 	@Autowired
 	private DressValidator dressValidator;
 
-	@PostMapping("dressDto")
-	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) {
-
-		if (errors.hasErrors()) {
-			return badRequest(errors);
-		}
-
-		dressValidator.validate(dressDto, errors);
-
-		if (errors.hasErrors()) {
-			return badRequest(errors);
-		}
-
-		return dressService.createDress(dressDto);
-	}
-
 	@PostMapping
-	public ResponseEntity<?> createDress_Multipart(@ModelAttribute("dressDto") @Valid DressDto dressDto, Errors errors,
+	public ResponseEntity<?> createDress_Multipart(@ModelAttribute @Valid DressDto dressDto, Errors errors,
 			@RequestPart("files") MultipartFile[] files) {
 
-		System.out.println("####################################################");
-		System.out.println(dressDto);
-
 		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}
@@ -68,18 +49,6 @@ public class DressController {
 		}
 
 		return dressService.createDress(dressDto);
-	}
-
-	@PostMapping("/test")
-	public ResponseEntity<?> ImageTest(@RequestPart MultipartFile[] files) {
-
-		System.out.println("#############################################");
-//		System.out.println(files.getOriginalFilename());
-		for (MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-		}
-
-		return ResponseEntity.ok().build();
 	}
 
 	private ResponseEntity<?> badRequest(Errors errors) {

@@ -1,11 +1,12 @@
 package shopping.back.hj.dress;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shopping.back.hj.accounts.Account;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -49,6 +49,9 @@ public class Dress {
 	
 	// 설명
 	private String explanation;
+	
+	// 시간
+	private LocalDateTime create_date = LocalDateTime.now();
 	
 	// 이미지 경로
 	private String image_path;

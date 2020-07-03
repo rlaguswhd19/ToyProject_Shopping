@@ -50,8 +50,7 @@
 			label="File input"
 			v-model="files"
 		></v-file-input>
-		<v-btn @click="test_multipart" style="float: right;">등록</v-btn>
-		<v-btn @click="test_image" style="float: right;">이미지</v-btn>
+		<v-btn @click="post_dressDto_files" style="float: right;">등록</v-btn>
 	</v-container>
 </template>
 
@@ -76,20 +75,9 @@ export default {
 		}
 	},
 	methods: {
-		test_dress() {
-			axios({
-				method: 'post',
-				url: 'http://localhost:8080/api/dress/dressDto',
-				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
-				},
-				data: this.dressDto,
-			}).then(response => {
-				console.log(response)
-			})
-		},
-		test_multipart() {
+		post_dressDto_files() {
 			let formData = new FormData()
+
 			for (let i = 0; i < this.files.length; i++) {
 				formData.append('files', this.files[i])
 			}
@@ -104,26 +92,7 @@ export default {
 
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dress',
-				data: formData,
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}).then(response => {
-				console.log(response)
-			})
-		},
-		test_image() {
-			console.log(this.files)
-
-			let formData = new FormData()
-			for (let i = 0; i < this.files.length; i++) {
-				formData.append('files', this.files[i])
-			}
-
-			axios({
-				method: 'post',
-				url: 'http://localhost:8080/api/dress/test',
+				url: 'http://localhost:8080/api/dress/dressDto',
 				data: formData,
 				headers: {
 					'Content-Type': 'multipart/form-data',

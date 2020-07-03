@@ -32,16 +32,17 @@
 
 * Dress (옷)
 
-| 이름           | 속성             | 의미     |
-| -------------- | ---------------- | -------- |
-| id             | Integer          | id       |
-| brand          | String           | 브랜드   |
-| article_number | String           | 품번     |
-| dress_type     | DressType (enum) | 옷종류   |
-| sex            | Sex (enum)       | 성별     |
-| sale           | Integer          | 판매가격 |
-| discount       | Integer          | 할인율   |
-| explanation    | String           | 설명     |
+| 이름           | 속성             | 의미        |
+| -------------- | ---------------- | ----------- |
+| id             | Integer          | id          |
+| brand          | String           | 브랜드      |
+| article_number | String           | 품번        |
+| dress_type     | DressType (enum) | 옷종류      |
+| sex            | Sex (enum)       | 성별        |
+| sale           | Integer          | 판매가격    |
+| discount       | Integer          | 할인율      |
+| explanation    | String           | 설명        |
+| image_path     | String           | 이미지 경로 |
 
 
 
@@ -61,14 +62,13 @@
 
 * Page
 
-| 이름       | 속성                       | 의미                |
-| ---------- | -------------------------- | ------------------- |
-| id         | Integer                    | id                  |
-| dress      | Dress (FK)                 | 옷                  |
-| image_path | String                     | 이미지 경로         |
-| page_info  | HashMap(String, ColorInfo) | 색상당 사이즈, 수량 |
-| Account    | account (FK)               | 판매자 계정         |
-| views      | Integer                    | 조회수              |
+| 이름      | 속성                       | 의미                |
+| --------- | -------------------------- | ------------------- |
+| id        | Integer                    | id                  |
+| dress     | Dress (FK)                 | 옷                  |
+| views     | Integer                    | 조회수              |
+| page_info | HashMap(String, ColorInfo) | 색상당 사이즈, 수량 |
+| Account   | account (FK)               | 판매자 계정         |
 
 
 
