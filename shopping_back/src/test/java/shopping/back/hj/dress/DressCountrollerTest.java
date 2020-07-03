@@ -124,6 +124,7 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
 							fieldWithPath("image_path").description("이미지 경로"),
+							fieldWithPath("created_date").description("등록 날짜"),
 							fieldWithPath("_links.self.href").description("link to self"),
 							fieldWithPath("_links.update-dress.href").description("link to get dress lists"),
 							fieldWithPath("_links.lists-dress.href").description("link to update an existing dress"),

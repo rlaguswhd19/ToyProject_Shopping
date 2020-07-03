@@ -51,7 +51,7 @@ public class Dress {
 	private String explanation;
 	
 	// 시간
-	private LocalDateTime create_date = LocalDateTime.now();
+	private LocalDateTime created_date = LocalDateTime.now();
 	
 	// 이미지 경로
 	private String image_path;
