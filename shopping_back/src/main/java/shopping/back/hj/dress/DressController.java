@@ -1,5 +1,7 @@
 package shopping.back.hj.dress;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class DressController {
 
 	@PostMapping
 	public ResponseEntity<?> createDress_Multipart(@ModelAttribute @Valid DressDto dressDto, Errors errors,
-			@RequestPart("files") MultipartFile[] files) {
+			@RequestPart("files") MultipartFile[] files) throws IllegalStateException, IOException {
 
 		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());

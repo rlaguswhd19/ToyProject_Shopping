@@ -92,7 +92,7 @@ export default {
 
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dress/dressDto',
+				url: 'http://localhost:8080/api/dress',
 				data: formData,
 				headers: {
 					'Content-Type': 'multipart/form-data',
