@@ -14,6 +14,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.*static
 
 # External tool builders
 .externalToolBuilders/
@@ -200,9 +201,6 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
-
-#static image 데이터
-static
 
 ### Vue ###
 # gitignore template for Vue.js projects
