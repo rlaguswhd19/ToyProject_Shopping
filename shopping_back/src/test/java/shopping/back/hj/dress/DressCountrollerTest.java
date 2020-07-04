@@ -92,7 +92,8 @@ public class DressCountrollerTest {
 							linkWithRel("self").description("link to self"),
 							linkWithRel("lists-dress").description("link to get dress lists"),
 							linkWithRel("update-dress").description("link to update an existing dress"),
-							linkWithRel("profile").description("link to profile")
+							linkWithRel("profile").description("link to profile"),
+							linkWithRel("image-dress").description("dress image file path")
 					),
 					requestHeaders(
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
@@ -128,14 +129,15 @@ public class DressCountrollerTest {
 							fieldWithPath("_links.self.href").description("link to self"),
 							fieldWithPath("_links.update-dress.href").description("link to get dress lists"),
 							fieldWithPath("_links.lists-dress.href").description("link to update an existing dress"),
-							fieldWithPath("_links.profile.href").description("link to profile")
+							fieldWithPath("_links.profile.href").description("link to profile"),
+							fieldWithPath("_links.image-dress.href").description("dress image file path")
 					)
 				))
 			;
 	}
 	
 	@Test
-	@TestDescription("DressDto에 없는 값들을 보내는 Test")
+	@TestDescription("DressDto에 없는 값들을 보내는 Test = Fail")
 	public void createDress_BadRequest_UnknownProperty() throws Exception {
 		Dress dress = Dress.builder()
 				.id(20L)

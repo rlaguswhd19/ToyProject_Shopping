@@ -45,7 +45,7 @@ public class DressController {
 			return badRequest(errors);
 		}
 
-		return dressService.createDress(dressDto);
+		return dressService.createDress(dressDto, files);
 	}
 
 	private ResponseEntity<?> badRequest(Errors errors) {

@@ -2,15 +2,19 @@ package shopping.back.hj.dress;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DressService {
@@ -21,21 +25,34 @@ public class DressService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public ResponseEntity createDress(DressDto dressDto) {
-		
+	public ResponseEntity createDress(DressDto dressDto, MultipartFile[] files) {
+
 		Dress dress = modelMapper.map(dressDto, Dress.class);
-		//TODO 여기서 dressDto의 이미지를 저장하고 이지미 path를 dress에 셋해야한다.
-		
 		Dress newDress = dressRepository.save(dress);
+		
+		// TODO 여기서 dressDto의 이미지를 저장하고 이미지 경로를 링크로 만들어 추가한다.
+		
+		// 먼저 파일저장
+		int cnt = 1;
+		
+		for (MultipartFile file : files) {
+			String fileName = dress.getId().toString() + cnt;
+			
+		}
+
 		DressModel dressModel = new DressModel(newDress);
-		
-		WebMvcLinkBuilder selfLinkBuilder= linkTo(DressController.class).slash(newDress.getId());
+
+		WebMvcLinkBuilder selfLinkBuilder = linkTo(DressController.class).slash(newDress.getId());
 		URI createUri = selfLinkBuilder.toUri();
-		
+
+		// link
 		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
 		dressModel.link_Lists(dressModel);
+
+		// TODO account 등급에 따라 지정
 		dressModel.link_Update(dressModel);
-		
+
+		// TODO 이미지 링크 추가하기 나중에
 		return ResponseEntity.created(createUri).body(dressModel);
 	}
 }
