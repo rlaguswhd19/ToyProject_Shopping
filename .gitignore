@@ -202,7 +202,7 @@ dist
 .vscode-test
 
 #static image 데이터
-/static.*
+/static
 
 ### Vue ###
 # gitignore template for Vue.js projects
