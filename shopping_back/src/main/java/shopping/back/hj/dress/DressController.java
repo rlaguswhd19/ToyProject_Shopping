@@ -32,7 +32,8 @@ public class DressController {
 	@PostMapping
 	public ResponseEntity<?> createDress_Multipart(@ModelAttribute @Valid DressDto dressDto, Errors errors,
 			@RequestPart("files") MultipartFile[] files) throws IllegalStateException, IOException {
-
+		
+		// 확장자 검증하기
 		for (MultipartFile file : files) {
 			System.out.println(file.getOriginalFilename());
 		}

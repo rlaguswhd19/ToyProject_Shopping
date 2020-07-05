@@ -23,5 +23,10 @@ public class DressModel extends EntityModel<Dress> {
 		dressModel.add(linkTo(DressController.class).withRel("lists-dress"));
 		return dressModel;
 	}
+	
+	public DressModel link_imagePath(DressModel dressModel) {
+//		dressModel.add(new Link())
+		return dressModel;
+	}
 
 }
