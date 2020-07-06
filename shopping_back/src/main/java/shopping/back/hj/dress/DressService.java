@@ -65,6 +65,7 @@ public class DressService {
 		// file 이름들 저장
 		newDress.setImage_paths(image_paths.toString());
 		
+		newDress = dressRepository.save(newDress);
 		// db 저장
 		
 		DressModel dressModel = new DressModel(newDress);
