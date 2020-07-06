@@ -34,7 +34,7 @@ public class DressController {
 	private ImageValidator imageValidator;
 
 	@PostMapping
-	public ResponseEntity<?> createDress_Multipart(@ModelAttribute @Valid DressDto dressDto, Errors errors,
+	public ResponseEntity<?> createDress(@ModelAttribute @Valid DressDto dressDto, Errors errors,
 			@RequestPart("files") MultipartFile[] files) throws IllegalStateException, IOException {
 		if (errors.hasErrors()) {
 			return badRequest(errors);

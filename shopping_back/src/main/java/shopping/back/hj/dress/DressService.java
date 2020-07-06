@@ -32,41 +32,7 @@ public class DressService {
 		Dress newDress = dressRepository.save(dress);
 		
 		// TODO 여기서 dressDto의 이미지를 저장하고 이미지 경로를 링크로 만들어 추가한다.
-		
-		// dress_images path
-		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\dress_images/"
-				+ newDress.getId();
-
-		
-		File dir = new File(basePath);
-
-		// dress id로 폴더 생성
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-		
-		StringBuilder image_paths = new StringBuilder();
-		
-		for (MultipartFile file : files) {
-			// 파일 path
-			image_paths.append(file.getOriginalFilename()+"/");
-			
-			//String extension = getExtension(file.getOriginalFilename());
-
-			String fileName = basePath + "/" + file.getOriginalFilename();
-			
-			// 빈파일 생성
-			File saveImage = new File(fileName);
-
-			// 파일 복사 multipartfile -> file
-			file.transferTo(saveImage);
-		}
-		
-		// file 이름들 저장
-		newDress.setImage_paths(image_paths.toString());
-		
-		newDress = dressRepository.save(newDress);
-		// db 저장
+		writeFile(newDress, files);
 		
 		DressModel dressModel = new DressModel(newDress);
 		
@@ -84,5 +50,40 @@ public class DressService {
 		dressModel.link_imagePath(dressModel, newDress.getId());
 		
 		return ResponseEntity.created(createUri).body(dressModel);
+	}
+	
+	private void writeFile(Dress newDress, MultipartFile[] files) throws IllegalStateException, IOException {
+		// dress_images path
+		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\dress_images/"
+						+ newDress.getId();
+
+		File dir = new File(basePath);
+
+		// dress id로 폴더 생성
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+				
+		StringBuilder image_paths = new StringBuilder();
+		
+		for (MultipartFile file : files) {
+			// 파일 path
+			image_paths.append(file.getOriginalFilename()+"/");
+			
+			//String extension = getExtension(file.getOriginalFilename());
+			String fileName = basePath + "/" + file.getOriginalFilename();
+			
+			// 빈파일 생성
+			File saveImage = new File(fileName);
+
+			// 파일 복사 multipartfile -> file
+			file.transferTo(saveImage);
+		}
+		
+		// file 이름들 저장
+		newDress.setImage_paths(image_paths.toString());
+		
+		// update
+		newDress = dressRepository.save(newDress);
 	}
 }
