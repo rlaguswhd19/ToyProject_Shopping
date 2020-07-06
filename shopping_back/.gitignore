@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 **/dress_images/
+
 ### STS ###
 .apt_generated
 .classpath
