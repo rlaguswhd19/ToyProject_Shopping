@@ -96,6 +96,7 @@ export default {
 				data: formData,
 				headers: {
 					'Content-Type': 'multipart/form-data',
+					Accept: 'application/hal+json;charset=UTF-8',
 				},
 			}).then(response => {
 				console.log(response)

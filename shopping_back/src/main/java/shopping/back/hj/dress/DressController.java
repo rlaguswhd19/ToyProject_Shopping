@@ -41,7 +41,7 @@ public class DressController {
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}
-
+		
 		dressValidator.validate(dressDto, errors);
 
 		if (errors.hasErrors()) {
