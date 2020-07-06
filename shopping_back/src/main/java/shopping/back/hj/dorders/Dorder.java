@@ -25,7 +25,7 @@ import shopping.back.hj.enums.DressSize;
 public class Dorder {
 	
 	@Id @GeneratedValue
-	private Integer id;
+	private Long id;
 	
 	// 주문 날짜
 	private LocalDateTime order_time;

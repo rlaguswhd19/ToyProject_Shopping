@@ -1,7 +1,10 @@
 package shopping.back.hj.dress;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -53,6 +56,7 @@ public class Dress {
 	// 시간
 	private LocalDateTime created_date = LocalDateTime.now();
 	
-	// 이미지 경로
-	private String image_path;
+//	 이미지 경로
+	@Column(length = 10000)
+	private String image_paths;
 }

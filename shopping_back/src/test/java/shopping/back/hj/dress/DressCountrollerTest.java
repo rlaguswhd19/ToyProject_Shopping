@@ -93,7 +93,7 @@ public class DressCountrollerTest {
 							linkWithRel("lists-dress").description("link to get dress lists"),
 							linkWithRel("update-dress").description("link to update an existing dress"),
 							linkWithRel("profile").description("link to profile"),
-							linkWithRel("image-dress").description("dress image file path")
+							linkWithRel("images-dress").description("dress image file paths")
 					),
 					requestHeaders(
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
@@ -124,13 +124,13 @@ public class DressCountrollerTest {
 							fieldWithPath("sale").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
-							fieldWithPath("image_path").description("이미지 경로"),
 							fieldWithPath("created_date").description("등록 날짜"),
+							fieldWithPath("image_paths").description("images-dress 링크 파일 이미지들의 집합"),
 							fieldWithPath("_links.self.href").description("link to self"),
 							fieldWithPath("_links.update-dress.href").description("link to get dress lists"),
 							fieldWithPath("_links.lists-dress.href").description("link to update an existing dress"),
 							fieldWithPath("_links.profile.href").description("link to profile"),
-							fieldWithPath("_links.image-dress.href").description("dress image file path")
+							fieldWithPath("_links.images-dress.href").description("dress image files path")
 					)
 				))
 			;

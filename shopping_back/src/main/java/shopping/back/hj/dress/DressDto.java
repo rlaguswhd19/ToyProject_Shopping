@@ -35,7 +35,7 @@ public class DressDto {
 		// 성별
 		@NotNull
 		@Enumerated(EnumType.STRING)
-		private Sex sex = Sex.Man;
+		private Sex sex = Sex.Public;
 		
 		// 판매 가격
 		@Min(0)

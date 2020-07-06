@@ -3,14 +3,13 @@ package shopping.back.hj.dress;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -31,42 +30,45 @@ public class DressService {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		Dress newDress = dressRepository.save(dress);
-
+		
 		// TODO 여기서 dressDto의 이미지를 저장하고 이미지 경로를 링크로 만들어 추가한다.
-
-		// 파일저장
-
-		// 옷등록 번호로 폴더 만들기
+		
+		// dress_images path
 		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\dress_images/"
-				+ dress.getId();
+				+ newDress.getId();
 
+		
 		File dir = new File(basePath);
 
-		// 폴더 생성
+		// dress id로 폴더 생성
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-
-		int cnt = 1; // 파일 번호
-
+		
+		StringBuilder image_paths = new StringBuilder();
+		
 		for (MultipartFile file : files) {
 			// 파일 path
+			image_paths.append(file.getOriginalFilename()+"/");
+			
+			//String extension = getExtension(file.getOriginalFilename());
 
-			String extension = getExtension(file.getOriginalFilename());
-
-			String fileName = basePath + "/" + cnt + extension;
-
+			String fileName = basePath + "/" + file.getOriginalFilename();
+			
 			// 빈파일 생성
 			File saveImage = new File(fileName);
 
 			// 파일 복사 multipartfile -> file
 			file.transferTo(saveImage);
-
-			cnt++;
 		}
-
+		
+		// file 이름들 저장
+		newDress.setImage_paths(image_paths.toString());
+		
+		// db 저장
+		
 		DressModel dressModel = new DressModel(newDress);
-
+		
 		WebMvcLinkBuilder selfLinkBuilder = linkTo(DressController.class).slash(newDress.getId());
 		URI createUri = selfLinkBuilder.toUri();
 
@@ -78,6 +80,8 @@ public class DressService {
 		dressModel.link_Update(dressModel);
 
 		// TODO 이미지 링크 추가하기 나중에
+		dressModel.link_imagePath(dressModel, newDress.getId());
+		
 		return ResponseEntity.created(createUri).body(dressModel);
 	}
 

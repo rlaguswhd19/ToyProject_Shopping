@@ -19,7 +19,7 @@
 
 | 이름         | 속성             | 의미     |
 | ------------ | ---------------- | -------- |
-| id           | Integer          | ID       |
+| id           | Long             | ID       |
 | age          | Integer          | 나이     |
 | email        | String           | 이메일   |
 | password     | String           | 비밀번호 |
@@ -34,7 +34,7 @@
 
 | 이름           | 속성             | 의미        |
 | -------------- | ---------------- | ----------- |
-| id             | Integer          | id          |
+| id             | Long             | id          |
 | brand          | String           | 브랜드      |
 | article_number | String           | 품번        |
 | dress_type     | DressType (enum) | 옷종류      |
@@ -42,7 +42,8 @@
 | sale           | Integer          | 판매가격    |
 | discount       | Integer          | 할인율      |
 | explanation    | String           | 설명        |
-| image_path     | String           | 이미지 경로 |
+| image_paths    | String           | 이미지 경로 |
+| craeted_date   | LocalDateTime    | 생성 날짜   |
 
 
 
@@ -50,7 +51,7 @@
 
 | 이름       | 속성          | 의미        |
 | ---------- | ------------- | ----------- |
-| id         | Integer       | id          |
+| id         | Long          | id          |
 | order_time | LocalDateTime | 주문날짜    |
 | count      | Integer       | 갯수        |
 | dress      | Dress (FK)    | 옷          |
@@ -64,11 +65,11 @@
 
 | 이름      | 속성                       | 의미                |
 | --------- | -------------------------- | ------------------- |
-| id        | Integer                    | id                  |
+| id        | Long                       | id                  |
 | dress     | Dress (FK)                 | 옷                  |
 | views     | Integer                    | 조회수              |
 | page_info | HashMap(String, ColorInfo) | 색상당 사이즈, 수량 |
-| Account   | account (FK)               | 판매자 계정         |
+| Account   | Account (FK)               | 판매자 계정         |
 
 
 
