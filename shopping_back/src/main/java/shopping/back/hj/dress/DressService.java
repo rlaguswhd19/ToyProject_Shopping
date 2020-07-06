@@ -85,20 +85,4 @@ public class DressService {
 		
 		return ResponseEntity.created(createUri).body(dressModel);
 	}
-
-	private String getExtension(String originalFileName) {
-
-		int len = originalFileName.length();
-		int idx = 0;
-
-		for (int i = len - 1; i >= len - 10; i--) {
-			char temp = originalFileName.charAt(i);
-			if (temp == '.') {
-				idx = i;
-				break;
-			}
-		}
-
-		return originalFileName.substring(idx, len);
-	}
 }

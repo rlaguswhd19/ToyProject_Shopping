@@ -56,6 +56,7 @@ public class DressCountrollerTest {
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	
+	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());
 	@Test
 	@TestDescription("정상적으로 Dress를 생성하고 등록하는 Test")
 	public void createDress() throws Exception {
@@ -224,6 +225,40 @@ public class DressCountrollerTest {
 			.andExpect(jsonPath("content[0].defaultMessage").exists())
 			.andExpect(jsonPath("content[0].code").exists())
 			.andExpect(jsonPath("_links.index").exists())
+			;
+	}
+	
+	@Test
+	@TestDescription("이미지 파일이 아닐경우 Test, ImageValidator 수행")
+	public void createDress_BadRequest_WrongFile() throws Exception {
+		DressDto dressDto = DressDto.builder()
+				.brand("COVERNAT")
+				.article_number("C1804SL01WH")
+				.sex(Sex.Man)
+				.sale(39000)
+				.dress_type(DressType.top)
+				.discount(10)
+				.explanation("Test")
+				.build();
+		
+		mockMvc.perform(multipart("/api/dress")
+				.file(file1)
+				.file(wrongFile)
+				.param("brand", dressDto.getBrand())
+				.param("article_number", dressDto.getArticle_number())
+				.param("sex", dressDto.getSex().toString())
+				.param("sale", dressDto.getSale().toString())
+				.param("dress_type", dressDto.getDress_type().toString())
+				.param("discount", dressDto.getDiscount().toString())
+				.param("explanation", dressDto.getExplanation())
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON)
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("content[0].objectName").exists())
+			.andExpect(jsonPath("content[0].defaultMessage").exists())
+			.andExpect(jsonPath("content[0].code").exists())
 			;
 	}
 }

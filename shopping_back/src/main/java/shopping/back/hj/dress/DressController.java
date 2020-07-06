@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import shopping.back.hj.common.ErrorsModel;
+import shopping.back.hj.common.ImageValidator;
 
 @RestController
 @CrossOrigin(origins = { "*" })
@@ -28,26 +29,29 @@ public class DressController {
 
 	@Autowired
 	private DressValidator dressValidator;
+	
+	@Autowired
+	private ImageValidator imageValidator;
 
 	@PostMapping
 	public ResponseEntity<?> createDress_Multipart(@ModelAttribute @Valid DressDto dressDto, Errors errors,
 			@RequestPart("files") MultipartFile[] files) throws IllegalStateException, IOException {
-		
-		// 확장자 검증하기
-		for (MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-		}
-
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}
-		
+
 		dressValidator.validate(dressDto, errors);
 
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}
 
+		imageValidator.validate(files, errors);
+		
+		if (errors.hasErrors()) {
+			return badRequest(errors);
+		}
+		
 		return dressService.createDress(dressDto, files);
 	}
 

@@ -49,6 +49,7 @@
 			multiple
 			label="File input"
 			v-model="files"
+			accept="image/*"
 		></v-file-input>
 		<v-btn @click="post_dressDto_files" style="float: right;">등록</v-btn>
 	</v-container>
