@@ -40,7 +40,7 @@ public class DressDto {
 		// 판매 가격
 		@Min(0)
 		@NotNull
-		private Integer sale;
+		private Integer price;
 		
 		// 할인 가격
 		@Min(0) @Max(100)
@@ -50,11 +50,4 @@ public class DressDto {
 		// 설명
 		@NotEmpty
 		private String explanation;
-
-		@Override
-		public String toString() {
-			return "DressDto [brand=" + brand + ", article_number=" + article_number + ", dress_type=" + dress_type
-					+ ", sex=" + sex + ", sale=" + sale + ", discount=" + discount + ", explanation=" + explanation
-					+ "]";
-		}
 }

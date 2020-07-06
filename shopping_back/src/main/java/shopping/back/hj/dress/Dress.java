@@ -42,7 +42,7 @@ public class Dress {
 	private Sex sex;
 	
 	// 판매 가격
-	private Integer sale;
+	private Integer price;
 	
 	// 할인 가격
 //	@Column(columnDefinition = "Integer default '0'")
@@ -57,11 +57,4 @@ public class Dress {
 //	 이미지 경로
 	@Column(length = 10000)
 	private String image_paths;
-
-	@Override
-	public String toString() {
-		return "Dress [id=" + id + ", brand=" + brand + ", article_number=" + article_number + ", dress_type="
-				+ dress_type + ", sex=" + sex + ", sale=" + sale + ", discount=" + discount + ", explanation="
-				+ explanation + ", created_date=" + created_date + ", image_paths=" + image_paths + "]";
-	}
 }

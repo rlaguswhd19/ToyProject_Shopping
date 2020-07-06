@@ -69,7 +69,7 @@ public class DressCountrollerTest {
 				.brand("COVERNAT")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.sale(39000)
+				.price(39000)
 				.dress_type(DressType.top)
 				.discount(10)
 				.explanation("Test")
@@ -81,7 +81,7 @@ public class DressCountrollerTest {
 				.param("brand", dressDto.getBrand())
 				.param("article_number", dressDto.getArticle_number())
 				.param("sex", dressDto.getSex().toString())
-				.param("sale", dressDto.getSale().toString())
+				.param("price", dressDto.getPrice().toString())
 				.param("dress_type", dressDto.getDress_type().toString())
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
@@ -110,7 +110,7 @@ public class DressCountrollerTest {
 							parameterWithName("article_number").description("품번"),
 							parameterWithName("dress_type").description("타입"),
 							parameterWithName("sex").description("성별"),
-							parameterWithName("sale").description("가격"),
+							parameterWithName("price").description("가격"),
 							parameterWithName("discount").description("할인율"),
 							parameterWithName("explanation").description("설명")
 					),
@@ -127,7 +127,7 @@ public class DressCountrollerTest {
 							fieldWithPath("article_number").description("품번"),
 							fieldWithPath("dress_type").description("타입"),
 							fieldWithPath("sex").description("성별"),
-							fieldWithPath("sale").description("가격"),
+							fieldWithPath("price").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
 							fieldWithPath("created_date").description("등록 날짜"),
@@ -150,7 +150,7 @@ public class DressCountrollerTest {
 				.brand("COVERNAT")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.sale(39000)
+				.price(39000)
 				.dress_type(DressType.top)
 				.discount(10)
 				.explanation("Test")
@@ -163,7 +163,7 @@ public class DressCountrollerTest {
 				.param("brand", dress.getBrand())
 				.param("article_number", dress.getArticle_number())
 				.param("sex", dress.getSex().toString())
-				.param("sale", dress.getSale().toString())
+				.param("price", dress.getPrice().toString())
 				.param("dress_type", dress.getDress_type().toString())
 				.param("discount", dress.getDiscount().toString())
 				.param("explanation", dress.getExplanation())
@@ -185,7 +185,7 @@ public class DressCountrollerTest {
 				.param("brand", "123")
 				.param("article_number", "123")
 				.param("sex", "null")
-				.param("sale", "null")
+				.param("price", "null")
 				.param("dress_type", "null")
 				.param("discount", "null")
 				.param("explanation", "")
@@ -205,7 +205,7 @@ public class DressCountrollerTest {
 				.brand("COVERNAT")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.sale(0)
+				.price(0)
 				.dress_type(DressType.top)
 				.discount(100)
 				.explanation("Test")
@@ -217,7 +217,7 @@ public class DressCountrollerTest {
 				.param("brand", dressDto.getBrand())
 				.param("article_number", dressDto.getArticle_number())
 				.param("sex", dressDto.getSex().toString())
-				.param("sale", dressDto.getSale().toString())
+				.param("price", dressDto.getPrice().toString())
 				.param("dress_type", dressDto.getDress_type().toString())
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
@@ -240,7 +240,7 @@ public class DressCountrollerTest {
 				.brand("COVERNAT")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.sale(39000)
+				.price(39000)
 				.dress_type(DressType.top)
 				.discount(10)
 				.explanation("Test")
@@ -252,7 +252,7 @@ public class DressCountrollerTest {
 				.param("brand", dressDto.getBrand())
 				.param("article_number", dressDto.getArticle_number())
 				.param("sex", dressDto.getSex().toString())
-				.param("sale", dressDto.getSale().toString())
+				.param("price", dressDto.getPrice().toString())
 				.param("dress_type", dressDto.getDress_type().toString())
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
@@ -293,7 +293,7 @@ public class DressCountrollerTest {
 				.brand("test queryDress" + idx)
 				.article_number("test queryDress")
 				.sex(Sex.Public)
-				.sale(39000)
+				.price(39000)
 				.dress_type(DressType.top)
 				.discount(10)
 				.explanation("test queryDress")

@@ -10,11 +10,11 @@ public class DressValidator {
 
 	public void validate(DressDto dressDto, Errors errors) {
 
-		if (dressDto.getSale() == 0) { // 파는 가격이 0일 경우
+		if (dressDto.getPrice() == 0) { // 파는 가격이 0일 경우
 //			field error
-			errors.rejectValue("sale", "sale = 0 is wrongValue", "판매액은 0원일 수 없습니다.");
+			errors.rejectValue("price", "price = 0 is wrongValue", "판매액은 0원일 수 없습니다.");
 //			global error
-			errors.reject("wrongSale", "Sale is Wrong");
+			errors.reject("wrongPrice", "Price is Wrong");
 		}
 
 		if (dressDto.getDiscount() >= 100) { // 100% 할인일 경우

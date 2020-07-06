@@ -15,12 +15,12 @@ public class DressTest {
 	
 	@Test
 	@Parameters(method = "paramsForTest")
-	public void builder(String brand, String article_num, Sex sex, Integer sale, DressType dresstype, Integer discount) {
+	public void builder(String brand, String article_num, Sex sex, Integer price, DressType dresstype, Integer discount) {
 		Dress dress = Dress.builder()
 				.brand(brand)
 				.article_number(article_num)
 				.sex(sex)
-				.sale(sale)
+				.price(price)
 				.dress_type(dresstype)
 				.discount(discount)
 				.build();

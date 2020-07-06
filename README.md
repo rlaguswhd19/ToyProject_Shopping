@@ -39,7 +39,7 @@
 | article_number | String           | 품번        |
 | dress_type     | DressType (enum) | 옷종류      |
 | sex            | Sex (enum)       | 성별        |
-| sale           | Integer          | 판매가격    |
+| price          | Integer          | 판매가격    |
 | discount       | Integer          | 할인율      |
 | explanation    | String           | 설명        |
 | image_paths    | String           | 이미지 경로 |

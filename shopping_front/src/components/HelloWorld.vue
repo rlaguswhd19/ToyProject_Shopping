@@ -25,10 +25,10 @@
 			v-model="dressDto.sex"
 		></v-text-field>
 		<v-text-field
-			label="sale"
+			label="price"
 			placeholder="가격을 입력하세요."
 			outlined
-			v-model="dressDto.sale"
+			v-model="dressDto.price"
 		></v-text-field>
 		<v-text-field
 			label="discount"
@@ -68,7 +68,7 @@ export default {
 				article_number: '현지',
 				dress_type: 'top',
 				sex: 'Man',
-				sale: '123000',
+				price: '123000',
 				discount: '10',
 				explanation: '현지',
 			},
@@ -87,7 +87,7 @@ export default {
 			formData.append('article_number', this.dressDto.article_number)
 			formData.append('dress_type', this.dressDto.dress_type)
 			formData.append('sex', this.dressDto.sex)
-			formData.append('sale', this.dressDto.sale)
+			formData.append('price', this.dressDto.price)
 			formData.append('discount', this.dressDto.discount)
 			formData.append('explanation', this.dressDto.explanation)
 
