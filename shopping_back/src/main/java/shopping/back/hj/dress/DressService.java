@@ -5,12 +5,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,11 +45,7 @@ public class DressService {
 		// link
 		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
 		dressModel.link_Lists(dressModel);
-
-		// TODO account 등급에 따라 지정
 		dressModel.link_Update(dressModel);
-
-		// TODO 이미지 링크 추가하기 나중에
 		dressModel.link_imagePath(dressModel, newDress.getId());
 		
 		return ResponseEntity.created(createUri).body(dressModel);
@@ -70,7 +69,6 @@ public class DressService {
 			// 파일 path
 			image_paths.append(file.getOriginalFilename()+"/");
 			
-			//String extension = getExtension(file.getOriginalFilename());
 			String fileName = basePath + "/" + file.getOriginalFilename();
 			
 			// 빈파일 생성
@@ -85,5 +83,13 @@ public class DressService {
 		
 		// update
 		newDress = dressRepository.save(newDress);
+	}
+
+	public ResponseEntity<?> queryDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
+		
+		Page<Dress> page = dressRepository.findAll(pageable);
+		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, d -> new DressModel(d));
+		
+		return ResponseEntity.ok(pageModel);
 	}
 }

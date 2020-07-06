@@ -1,4 +1,4 @@
-package shopping.back.hj.pages;
+package shopping.back.hj.dpages;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import shopping.back.hj.enums.ColorInfo;
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
-public class Page {
+public class Dpage {
 	
 	@Id @GeneratedValue
 	private Long id;

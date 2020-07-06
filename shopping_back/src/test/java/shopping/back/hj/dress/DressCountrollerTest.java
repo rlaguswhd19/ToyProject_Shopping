@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.Authenticator.RequestorType;
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +53,9 @@ public class DressCountrollerTest {
 	
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	@Autowired
+	private DressRepository dressRepository;
 	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -260,5 +265,43 @@ public class DressCountrollerTest {
 			.andExpect(jsonPath("content[0].defaultMessage").exists())
 			.andExpect(jsonPath("content[0].code").exists())
 			;
+	}
+	
+	@Test
+	@TestDescription("30개의 Dress를 10개씩 2번째 페이지 조회하기")
+	public void queryDress() throws Exception {
+		for (int i = 0; i < 25; i++) {
+			generateDress(i);
+		}
+		
+		mockMvc.perform(get("/api/dress")
+				.param("page", "2")
+				.param("size", "10")
+				.param("sort", "id,asc")
+				)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("_links").exists())
+			.andExpect(jsonPath("page").exists())
+			.andExpect(jsonPath("_embedded.dressList[0]._links.self").exists())
+			.andExpect(jsonPath("_links.self").exists())
+		;
+	}
+	
+	public void generateDress(int idx) {
+		Dress dress = Dress.builder()
+				.brand("test queryDress" + idx)
+				.article_number("test queryDress")
+				.sex(Sex.Public)
+				.sale(39000)
+				.dress_type(DressType.top)
+				.discount(10)
+				.explanation("test queryDress")
+				.image_paths("test iamge_paths" + idx)
+				.created_date(LocalDateTime.now())
+				.build();
+		
+		Dress newDress = dressRepository.save(dress);
+		System.out.println(newDress);
 	}
 }
