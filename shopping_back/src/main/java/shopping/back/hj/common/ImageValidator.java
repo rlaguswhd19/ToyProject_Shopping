@@ -35,7 +35,7 @@ public class ImageValidator {
 		int len = originalFileName.length();
 		int idx = 0;
 
-		for (int i = len - 1; i >= len - 10; i--) {
+		for (int i = len - 1; i >= 0; i--) {
 			char temp = originalFileName.charAt(i);
 			if (temp == '.') {
 				idx = i + 1;
