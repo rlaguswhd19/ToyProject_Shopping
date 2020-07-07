@@ -85,11 +85,11 @@ public class DressService {
 		newDress = dressRepository.save(newDress);
 	}
 
-	public ResponseEntity<?> queryDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
+	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
 		
 		Page<Dress> page = dressRepository.findAll(pageable);
 		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, d -> new DressModel(d));
-		
+		pageModel.add(new Link("/docs/dress.html#resources-lists-dress").withRel("profile"));
 		return ResponseEntity.ok(pageModel);
 	}
 }

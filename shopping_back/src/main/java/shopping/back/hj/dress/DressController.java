@@ -62,8 +62,8 @@ public class DressController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> queryDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
-		return dressService.queryDress(pageable, assembler);
+	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
+		return dressService.listsDress(pageable, assembler);
 	}
 
 	private ResponseEntity<?> badRequest(Errors errors) {

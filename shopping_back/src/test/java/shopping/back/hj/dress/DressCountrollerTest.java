@@ -28,6 +28,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -86,7 +87,7 @@ public class DressCountrollerTest {
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isCreated())
@@ -168,7 +169,7 @@ public class DressCountrollerTest {
 				.param("discount", dress.getDiscount().toString())
 				.param("explanation", dress.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
@@ -190,7 +191,7 @@ public class DressCountrollerTest {
 				.param("discount", "null")
 				.param("explanation", "")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
@@ -222,7 +223,7 @@ public class DressCountrollerTest {
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
@@ -257,7 +258,7 @@ public class DressCountrollerTest {
 				.param("discount", dressDto.getDiscount().toString())
 				.param("explanation", dressDto.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
@@ -269,15 +270,15 @@ public class DressCountrollerTest {
 	
 	@Test
 	@TestDescription("30개의 Dress를 10개씩 2번째 페이지 조회하기")
-	public void queryDress() throws Exception {
+	public void listsDress() throws Exception {
 		for (int i = 0; i < 25; i++) {
 			generateDress(i);
 		}
 		
 		mockMvc.perform(get("/api/dress")
-				.param("page", "2")
-				.param("size", "10")
-				.param("sort", "id,asc")
+				.param("page", "0")
+				.param("size", "5")
+				.param("sort", "id,desc")
 				)
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -285,18 +286,40 @@ public class DressCountrollerTest {
 			.andExpect(jsonPath("page").exists())
 			.andExpect(jsonPath("_embedded.dressList[0]._links.self").exists())
 			.andExpect(jsonPath("_links.self").exists())
+			.andExpect(jsonPath("_links.profile").exists())
+			.andDo(document("lists-dress", 
+					requestParameters(
+							parameterWithName("size").description("page to retrieve, default is 0"),
+							parameterWithName("page").description("size of the page to retrieve, default 20"),
+							parameterWithName("sort").description("sort to the page to retrieve")
+					),
+					responseHeaders(
+							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+					),
+					relaxedLinks(
+							linkWithRel("self").description("link to self"),
+							linkWithRel("profile").description("link to profile")
+					),
+					relaxedResponseFields(
+							fieldWithPath("page.number").type(JsonFieldType.NUMBER).description("The number of this page."),
+		                    fieldWithPath("page.size").type(JsonFieldType.NUMBER).description("The size of this page."),
+		                    fieldWithPath("page.totalPages").type(JsonFieldType.NUMBER).description("The total number of pages."),
+		                    fieldWithPath("page.totalElements").type(JsonFieldType.NUMBER).description("The total number of results.")
+		            )
+
+			))
 		;
 	}
 	
 	public void generateDress(int idx) {
 		Dress dress = Dress.builder()
-				.brand("test queryDress" + idx)
-				.article_number("test queryDress")
+				.brand("test listsDress" + idx)
+				.article_number("test listsDress")
 				.sex(Sex.Public)
 				.price(39000)
 				.dress_type(DressType.top)
 				.discount(10)
-				.explanation("test queryDress")
+				.explanation("test listsDress")
 				.image_paths("test iamge_paths" + idx)
 				.created_date(LocalDateTime.now())
 				.build();
