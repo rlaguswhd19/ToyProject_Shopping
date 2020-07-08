@@ -123,21 +123,21 @@ public class DressCountrollerTest {
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
 					responseFields(
-							fieldWithPath("id").description("dress_id"),
-							fieldWithPath("brand").description("브랜드"),
-							fieldWithPath("article_number").description("품번"),
-							fieldWithPath("dress_type").description("타입"),
-							fieldWithPath("sex").description("성별"),
-							fieldWithPath("price").description("가격"),
-							fieldWithPath("discount").description("할인율"),
-							fieldWithPath("explanation").description("설명"),
-							fieldWithPath("created_date").description("등록 날짜"),
-							fieldWithPath("image_paths").description("images-dress 링크 파일 이미지들의 집합"),
-							fieldWithPath("_links.self.href").description("link to self"),
-							fieldWithPath("_links.update-dress.href").description("link to get dress lists"),
-							fieldWithPath("_links.lists-dress.href").description("link to update an existing dress"),
-							fieldWithPath("_links.profile.href").description("link to profile"),
-							fieldWithPath("_links.images-dress.href").description("dress image files path")
+							fieldWithPath("id").type(JsonFieldType.NUMBER).description("dress_id"),
+							fieldWithPath("brand").type(JsonFieldType.STRING).description("브랜드"),
+							fieldWithPath("article_number").type(JsonFieldType.STRING).description("품번"),
+							fieldWithPath("dress_type").type(JsonFieldType.STRING).description("타입"),
+							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
+							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
+							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
+							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
+							fieldWithPath("image_paths").type(JsonFieldType.STRING).description("images-dress 링크 파일 이미지들의 집합"),
+							fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("link to self"),
+							fieldWithPath("_links.update-dress.href").type(JsonFieldType.STRING).description("link to get dress lists"),
+							fieldWithPath("_links.lists-dress.href").type(JsonFieldType.STRING).description("link to update an existing dress"),
+							fieldWithPath("_links.profile.href").type(JsonFieldType.STRING).description("link to profile"),
+							fieldWithPath("_links.images-dress.href").type(JsonFieldType.STRING).description("dress image files path")
 					)
 				))
 			;
@@ -269,14 +269,14 @@ public class DressCountrollerTest {
 	}
 	
 	@Test
-	@TestDescription("30개의 Dress를 10개씩 2번째 페이지 조회하기")
+	@TestDescription("30개의 Dress를 5개씩 2번째 페이지 조회하기")
 	public void listsDress() throws Exception {
 		for (int i = 0; i < 25; i++) {
 			generateDress(i);
 		}
 		
 		mockMvc.perform(get("/api/dress")
-				.param("page", "0")
+				.param("page", "1")
 				.param("size", "5")
 				.param("sort", "id,desc")
 				)
