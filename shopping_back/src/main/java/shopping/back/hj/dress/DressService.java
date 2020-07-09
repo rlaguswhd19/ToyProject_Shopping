@@ -88,8 +88,10 @@ public class DressService {
 	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
 		
 		Page<Dress> page = dressRepository.findAll(pageable);
-		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, d -> new DressModel(d));
+		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, dress -> new DressModel(dress));
+		
 		pageModel.add(new Link("/docs/dress.html#resources-lists-dress").withRel("profile"));
+		
 		return ResponseEntity.ok(pageModel);
 	}
 }

@@ -325,6 +325,5 @@ public class DressCountrollerTest {
 				.build();
 		
 		Dress newDress = dressRepository.save(dress);
-		System.out.println(newDress);
 	}
 }
