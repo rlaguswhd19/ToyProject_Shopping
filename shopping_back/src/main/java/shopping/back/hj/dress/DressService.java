@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,18 @@ public class DressService {
 		pageModel.add(new Link("/docs/dress.html#resources-lists-dress").withRel("profile"));
 		
 		return ResponseEntity.ok(pageModel);
+	}
+
+	public ResponseEntity<?> getDress(Long id) {
+		Optional<Dress> optionalDress = dressRepository.findById(id);
+		
+		if(optionalDress.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Dress dress = optionalDress.get();
+		DressModel dressModel = new DressModel(dress);
+		dressModel.add(new Link("/docs/dress.html/resources-get-dress").withRel("profile"));
+		return ResponseEntity.ok(dressModel);
 	}
 }

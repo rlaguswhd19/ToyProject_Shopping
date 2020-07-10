@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -64,6 +65,11 @@ public class DressController {
 	@GetMapping
 	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
 		return dressService.listsDress(pageable, assembler);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getDress(@PathVariable Long id) {
+		return dressService.getDress(id);
 	}
 
 	private ResponseEntity<?> badRequest(Errors errors) {

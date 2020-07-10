@@ -5,16 +5,13 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.net.Authenticator.RequestorType;
 import java.time.LocalDateTime;
 
 import org.junit.Test;
@@ -28,12 +25,12 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shopping.back.hj.common.RestDocsConfiguration;
@@ -122,7 +119,7 @@ public class DressCountrollerTest {
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					responseFields(
+					relaxedResponseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("dress_id"),
 							fieldWithPath("brand").type(JsonFieldType.STRING).description("브랜드"),
 							fieldWithPath("article_number").type(JsonFieldType.STRING).description("품번"),
@@ -132,12 +129,7 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
-							fieldWithPath("image_paths").type(JsonFieldType.STRING).description("images-dress 링크 파일 이미지들의 집합"),
-							fieldWithPath("_links.self.href").type(JsonFieldType.STRING).description("link to self"),
-							fieldWithPath("_links.update-dress.href").type(JsonFieldType.STRING).description("link to get dress lists"),
-							fieldWithPath("_links.lists-dress.href").type(JsonFieldType.STRING).description("link to update an existing dress"),
-							fieldWithPath("_links.profile.href").type(JsonFieldType.STRING).description("link to profile"),
-							fieldWithPath("_links.images-dress.href").type(JsonFieldType.STRING).description("dress image files path")
+							fieldWithPath("image_paths").type(JsonFieldType.STRING).description("images-dress 링크 파일 이미지들의 집합")
 					)
 				))
 			;
@@ -241,8 +233,49 @@ public class DressCountrollerTest {
 			))
 		;
 	}
+
+	@Test
+	@TestDescription("한개의 Dress 조회하기")
+	public void getDress() throws Exception {
+		Dress dress = generateDress(100);
+		
+		mockMvc.perform(RestDocumentationRequestBuilders.get("/api/dress/{id}", dress.getId())
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("id").exists())
+			.andExpect(jsonPath("id").value(dress.getId()))
+			.andExpect(jsonPath("_links.self").exists())
+			.andExpect(jsonPath("_links.profile").exists())
+			.andDo(print())
+			.andDo(document("get-dress",
+					requestHeaders(
+							headerWithName("accept").description("Accept header")
+					),
+					pathParameters(
+							parameterWithName("id").description("Dress id")
+					),
+					links(
+							linkWithRel("self").description("link to this dress"),
+							linkWithRel("profile").description("link to profile")
+					)
+				))
+		;
+	}
 	
-	public void generateDress(int idx) {
+	@Test
+	@TestDescription("없는 Dress 조회했을때 404 응답하기")
+	public void getDress_isNotFound() throws Exception {
+		mockMvc.perform(get("/api/dress/{id}", 123014123)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			// 404
+			.andExpect(status().isNotFound())
+			.andDo(print())
+		;
+	}
+	
+	public Dress generateDress(int idx) {
 		Dress dress = Dress.builder()
 				.brand("test listsDress" + idx)
 				.article_number("test listsDress")
@@ -255,6 +288,6 @@ public class DressCountrollerTest {
 				.created_date(LocalDateTime.now())
 				.build();
 		
-		Dress newDress = dressRepository.save(dress);
+		return dressRepository.save(dress);
 	}
 }
