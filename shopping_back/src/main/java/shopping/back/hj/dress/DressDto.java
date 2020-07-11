@@ -23,6 +23,10 @@ public class DressDto {
 		@NotEmpty
 		private String brand;
 		
+		// 이름
+		@NotEmpty
+		private String name;
+		
 		// 품번
 		@NotEmpty
 		private String article_number;

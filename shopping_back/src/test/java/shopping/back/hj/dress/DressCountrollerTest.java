@@ -65,10 +65,11 @@ public class DressCountrollerTest {
 	public void createDress() throws Exception {
 		DressDto dressDto = DressDto.builder()
 				.brand("COVERNAT")
+				.name("커버낫 반팔")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
 				.price(39000)
-				.dress_type(DressType.top)
+				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
 				.build();
@@ -141,10 +142,11 @@ public class DressCountrollerTest {
 		Dress dress = Dress.builder()
 				.id(20L)
 				.brand("COVERNAT")
+				.name("커버낫 반팔")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
 				.price(39000)
-				.dress_type(DressType.top)
+				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
 				.build();
@@ -229,7 +231,6 @@ public class DressCountrollerTest {
 		                    fieldWithPath("page.totalPages").type(JsonFieldType.NUMBER).description("The total number of pages."),
 		                    fieldWithPath("page.totalElements").type(JsonFieldType.NUMBER).description("The total number of results.")
 		            )
-
 			))
 		;
 	}
@@ -274,14 +275,16 @@ public class DressCountrollerTest {
 			.andDo(print())
 		;
 	}
+
 	
 	public Dress generateDress(int idx) {
 		Dress dress = Dress.builder()
 				.brand("test listsDress" + idx)
+				.name("커버낫 반팔")
 				.article_number("test listsDress")
 				.sex(Sex.Public)
 				.price(39000)
-				.dress_type(DressType.top)
+				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("test listsDress")
 				.image_paths("test iamge_paths" + idx)

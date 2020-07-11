@@ -56,7 +56,7 @@ public class DressValidatorTest {
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
 				.price(0)
-				.dress_type(DressType.top)
+				.dress_type(DressType.Top)
 				.discount(100)
 				.explanation("Test")
 				.build();
@@ -91,7 +91,7 @@ public class DressValidatorTest {
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
 				.price(39000)
-				.dress_type(DressType.top)
+				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
 				.build();

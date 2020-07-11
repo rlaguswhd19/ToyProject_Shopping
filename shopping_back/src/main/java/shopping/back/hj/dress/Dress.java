@@ -26,6 +26,9 @@ public class Dress {
 	@Id @GeneratedValue
 	private Long id;
 	
+	// 이름
+	private String name;
+	
 	// 브랜드
 	private String brand;
 	

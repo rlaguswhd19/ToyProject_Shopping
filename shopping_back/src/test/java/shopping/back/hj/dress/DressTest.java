@@ -31,8 +31,8 @@ public class DressTest {
 	
 	private Object[] paramsForTest() {
 		return new Object[] {
-			new Object[] {"COVERNAT","C1804SL01WH",Sex.Man,39000,DressType.top,10},
-			new Object[] {"MILLIONCOR","239961",Sex.Woman,43000,DressType.bottom,15},
+			new Object[] {"COVERNAT","C1804SL01WH",Sex.Man,39000,DressType.Top,10},
+			new Object[] {"MILLIONCOR","239961",Sex.Woman,43000,DressType.Bottom,15},
 		};
 	}
 }

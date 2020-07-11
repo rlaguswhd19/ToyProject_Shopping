@@ -3,6 +3,7 @@ package shopping.back.hj.dress;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @Component
@@ -28,5 +29,7 @@ public class DressValidator {
 			errors.rejectValue("sex", "sex is wrongValue", "다른 성별이 올 수 없습니다.");
 			errors.reject("wrongSex", "Sex is Wrong");
 		}
+		
+		DressType dressType = dressDto.getDress_type();
 	}
 }
