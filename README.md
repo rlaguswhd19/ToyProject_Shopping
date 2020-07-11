@@ -58,6 +58,7 @@
 | account    | Account (FK)  | 구매자 계정 |
 | color      | String        | 색상        |
 | dsize      | DressSize     | 옷사이즈    |
+| name       | String        | 이름        |
 
 
 
