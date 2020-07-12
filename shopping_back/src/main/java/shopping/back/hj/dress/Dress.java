@@ -59,5 +59,5 @@ public class Dress {
 	
 //	 이미지 경로
 	@Column(length = 10000)
-	private String image_paths;
+	private String image_path;
 }

@@ -42,7 +42,7 @@
 | price          | Integer          | 판매가격    |
 | discount       | Integer          | 할인율      |
 | explanation    | String           | 설명        |
-| image_paths    | String           | 이미지 경로 |
+| image_path     | String           | 이미지 경로 |
 | craeted_date   | LocalDateTime    | 생성 날짜   |
 
 

@@ -54,4 +54,7 @@ public class DressDto {
 		// 설명
 		@NotEmpty
 		private String explanation;
+		
+		@NotEmpty
+		private String image_path;
 }

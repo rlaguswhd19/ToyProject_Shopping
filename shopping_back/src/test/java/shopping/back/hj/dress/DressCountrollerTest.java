@@ -7,6 +7,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,12 +26,17 @@ import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -55,6 +62,9 @@ public class DressCountrollerTest {
 	@Autowired
 	private DressRepository dressRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -72,6 +82,7 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
+				.image_path("/dress_images/id")
 				.build();
 		
 		mockMvc.perform(multipart("/api/dress")
@@ -275,7 +286,64 @@ public class DressCountrollerTest {
 			.andDo(print())
 		;
 	}
-
+	
+	@Test
+	@TestDescription("Dress를 정상적으로 수정하기")
+	public void updateDress() throws Exception {
+		Dress dress = generateDress(100);
+		String dressName = "update dressName";
+		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setName(dressName);
+		
+		// 먼저 dressDto를 변경하고 그다음에 image를 변경하도록 하자.
+		mockMvc.perform(put("/api/dress")
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				.content(objectMapper.writeValueAsString(dressDto))
+				)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("name").value(dressName))
+		;
+	}
+	
+	@Test
+	@TestDescription("입력값이 잘못된 경우 BadRequest 응답하기")
+	public void updateDress_BadRequest_WrongInput() throws Exception {
+		Dress dress = generateDress(100);
+		String dressName = "update dressName";
+		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setName(dressName);
+		
+		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload("/api/dress/{id}", dress.getId());
+		builder.with(new RequestPostProcessor() {
+			
+			@Override
+			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+				request.setMethod(RequestMethod.PUT.toString());
+				return request;
+			}
+		});
+		
+		
+		mockMvc.perform(builder
+				.file(file1)
+				.file(file2)
+				.param("brand", dressDto.getBrand())
+				.param("article_number", dressDto.getArticle_number())
+				.param("sex", dressDto.getSex().toString())
+				.param("price", dressDto.getPrice().toString())
+				.param("dress_type", dressDto.getDress_type().toString())
+				.param("discount", dressDto.getDiscount().toString())
+				.param("explanation", dressDto.getExplanation())
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("name").value(dressName))
+		;
+	}
 	
 	public Dress generateDress(int idx) {
 		Dress dress = Dress.builder()
@@ -287,7 +355,7 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("test listsDress")
-				.image_paths("test iamge_paths" + idx)
+				.image_path("test iamge_paths" + idx)
 				.created_date(LocalDateTime.now())
 				.build();
 		

@@ -120,9 +120,9 @@ operation::get-dress[snippets='request-fields,curl-request,http-response,links']
 
 operation::lists-dress[snippets='request-parameters,curl-request,http-response,response-fields,links']
 
-[[resources-events-update]]
-=== 이벤트 수정
+[[resources-update-dress]]
+=== Dress 수정
 
-`PUT` 요청을 사용해서 기존 이벤트를 수정할 수 있다.
+`PUT` 요청을 사용해서 기존 Dress를 수정할 수 있다.
 
-operation::update-event[snippets='request-fields,curl-request,http-response,links']
+operation::update-dress[snippets='request-fields,curl-request,http-response,links']
