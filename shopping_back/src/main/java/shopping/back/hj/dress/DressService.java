@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -29,14 +30,11 @@ public class DressService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public ResponseEntity createDress(DressDto dressDto, MultipartFile[] files)
+	public ResponseEntity createDress(DressDto dressDto)
 			throws IllegalStateException, IOException {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		Dress newDress = dressRepository.save(dress);
-		
-		// TODO 여기서 dressDto의 이미지를 저장하고 이미지 경로를 링크로 만들어 추가한다.
-		writeFile(newDress, files);
 		
 		DressModel dressModel = new DressModel(newDress);
 		
@@ -47,43 +45,9 @@ public class DressService {
 		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
 		dressModel.link_Lists(dressModel);
 		dressModel.link_Update(dressModel);
-		dressModel.link_imagePath(dressModel, newDress.getId());
+		dressModel.link_imagePath(dressModel, newDress.getCreated_date());
 		
 		return ResponseEntity.created(createUri).body(dressModel);
-	}
-	
-	private void writeFile(Dress newDress, MultipartFile[] files) throws IllegalStateException, IOException {
-		// dress_images path
-		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\dress_images/"
-						+ newDress.getId();
-
-		File dir = new File(basePath);
-
-		// dress id로 폴더 생성
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-				
-		StringBuilder image_paths = new StringBuilder();
-		
-		for (MultipartFile file : files) {
-			// 파일 path
-			image_paths.append(file.getOriginalFilename()+"/");
-			
-			String fileName = basePath + "/" + file.getOriginalFilename();
-			
-			// 빈파일 생성
-			File saveImage = new File(fileName);
-
-			// 파일 복사 multipartfile -> file
-			file.transferTo(saveImage);
-		}
-		
-		// file 이름들 저장
-		newDress.setImage_paths(image_paths.toString());
-		
-		// update
-		newDress = dressRepository.save(newDress);
 	}
 
 	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
@@ -107,5 +71,45 @@ public class DressService {
 		DressModel dressModel = new DressModel(dress);
 		dressModel.add(new Link("/docs/dress.html/resources-get-dress").withRel("profile"));
 		return ResponseEntity.ok(dressModel);
+	}
+
+	public ResponseEntity<?> uploadBasic(MultipartFile[] files) throws IllegalStateException, IOException {
+		return ResponseEntity.ok(writeFile(files));
+	}
+	
+	private String writeFile(MultipartFile[] files) throws IllegalStateException, IOException {
+		// dress_images path
+		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\images/basic";
+		
+		File dir = new File(basePath);
+
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		
+		basePath += "/" +LocalDate.now();
+		
+		File timeDir = new File(basePath);
+		
+		if (!timeDir.exists()) {
+			timeDir.mkdir();
+		}
+		
+		StringBuilder image_paths = new StringBuilder();
+		
+		for (MultipartFile file : files) {
+			// 파일 path
+			image_paths.append(file.getOriginalFilename()+"/");
+			
+			String fileName = basePath + "/" + file.getOriginalFilename();
+			
+			// 빈파일 생성
+			File saveImage = new File(fileName);
+
+			// 파일 복사 multipartfile -> file
+			file.transferTo(saveImage);
+		}
+		
+		return image_paths.toString();
 	}
 }

@@ -1,8 +1,7 @@
 package shopping.back.hj.dress;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -55,9 +54,14 @@ public class Dress {
 	private String explanation;
 	
 	// 시간
-	private LocalDateTime created_date = LocalDateTime.now();
-	
-//	 이미지 경로
-	@Column(length = 10000)
-	private String image_path;
+	private LocalDate created_date = LocalDate.now();
+
+	private String files;
+
+	@Override
+	public String toString() {
+		return "Dress [id=" + id + ", name=" + name + ", brand=" + brand + ", article_number=" + article_number
+				+ ", dress_type=" + dress_type + ", sex=" + sex + ", price=" + price + ", discount=" + discount
+				+ ", explanation=" + explanation + ", created_date=" + created_date + ", files=" + files + "]";
+	}
 }

@@ -1,6 +1,7 @@
 package shopping.back.hj.dress;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,29 +50,39 @@ public class DressValidatorTest {
 	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());
 	
 	@Test
+	@TestDescription("DressDto에 비어있는 값들을 보내는 Test, Valid 수행")
+	public void createDress_BadRequest_EmptyInput() throws Exception {
+		DressDto dressDto = DressDto.builder().build();
+		
+		mockMvc.perform(post("/api/dress")
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("_links.index").exists())
+			;
+	}
+	
+	@Test
 	@TestDescription("DressDto의 로직에 맞지 않는 값들을 보내는 Test, DressValidator 수행")
 	public void createDress_BadRequest_WrongInput() throws Exception {
 		DressDto dressDto = DressDto.builder()
-				.brand("COVERNAT")
+				.brand("Test COVERNAT")
+				.name("Test")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
 				.price(0)
 				.dress_type(DressType.Top)
 				.discount(100)
 				.explanation("Test")
+				.files("Testfiles.jpg")
 				.build();
 		
-		mockMvc.perform(multipart("/api/dress")
-				.file(file1)
-				.file(file2)
-				.param("brand", dressDto.getBrand())
-				.param("article_number", dressDto.getArticle_number())
-				.param("sex", dressDto.getSex().toString())
-				.param("price", dressDto.getPrice().toString())
-				.param("dress_type", dressDto.getDress_type().toString())
-				.param("discount", dressDto.getDiscount().toString())
-				.param("explanation", dressDto.getExplanation())
-				.contentType(MediaType.MULTIPART_FORM_DATA)
+		mockMvc.perform(post("/api/dress")
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
@@ -85,35 +96,17 @@ public class DressValidatorTest {
 	
 	@Test
 	@TestDescription("이미지 파일이 아닐경우 Test, ImageValidator 수행")
-	public void createDress_BadRequest_WrongFile() throws Exception {
-		DressDto dressDto = DressDto.builder()
-				.brand("COVERNAT")
-				.article_number("C1804SL01WH")
-				.sex(Sex.Man)
-				.price(39000)
-				.dress_type(DressType.Top)
-				.discount(10)
-				.explanation("Test")
-				.build();
+	public void uploadBasic_BadRequest_WrongFile() throws Exception {
 		
-		mockMvc.perform(multipart("/api/dress")
+		mockMvc.perform(multipart("/api/dress/uploadBasic")
 				.file(file1)
+				.file(file2)
 				.file(wrongFile)
-				.param("brand", dressDto.getBrand())
-				.param("article_number", dressDto.getArticle_number())
-				.param("sex", dressDto.getSex().toString())
-				.param("price", dressDto.getPrice().toString())
-				.param("dress_type", dressDto.getDress_type().toString())
-				.param("discount", dressDto.getDiscount().toString())
-				.param("explanation", dressDto.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("content[0].objectName").exists())
-			.andExpect(jsonPath("content[0].defaultMessage").exists())
-			.andExpect(jsonPath("content[0].code").exists())
 			;
 	}
 }

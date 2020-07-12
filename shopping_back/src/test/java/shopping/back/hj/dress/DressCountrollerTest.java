@@ -7,13 +7,14 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,17 +27,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,8 +62,8 @@ public class DressCountrollerTest {
 	private ModelMapper modelMapper;
 	
 	// 파일 2개
-	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
-	private MockMultipartFile file2 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
+	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
+	private MockMultipartFile file2 = new MockMultipartFile("files", "test2.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	
 	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());
 	@Test
@@ -82,20 +78,12 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
-				.image_path("/dress_images/id")
+				.files("Test1.jpg/Test2.jpg/")
 				.build();
 		
-		mockMvc.perform(multipart("/api/dress")
-				.file(file1)
-				.file(file2)
-				.param("brand", dressDto.getBrand())
-				.param("article_number", dressDto.getArticle_number())
-				.param("sex", dressDto.getSex().toString())
-				.param("price", dressDto.getPrice().toString())
-				.param("dress_type", dressDto.getDress_type().toString())
-				.param("discount", dressDto.getDiscount().toString())
-				.param("explanation", dressDto.getExplanation())
-				.contentType(MediaType.MULTIPART_FORM_DATA)
+		mockMvc.perform(post("/api/dress")
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
@@ -115,17 +103,16 @@ public class DressCountrollerTest {
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					requestParameters (
-							parameterWithName("brand").description("브랜드"),
-							parameterWithName("article_number").description("품번"),
-							parameterWithName("dress_type").description("타입"),
-							parameterWithName("sex").description("성별"),
-							parameterWithName("price").description("가격"),
-							parameterWithName("discount").description("할인율"),
-							parameterWithName("explanation").description("설명")
-					),
-					requestParts(
-							partWithName("files").description("옷 대표 이미지 업로드")
+					requestFields (
+							fieldWithPath("brand").description("브랜드"),
+							fieldWithPath("article_number").description("품번"),
+							fieldWithPath("dress_type").description("타입"),
+							fieldWithPath("sex").description("성별"),
+							fieldWithPath("price").description("가격"),
+							fieldWithPath("discount").description("할인율"),
+							fieldWithPath("explanation").description("설명"),
+							fieldWithPath("name").description("이름"),
+							fieldWithPath("files").description("파일 이름")
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
@@ -133,6 +120,7 @@ public class DressCountrollerTest {
 					),
 					relaxedResponseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("dress_id"),
+							fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
 							fieldWithPath("brand").type(JsonFieldType.STRING).description("브랜드"),
 							fieldWithPath("article_number").type(JsonFieldType.STRING).description("품번"),
 							fieldWithPath("dress_type").type(JsonFieldType.STRING).description("타입"),
@@ -141,68 +129,41 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
-							fieldWithPath("image_paths").type(JsonFieldType.STRING).description("images-dress 링크 파일 이미지들의 집합")
+							fieldWithPath("files").type(JsonFieldType.STRING).description("파일 이름")
 					)
 				))
 			;
 	}
 	
 	@Test
-	@TestDescription("DressDto에 없는 값들을 보내는 Test = Fail")
-	public void createDress_BadRequest_UnknownProperty() throws Exception {
-		Dress dress = Dress.builder()
-				.id(20L)
-				.brand("COVERNAT")
-				.name("커버낫 반팔")
-				.article_number("C1804SL01WH")
-				.sex(Sex.Man)
-				.price(39000)
-				.dress_type(DressType.Top)
-				.discount(10)
-				.explanation("Test")
-				.build();
+	@TestDescription("이미지 파일을 전송하는 Test")
+	public void uploadBasic_BadRequest_WrongFile() throws Exception {
 		
-		mockMvc.perform(multipart("/api/dress")
+		mockMvc.perform(multipart("/api/dress/uploadBasic")
 				.file(file1)
 				.file(file2)
-				.param("id", dress.getId().toString())
-				.param("brand", dress.getBrand())
-				.param("article_number", dress.getArticle_number())
-				.param("sex", dress.getSex().toString())
-				.param("price", dress.getPrice().toString())
-				.param("dress_type", dress.getDress_type().toString())
-				.param("discount", dress.getDiscount().toString())
-				.param("explanation", dress.getExplanation())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
 			.andDo(print())
-			.andExpect(status().isBadRequest())
+			.andExpect(status().isOk())
 			;
 	}
 	
-	@Test
-	@TestDescription("DressDto에 비어있는 값들을 보내는 Test, Valid 수행")
-	public void createDress_BadRequest_EmptyInput() throws Exception {
-		
-		mockMvc.perform(multipart("/api/dress")
-				.file(file1)
-				.file(file2)
-				.param("brand", "123")
-				.param("article_number", "123")
-				.param("sex", "null")
-				.param("price", "null")
-				.param("dress_type", "null")
-				.param("discount", "null")
-				.param("explanation", "")
-				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
-				)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("_links.index").exists())
-			;
-	}
+//	@Test
+//	@TestDescription("DressDto에 없는 값들을 보내는 Test = Fail")
+//	public void createDress_BadRequest_UnknownProperty() throws Exception {
+//		Dress dress = generateDress(100);
+//		
+//		mockMvc.perform(post("/api/dress")
+//				.content(objectMapper.writeValueAsString(dress))
+//				.contentType(MediaType.MULTIPART_FORM_DATA)
+//				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+//				)
+//			.andDo(print())
+//			.andExpect(status().isBadRequest())
+//			;
+//	}
 	
 	@Test
 	@TestDescription("30개의 Dress를 5개씩 2번째 페이지 조회하기")
@@ -295,11 +256,10 @@ public class DressCountrollerTest {
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
 		dressDto.setName(dressName);
 		
-		// 먼저 dressDto를 변경하고 그다음에 image를 변경하도록 하자.
 		mockMvc.perform(put("/api/dress")
-				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				)
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -315,28 +275,9 @@ public class DressCountrollerTest {
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
 		dressDto.setName(dressName);
 		
-		MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload("/api/dress/{id}", dress.getId());
-		builder.with(new RequestPostProcessor() {
-			
-			@Override
-			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-				request.setMethod(RequestMethod.PUT.toString());
-				return request;
-			}
-		});
-		
-		
-		mockMvc.perform(builder
-				.file(file1)
-				.file(file2)
-				.param("brand", dressDto.getBrand())
-				.param("article_number", dressDto.getArticle_number())
-				.param("sex", dressDto.getSex().toString())
-				.param("price", dressDto.getPrice().toString())
-				.param("dress_type", dressDto.getDress_type().toString())
-				.param("discount", dressDto.getDiscount().toString())
-				.param("explanation", dressDto.getExplanation())
-				.contentType(MediaType.MULTIPART_FORM_DATA)
+		mockMvc.perform(put("/api/dress")
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				)
 			.andDo(print())
@@ -355,8 +296,8 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("test listsDress")
-				.image_path("test iamge_paths" + idx)
-				.created_date(LocalDateTime.now())
+				.created_date(LocalDate.now())
+				.files("test"+idx+".jpg")
 				.build();
 		
 		return dressRepository.save(dress);

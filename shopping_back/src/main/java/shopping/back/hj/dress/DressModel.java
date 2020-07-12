@@ -4,6 +4,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class DressModel extends EntityModel<Dress> {
 
 	@SuppressWarnings("deprecation")
@@ -24,8 +27,8 @@ public class DressModel extends EntityModel<Dress> {
 		return dressModel;
 	}
 	
-	public DressModel link_imagePath(DressModel dressModel, Long id) {
-		dressModel.add(new Link("/dress_images/"+id).withRel("images-dress"));
+	public DressModel link_imagePath(DressModel dressModel, LocalDate created_date) {
+		dressModel.add(new Link("/images/basic/"+created_date).withRel("images-dress"));
 		return dressModel;
 	}
 

@@ -1,7 +1,6 @@
 package shopping.back.hj.common;
 
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
@@ -9,7 +8,7 @@ public class ImageValidator {
 	
 	private String[] image_extensions = {"jpge","jpg","png","gif","rle","dib","bmp","tif","tiff","raw"};
 	
-	public void validate(MultipartFile[] files, Errors errors) {
+	public boolean validate(MultipartFile[] files) {
 		
 		for (MultipartFile file : files) {
 			String extension = getExtension(file.getOriginalFilename());
@@ -23,11 +22,13 @@ public class ImageValidator {
 				}
 			}
 			
+			// image파일이 아니면 false
 			if(!isOk) {
-				// TODO errors rejectValue
-				errors.reject("Wrong File", "이미지 파일 이외의 파일은 업로드 할 수 없습니다.");
+				return isOk;
 			}
 		}
+		
+		return true;
 	}
 	
 	private String getExtension(String originalFileName) {

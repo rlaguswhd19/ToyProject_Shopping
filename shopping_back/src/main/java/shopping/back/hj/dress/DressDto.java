@@ -56,5 +56,5 @@ public class DressDto {
 		private String explanation;
 		
 		@NotEmpty
-		private String image_path;
+		private String files;
 }
