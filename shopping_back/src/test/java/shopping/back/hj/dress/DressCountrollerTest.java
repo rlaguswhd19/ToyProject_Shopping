@@ -1,10 +1,18 @@
 package shopping.back.hj.dress;
 
-import static org.springframework.restdocs.headers.HeaderDocumentation.*;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.relaxedLinks;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,6 +46,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
+import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dimages.DimageRepository;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -61,6 +71,9 @@ public class DressCountrollerTest {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private DimageRepository dimageRepository;
+	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test2.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -69,16 +82,22 @@ public class DressCountrollerTest {
 	@Test
 	@TestDescription("정상적으로 Dress를 생성하고 등록하는 Test")
 	public void createDress() throws Exception {
+		Dimage dimage = Dimage.builder()
+				.image_files("test.jpg")
+				.build();
+		
+		Dimage newDimage = dimageRepository.save(dimage);
+		
 		DressDto dressDto = DressDto.builder()
 				.brand("COVERNAT")
 				.name("커버낫 반팔")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.price(39000)
+				.price(39000L)
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
-				.files("Test1.jpg/Test2.jpg/")
+				.dimage(newDimage)
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -105,14 +124,18 @@ public class DressCountrollerTest {
 					),
 					requestFields (
 							fieldWithPath("brand").description("브랜드"),
+							fieldWithPath("name").description("이름"),
 							fieldWithPath("article_number").description("품번"),
 							fieldWithPath("dress_type").description("타입"),
 							fieldWithPath("sex").description("성별"),
 							fieldWithPath("price").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
-							fieldWithPath("name").description("이름"),
-							fieldWithPath("files").description("파일 이름")
+							fieldWithPath("dimage").description("이미지 Entity"),
+							fieldWithPath("dimage.id").description("이미지 id"),
+							fieldWithPath("dimage.image_files").description("대표 이미지"),
+							fieldWithPath("dimage.dpage_files").description("page 이미지")
+							
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
@@ -129,24 +152,9 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
-							fieldWithPath("files").type(JsonFieldType.STRING).description("파일 이름")
+							fieldWithPath("dimage").type(Dimage.class).description("이미지 Entity FK")
 					)
 				))
-			;
-	}
-	
-	@Test
-	@TestDescription("이미지 파일을 전송하는 Test")
-	public void uploadBasic_BadRequest_WrongFile() throws Exception {
-		
-		mockMvc.perform(multipart("/api/dress/uploadBasic")
-				.file(file1)
-				.file(file2)
-				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
-				)
-			.andDo(print())
-			.andExpect(status().isOk())
 			;
 	}
 	
@@ -230,7 +238,8 @@ public class DressCountrollerTest {
 					),
 					links(
 							linkWithRel("self").description("link to this dress"),
-							linkWithRel("profile").description("link to profile")
+							linkWithRel("profile").description("link to profile"),
+							linkWithRel("images-dress").description("link to image_files")
 					)
 				))
 		;
@@ -287,17 +296,23 @@ public class DressCountrollerTest {
 	}
 	
 	public Dress generateDress(int idx) {
+		Dimage dimage = Dimage.builder()
+				.image_files("test" + idx + ".jpg")
+				.build();
+		
+		Dimage newDimage = dimageRepository.save(dimage);
+		
 		Dress dress = Dress.builder()
 				.brand("test listsDress" + idx)
 				.name("커버낫 반팔")
 				.article_number("test listsDress")
 				.sex(Sex.Public)
-				.price(39000)
+				.price(39000L)
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("test listsDress")
 				.created_date(LocalDate.now())
-				.files("test"+idx+".jpg")
+				.dimage(newDimage)
 				.build();
 		
 		return dressRepository.save(dress);

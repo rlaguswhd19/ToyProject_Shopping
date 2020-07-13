@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import shopping.back.hj.common.ErrorsModel;
-import shopping.back.hj.common.ImageValidator;
 
 @RestController
 @CrossOrigin(origins = { "*" })
@@ -33,25 +30,6 @@ public class DressController {
 
 	@Autowired
 	private DressValidator dressValidator;
-
-	@Autowired
-	private ImageValidator imageValidator;
-	
-	@PostMapping("/uploadBasic")
-	public ResponseEntity<?> uploadBasic(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
-		
-		// file이 있으면 없을경우 page 등록을 못하게 하자.
-		if (files.length != 0) {
-			boolean isOk = true;
-			isOk = imageValidator.validate(files);
-
-			if (!isOk) {
-				return ResponseEntity.badRequest().build();
-			}
-		}
-		
-		return dressService.uploadBasic(files);
-	}
 	
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) throws IllegalStateException, IOException {

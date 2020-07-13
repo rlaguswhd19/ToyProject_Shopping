@@ -45,7 +45,7 @@ public class DressService {
 		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
 		dressModel.link_Lists(dressModel);
 		dressModel.link_Update(dressModel);
-		dressModel.link_imagePath(dressModel, newDress.getCreated_date());
+		dressModel.link_imagePath(dressModel, newDress.getDimage());
 		
 		return ResponseEntity.created(createUri).body(dressModel);
 	}
@@ -53,11 +53,17 @@ public class DressService {
 	public ResponseEntity<?> listsDress(Pageable pageable, PagedResourcesAssembler<Dress> assembler) {
 		
 		Page<Dress> page = dressRepository.findAll(pageable);
-		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, dress -> new DressModel(dress));
+		PagedModel<EntityModel<Dress>> pageModel = assembler.toModel(page, dress -> pageDress(dress));
 		
 		pageModel.add(new Link("/docs/dress.html#resources-lists-dress").withRel("profile"));
 		
 		return ResponseEntity.ok(pageModel);
+	}
+	
+	private DressModel pageDress(Dress dress) {
+		DressModel dressModel = new DressModel(dress);
+		dressModel.link_imagePath(dressModel, dress.getDimage());
+		return dressModel;
 	}
 
 	public ResponseEntity<?> getDress(Long id) {
@@ -68,48 +74,11 @@ public class DressService {
 		}
 		
 		Dress dress = optionalDress.get();
+		
 		DressModel dressModel = new DressModel(dress);
 		dressModel.add(new Link("/docs/dress.html/resources-get-dress").withRel("profile"));
+		dressModel.link_imagePath(dressModel, dress.getDimage());
+		
 		return ResponseEntity.ok(dressModel);
-	}
-
-	public ResponseEntity<?> uploadBasic(MultipartFile[] files) throws IllegalStateException, IOException {
-		return ResponseEntity.ok(writeFile(files));
-	}
-	
-	private String writeFile(MultipartFile[] files) throws IllegalStateException, IOException {
-		// dress_images path
-		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\images/basic";
-		
-		File dir = new File(basePath);
-
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-		
-		basePath += "/" +LocalDate.now();
-		
-		File timeDir = new File(basePath);
-		
-		if (!timeDir.exists()) {
-			timeDir.mkdir();
-		}
-		
-		StringBuilder image_paths = new StringBuilder();
-		
-		for (MultipartFile file : files) {
-			// 파일 path
-			image_paths.append(file.getOriginalFilename()+"/");
-			
-			String fileName = basePath + "/" + file.getOriginalFilename();
-			
-			// 빈파일 생성
-			File saveImage = new File(fileName);
-
-			// 파일 복사 multipartfile -> file
-			file.transferTo(saveImage);
-		}
-		
-		return image_paths.toString();
 	}
 }

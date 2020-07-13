@@ -1,4 +1,4 @@
-package shopping.back.hj.common;
+package shopping.back.hj.dimages;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

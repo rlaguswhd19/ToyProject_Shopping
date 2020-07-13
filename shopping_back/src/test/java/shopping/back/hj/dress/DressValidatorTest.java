@@ -73,11 +73,10 @@ public class DressValidatorTest {
 				.name("Test")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Man)
-				.price(0)
+				.price(0L)
 				.dress_type(DressType.Top)
 				.discount(100)
 				.explanation("Test")
-				.files("Testfiles.jpg")
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -91,22 +90,6 @@ public class DressValidatorTest {
 			.andExpect(jsonPath("content[0].defaultMessage").exists())
 			.andExpect(jsonPath("content[0].code").exists())
 			.andExpect(jsonPath("_links.index").exists())
-			;
-	}
-	
-	@Test
-	@TestDescription("이미지 파일이 아닐경우 Test, ImageValidator 수행")
-	public void uploadBasic_BadRequest_WrongFile() throws Exception {
-		
-		mockMvc.perform(multipart("/api/dress/uploadBasic")
-				.file(file1)
-				.file(file2)
-				.file(wrongFile)
-				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
-				)
-			.andDo(print())
-			.andExpect(status().isBadRequest())
 			;
 	}
 }

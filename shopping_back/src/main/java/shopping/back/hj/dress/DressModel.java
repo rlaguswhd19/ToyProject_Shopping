@@ -1,11 +1,11 @@
 package shopping.back.hj.dress;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+
+import shopping.back.hj.dimages.Dimage;
 
 public class DressModel extends EntityModel<Dress> {
 
@@ -13,7 +13,6 @@ public class DressModel extends EntityModel<Dress> {
 	public DressModel(Dress content, Link... links) {
 		super(content, links);
 		add(linkTo(DressController.class).slash(content.getId()).withSelfRel());
-		// TODO Auto-generated constructor stub
 	}
 
 	public DressModel link_Update(DressModel dressModel) {
@@ -26,9 +25,9 @@ public class DressModel extends EntityModel<Dress> {
 		dressModel.add(linkTo(DressController.class).withRel("lists-dress"));
 		return dressModel;
 	}
-	
-	public DressModel link_imagePath(DressModel dressModel, LocalDate created_date) {
-		dressModel.add(new Link("/images/basic/"+created_date).withRel("images-dress"));
+
+	public DressModel link_imagePath(DressModel dressModel, Dimage dimage) {
+		dressModel.add(new Link("/images/basic/" + dimage.getId()).withRel("images-dress"));
 		return dressModel;
 	}
 

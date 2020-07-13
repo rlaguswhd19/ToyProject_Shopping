@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.dimages.Dimage;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -44,7 +45,7 @@ public class DressDto {
 		// 판매 가격
 		@Min(0)
 		@NotNull
-		private Integer price;
+		private Long price;
 		
 		// 할인 가격
 		@Min(0) @Max(100)
@@ -55,6 +56,6 @@ public class DressDto {
 		@NotEmpty
 		private String explanation;
 		
-		@NotEmpty
-		private String files;
+		@NotNull
+		private Dimage dimage;
 }
