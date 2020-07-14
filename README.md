@@ -1,4 +1,4 @@
-## 쇼핑몰 CloneCoding
+## 쇼핑몰
 
 1. #### Stack
 
