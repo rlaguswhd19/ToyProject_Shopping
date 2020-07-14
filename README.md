@@ -32,18 +32,18 @@
 
 * Dress (옷)
 
-| 이름           | 속성             | 의미        |
-| -------------- | ---------------- | ----------- |
-| id             | Long             | id          |
-| brand          | String           | 브랜드      |
-| article_number | String           | 품번        |
-| dress_type     | DressType (enum) | 옷종류      |
-| sex            | Sex (enum)       | 성별        |
-| price          | Integer          | 판매가격    |
-| discount       | Integer          | 할인율      |
-| explanation    | String           | 설명        |
-| image_path     | String           | 이미지 경로 |
-| craeted_date   | LocalDateTime    | 생성 날짜   |
+| 이름           | 속성             | 의미      |
+| -------------- | ---------------- | --------- |
+| id             | Long             | id        |
+| brand          | String           | 브랜드    |
+| article_number | String           | 품번      |
+| dress_type     | DressType (enum) | 옷종류    |
+| sex            | Sex (enum)       | 성별      |
+| price          | Integer          | 판매가격  |
+| discount       | Integer          | 할인율    |
+| explanation    | String           | 설명      |
+| dimage         | DImage (FK)      | 이미지    |
+| craeted_date   | LocalDateTime    | 생성 날짜 |
 
 
 
@@ -71,6 +71,16 @@
 | views     | Integer                    | 조회수              |
 | page_info | HashMap(String, ColorInfo) | 색상당 사이즈, 수량 |
 | Account   | Account (FK)               | 판매자 계정         |
+
+
+
+* Dimage(옷이미지)
+
+| 이름        | 속성   | 의미              |
+| ----------- | ------ | ----------------- |
+| id          | Long   | id                |
+| image_files | String | Dress 대표 파일들 |
+| dpage_files | String | Dpage 대표 파일들 |
 
 
 
