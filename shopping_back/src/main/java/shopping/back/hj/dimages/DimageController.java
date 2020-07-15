@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/api/images", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
-public class DiamgeController {
+public class DimageController {
 	
 	@Autowired
 	private ImageValidator imageValidator;

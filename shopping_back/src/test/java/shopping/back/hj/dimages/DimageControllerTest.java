@@ -43,7 +43,7 @@ public class DimageControllerTest {
 	
 	@Test
 	@TestDescription("이미지 파일을 전송하는 Test")
-	public void uploadBasic_BadRequest_WrongFile() throws Exception {
+	public void uploadBasic() throws Exception {
 		
 		mockMvc.perform(multipart("/api/images/basic")
 				.file(file1)
@@ -51,8 +51,24 @@ public class DimageControllerTest {
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
+		.andDo(print())
+		.andExpect(status().isCreated())
+		;
+	}
+	
+	@Test
+	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
+	public void uploadBasic_BadRequest_WrongFile() throws Exception {
+		
+		mockMvc.perform(multipart("/api/images/basic")
+				.file(file1)
+				.file(wrongFile)
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
 			.andDo(print())
-			.andExpect(status().isOk())
+			.andExpect(status().isBadRequest())
 			;
 	}
+	
 }
