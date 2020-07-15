@@ -45,7 +45,9 @@ public class DimageService {
 
 	private String writeFile(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
 		// dress_images path
-		String basePath = "./src/main/resources/static/images/basic";
+		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\images\\basic";
+		
+//		String basePath = "./src/main/resources/static/images/basic";
 		
 		File dir = new File(basePath);
 		

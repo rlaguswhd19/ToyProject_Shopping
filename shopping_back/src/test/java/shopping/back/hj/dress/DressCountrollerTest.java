@@ -158,20 +158,20 @@ public class DressCountrollerTest {
 			;
 	}
 	
-//	@Test
-//	@TestDescription("DressDto에 없는 값들을 보내는 Test = Fail")
-//	public void createDress_BadRequest_UnknownProperty() throws Exception {
-//		Dress dress = generateDress(100);
-//		
-//		mockMvc.perform(post("/api/dress")
-//				.content(objectMapper.writeValueAsString(dress))
-//				.contentType(MediaType.MULTIPART_FORM_DATA)
-//				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
-//				)
-//			.andDo(print())
-//			.andExpect(status().isBadRequest())
-//			;
-//	}
+	@Test
+	@TestDescription("DressDto에 없는 값들을 보내는 Test")
+	public void createDress_BadRequest_UnknownProperty() throws Exception {
+		Dress dress = generateDress(100);
+		
+		mockMvc.perform(post("/api/dress")
+				.content(objectMapper.writeValueAsString(dress))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			;
+	}
 	
 	@Test
 	@TestDescription("30개의 Dress를 5개씩 2번째 페이지 조회하기")

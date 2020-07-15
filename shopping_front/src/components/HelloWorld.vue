@@ -7,6 +7,12 @@
 			v-model="dressDto.brand"
 		></v-text-field>
 		<v-text-field
+			label="Name"
+			placeholder="이름을 입력하세요."
+			outlined
+			v-model="dressDto.name"
+		></v-text-field>
+		<v-text-field
 			label="article_number"
 			placeholder="품번을 입력하세요."
 			outlined
@@ -51,7 +57,7 @@
 			v-model="files"
 			accept="image/*"
 		></v-file-input>
-		<v-btn @click="post_dressDto_files" style="float: right;">등록</v-btn>
+		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
 	</v-container>
 </template>
 
@@ -64,39 +70,48 @@ export default {
 	data() {
 		return {
 			dressDto: {
-				brand: '현지',
-				article_number: '현지',
-				dress_type: 'top',
+				brand: 'THISISNEVERTHAT',
+				name: ' DSN-Logo Tee Black',
+				article_number: 'TN20S0137',
+				dress_type: 'Top',
 				sex: 'Man',
-				price: '123000',
-				discount: '10',
-				explanation: '현지',
+				price: '39000',
+				discount: '30',
+				explanation: 'DSN-Logo Tee Black',
+				dimage: '',
 			},
 			files: '',
 		}
 	},
 	methods: {
-		post_dressDto_files() {
+		post_dress() {
 			let formData = new FormData()
 
 			for (let i = 0; i < this.files.length; i++) {
 				formData.append('files', this.files[i])
 			}
 
-			formData.append('brand', this.dressDto.brand)
-			formData.append('article_number', this.dressDto.article_number)
-			formData.append('dress_type', this.dressDto.dress_type)
-			formData.append('sex', this.dressDto.sex)
-			formData.append('price', this.dressDto.price)
-			formData.append('discount', this.dressDto.discount)
-			formData.append('explanation', this.dressDto.explanation)
-
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dress',
+				url: 'http://localhost:8080/api/dimages/basic',
 				data: formData,
 				headers: {
 					'Content-Type': 'multipart/form-data',
+				},
+			}).then(response => {
+				this.dressDto.dimage = response.data
+				console.log(this.dressDto)
+				this.post_dressDto()
+			})
+		},
+
+		post_dressDto() {
+			axios({
+				method: 'post',
+				url: 'http://localhost:8080/api/dress',
+				data: this.dressDto,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
 			}).then(response => {
