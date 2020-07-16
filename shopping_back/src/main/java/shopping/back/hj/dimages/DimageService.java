@@ -8,7 +8,9 @@ import java.net.URI;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,21 @@ public class DimageService {
 
 	@Autowired
 	DimageRepository dimageRepository;
-
+	
+	@Value("${static.resource.location}")
+	private String staticResouceLocation;
+	
 	public ResponseEntity<?> uploadBasic(MultipartFile[] files) throws IllegalStateException, IOException {
 		// 이미지를 생성한다.
 		Dimage dimage = Dimage.builder().build();
 
 		Dimage newDimage = dimageRepository.save(dimage);
-		
+
 		// 파일을 쓰면서 String을 받아서 이미지 도메인에 저장
-		String filesNames = writeFile(files, newDimage.getId());
-		
+		String filesNames = writeFiles(files, newDimage.getId());
+
 		newDimage.setImage_files(filesNames);
-		
+
 		// 갱신
 		dimageRepository.save(newDimage);
 
@@ -43,20 +48,22 @@ public class DimageService {
 		return ResponseEntity.created(createUri).body(newDimage);
 	}
 
-	private String writeFile(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
-		// dress_images path
-		String basePath = "C:\\Users\\rlagu\\OneDrive\\바탕 화면\\개발\\hjwork\\ToyProject_Shopping\\shopping_back\\src\\main\\resources\\static\\images\\basic";
-		
-//		String basePath = "./src/main/resources/static/images/basic";
+	private void deleteFiles(Dimage dimage) {
+		String basePath = "C:/images/basic";
+
+//		dimageRepository.delete(dimage);
+	}
+
+	private String writeFiles(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
+		String basePath = "C:/images/basic";
 		
 		File dir = new File(basePath);
-		
+
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
 
 		basePath += "/" + id;
-
 		File timeDir = new File(basePath);
 
 		// id로 된것이 없으면 파일을 만든다.

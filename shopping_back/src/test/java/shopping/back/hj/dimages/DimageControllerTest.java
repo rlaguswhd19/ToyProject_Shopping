@@ -32,9 +32,6 @@ public class DimageControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-	private DimageRepository dimageRepository;
-	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test2.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -45,7 +42,7 @@ public class DimageControllerTest {
 	@TestDescription("이미지 파일을 전송하는 Test")
 	public void uploadBasic() throws Exception {
 		
-		mockMvc.perform(multipart("/api/images/basic")
+		mockMvc.perform(multipart("/api/dimages/basic")
 				.file(file1)
 				.file(file2)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
@@ -60,7 +57,7 @@ public class DimageControllerTest {
 	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
 	public void uploadBasic_BadRequest_WrongFile() throws Exception {
 		
-		mockMvc.perform(multipart("/api/images/basic")
+		mockMvc.perform(multipart("/api/dimages/basic")
 				.file(file1)
 				.file(wrongFile)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
