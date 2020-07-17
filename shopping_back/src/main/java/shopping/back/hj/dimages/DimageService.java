@@ -5,18 +5,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import shopping.back.hj.dress.DressController;
+import shopping.back.hj.config.StaticResourcesProperties;
 
 @Service
 public class DimageService {
@@ -24,8 +20,8 @@ public class DimageService {
 	@Autowired
 	DimageRepository dimageRepository;
 	
-	@Value("${static.resource.location}")
-	private String staticResouceLocation;
+	@Autowired
+	private StaticResourcesProperties staticResourcesProperties;
 	
 	public ResponseEntity<?> uploadBasic(MultipartFile[] files) throws IllegalStateException, IOException {
 		// 이미지를 생성한다.
@@ -49,13 +45,17 @@ public class DimageService {
 	}
 
 	private void deleteFiles(Dimage dimage) {
-		String basePath = "C:/images/basic";
+		String basePath = staticResourcesProperties.getSave_location()+"/"+dimage.getId();
+		
+		File dir = new File(basePath);
+		
+		System.out.println(dir.exists());
 
 //		dimageRepository.delete(dimage);
 	}
 
 	private String writeFiles(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
-		String basePath = "C:/images/basic";
+		String basePath = staticResourcesProperties.getSave_location();
 		
 		File dir = new File(basePath);
 

@@ -1,5 +1,6 @@
-package shopping.back.hj;
+package shopping.back.hj.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -8,12 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
-	@Value("${static.resource.location}")
-	private String staticResourceLocation;
+	@Autowired
+	private StaticResourcesProperties staticResourcesProperties;
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**").addResourceLocations(staticResourceLocation);
+		registry.addResourceHandler("/images/**").addResourceLocations(staticResourcesProperties.getConfig_location());
 	}
-
 }

@@ -27,7 +27,7 @@ public class DressModel extends EntityModel<Dress> {
 	}
 
 	public DressModel link_imagePath(DressModel dressModel, Dimage dimage) {
-		dressModel.add(new Link("/images/basic/" + dimage.getId()).withRel("images-dress"));
+		dressModel.add(new Link("/assets/images/basic/" + dimage.getId()).withRel("images-dress"));
 		return dressModel;
 	}
 

@@ -32,6 +32,9 @@ public class DimageControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@Autowired
+	private DimageService dimagesService;
+	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test2.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
