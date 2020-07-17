@@ -1,6 +1,7 @@
 package shopping.back.hj.dimages;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
@@ -25,8 +26,11 @@ public class DimageController {
 	@Autowired
 	private DimageService dimageService;
 	
+	@Autowired
+	private DimageRepository dimageRepository;
+	
 	@PostMapping("/basic")
-	public ResponseEntity<?> createBasic(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
+	public ResponseEntity<?> createDimage(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
 		
 		// file이 있으면 없을경우 page 등록을 못하게 하자.
 		if (files.length != 0) {
@@ -38,13 +42,21 @@ public class DimageController {
 			}
 		}
 		
-		return dimageService.createBasic(files);
+		return dimageService.createDimage(files);
 	}
 	
 	@DeleteMapping("/basic/{id}")
-	public ResponseEntity<?> deleteBasic(@PathVariable Long id) {
-		System.out.println(id);
-		return null;
+	public ResponseEntity<?> deleteDimage(@PathVariable Long id) {
+		
+		Optional<Dimage> optionalDimage = dimageRepository.findById(id);
+		
+		if(optionalDimage.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Dimage dimage = optionalDimage.get();
+		
+		return dimageService.deleteDimage(dimage);
 	}
 	
 }

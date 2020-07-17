@@ -19,11 +19,11 @@ public class DimageService {
 
 	@Autowired
 	DimageRepository dimageRepository;
-	
+
 	@Autowired
 	private StaticResourcesProperties staticResourcesProperties;
-	
-	public ResponseEntity<?> createBasic(MultipartFile[] files) throws IllegalStateException, IOException {
+
+	public ResponseEntity<?> createDimage(MultipartFile[] files) throws IllegalStateException, IOException {
 		// 이미지를 생성한다.
 		Dimage dimage = Dimage.builder().build();
 
@@ -44,19 +44,9 @@ public class DimageService {
 		return ResponseEntity.created(createUri).body(newDimage);
 	}
 
-	private void deleteFiles(Dimage dimage) {
-		String basePath = staticResourcesProperties.getSave_location()+"/"+dimage.getId();
-		
-		File dir = new File(basePath);
-		
-		System.out.println(dir.exists());
-
-//		dimageRepository.delete(dimage);
-	}
-
 	private String writeFiles(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
 		String basePath = staticResourcesProperties.getSave_location();
-		
+
 		File dir = new File(basePath);
 
 		if (!dir.exists()) {
@@ -87,6 +77,31 @@ public class DimageService {
 		}
 
 		return files_name.toString();
+	}
+
+	public ResponseEntity<?> deleteDimage(Dimage dimage) {
+		String basePath = staticResourcesProperties.getSave_location() + "/" + dimage.getId();
+
+		File dir = new File(basePath);
+
+		// 없으면 컨텐츠가 없다고 보냄..
+		if(!dir.exists()) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		// 폴더의 파일 리스트 가져오기
+		File[] file_lists = dir.listFiles();
+		
+		// 삭제
+		for (File file : file_lists) {
+			file.delete();
+		}
+		
+		// 폴더, db 삭제
+		dir.delete();
+		dimageRepository.delete(dimage);
+		
+		return ResponseEntity.ok().build();
 	}
 
 }

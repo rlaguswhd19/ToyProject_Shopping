@@ -81,9 +81,8 @@ public class DimageControllerTest {
 		files[0] = file1;
 		files[1] = file2;
 		
-		ResponseEntity<?> returnData = dimagesService.createBasic(files);
+		ResponseEntity<?> returnData = dimagesService.createDimage(files);
 		Dimage dimage = (Dimage) returnData.getBody();
-		
 		
 		mockMvc.perform(delete("/api/dimages/basic/{id}", dimage.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
