@@ -23,4 +23,10 @@ public class Dimage {
 	private String image_files;
 	
 	private String dpage_files;
+
+	@Override
+	public String toString() {
+		return "Dimage [id=" + id + ", image_files=" + image_files + ", dpage_files=" + dpage_files + "]";
+	}
+	
 }

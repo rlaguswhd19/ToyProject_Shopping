@@ -1,5 +1,6 @@
 package shopping.back.hj.dimages;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,10 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
@@ -43,7 +46,7 @@ public class DimageControllerTest {
 	
 	@Test
 	@TestDescription("이미지 파일을 전송하는 Test")
-	public void uploadBasic() throws Exception {
+	public void create_dimage() throws Exception {
 		
 		mockMvc.perform(multipart("/api/dimages/basic")
 				.file(file1)
@@ -58,7 +61,7 @@ public class DimageControllerTest {
 	
 	@Test
 	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
-	public void uploadBasic_BadRequest_WrongFile() throws Exception {
+	public void create_dimage_BadRequest_WrongFile() throws Exception {
 		
 		mockMvc.perform(multipart("/api/dimages/basic")
 				.file(file1)
@@ -68,6 +71,26 @@ public class DimageControllerTest {
 				)
 			.andDo(print())
 			.andExpect(status().isBadRequest())
+			;
+	}
+	
+	@Test
+	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
+	public void delete_dimage() throws Exception {
+		MultipartFile[] files = new MockMultipartFile[2];
+		files[0] = file1;
+		files[1] = file2;
+		
+		ResponseEntity<?> returnData = dimagesService.createBasic(files);
+		Dimage dimage = (Dimage) returnData.getBody();
+		
+		
+		mockMvc.perform(delete("/api/dimages/basic/{id}", dimage.getId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isOk())
 			;
 	}
 	

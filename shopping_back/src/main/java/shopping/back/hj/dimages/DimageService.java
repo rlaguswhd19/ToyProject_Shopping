@@ -23,7 +23,7 @@ public class DimageService {
 	@Autowired
 	private StaticResourcesProperties staticResourcesProperties;
 	
-	public ResponseEntity<?> uploadBasic(MultipartFile[] files) throws IllegalStateException, IOException {
+	public ResponseEntity<?> createBasic(MultipartFile[] files) throws IllegalStateException, IOException {
 		// 이미지를 생성한다.
 		Dimage dimage = Dimage.builder().build();
 
@@ -88,4 +88,5 @@ public class DimageService {
 
 		return files_name.toString();
 	}
+
 }

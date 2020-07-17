@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -24,7 +26,7 @@ public class DimageController {
 	private DimageService dimageService;
 	
 	@PostMapping("/basic")
-	public ResponseEntity<?> uploadBasic(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
+	public ResponseEntity<?> createBasic(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
 		
 		// file이 있으면 없을경우 page 등록을 못하게 하자.
 		if (files.length != 0) {
@@ -36,7 +38,13 @@ public class DimageController {
 			}
 		}
 		
-		return dimageService.uploadBasic(files);
+		return dimageService.createBasic(files);
+	}
+	
+	@DeleteMapping("/basic/{id}")
+	public ResponseEntity<?> deleteBasic(@PathVariable Long id) {
+		System.out.println(id);
+		return null;
 	}
 	
 }
