@@ -57,5 +57,5 @@ public class DressDto {
 		private String explanation;
 		
 		@NotNull
-		private Dimage dimage;
+		private Long dimage_id;
 }

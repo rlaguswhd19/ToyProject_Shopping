@@ -21,6 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dimages.DimageRepository;
+import shopping.back.hj.dimages.DimageService;
+
 @Service
 public class DressService {
 
@@ -29,11 +33,18 @@ public class DressService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
+	@Autowired
+	private DimageService dimageService;
+	
 	public ResponseEntity createDress(DressDto dressDto)
 			throws IllegalStateException, IOException {
-
+		
 		Dress dress = modelMapper.map(dressDto, Dress.class);
+		
+		Dimage dimage = dimageService.findById(dressDto.getDimage_id());
+		dress.setDimage(dimage);
+		
 		Dress newDress = dressRepository.save(dress);
 		
 		DressModel dressModel = new DressModel(newDress);

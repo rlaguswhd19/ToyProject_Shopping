@@ -78,7 +78,7 @@ export default {
 				price: '39000',
 				discount: '30',
 				explanation: 'DSN-Logo Tee Black',
-				dimage: '',
+				dimage_id: '',
 			},
 			files: '',
 		}
@@ -99,7 +99,7 @@ export default {
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
-				this.dressDto.dimage = response.data
+				this.dressDto.dimage_id = response.data.id
 				console.log(this.dressDto)
 				this.post_dressDto()
 			})

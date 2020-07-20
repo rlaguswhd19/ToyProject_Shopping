@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -35,13 +36,26 @@ public class DimageService {
 		newDimage.setImage_files(filesNames);
 
 		// 갱신
-		dimageRepository.save(newDimage);
+		dimageRepository.flush();
 
 		// Location 생성
 		WebMvcLinkBuilder selfLinkBuilder = linkTo(DimageController.class).slash(newDimage.getId());
 		URI createUri = selfLinkBuilder.toUri();
 
 		return ResponseEntity.created(createUri).body(newDimage);
+	}
+	
+	public Dimage findById(Long id) {
+		
+		Optional<Dimage> optionalDimage = dimageRepository.findById(id);
+		
+		if(optionalDimage.isEmpty()) {
+			return null;
+		}
+		
+		Dimage dimage = optionalDimage.get();
+		
+		return dimage;
 	}
 
 	private String writeFiles(MultipartFile[] files, Long id) throws IllegalStateException, IOException {
