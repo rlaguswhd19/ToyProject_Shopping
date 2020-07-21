@@ -2,13 +2,9 @@ package shopping.back.hj.dress;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,6 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import shopping.back.hj.dimages.Dimage;
 import shopping.back.hj.dimages.DimageRepository;
@@ -37,13 +32,17 @@ public class DressService {
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private DimageService dimageService;
+	private DimageRepository dimageRepository;
 
 	public ResponseEntity createDress(DressDto dressDto) throws IllegalStateException, IOException {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 
-		Dimage dimage = dimageService.findById(dressDto.getDimage_id());
+		Optional<Dimage> optionalDimage = dimageRepository.findById(dressDto.getDimage_id());
+		if(optionalDimage.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		Dimage dimage = optionalDimage.get();
 		dress.setDimage(dimage);
 
 		Dress newDress = dressRepository.save(dress);
@@ -96,12 +95,22 @@ public class DressService {
 
 	public ResponseEntity<?> updateDress(Long id, DressDto dressDto) {
 		Optional<Dress> optionalDress = dressRepository.findById(id);
+		if(optionalDress.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
 		Dress dress = optionalDress.get();
-		
 		modelMapper.map(dressDto, dress);
 		
-		Dress updateDress = dressRepository.save(dress);
-		DressModel dressModel = new DressModel(updateDress);
+		Optional<Dimage> optionalDimage = dimageRepository.findById(dressDto.getDimage_id());
+		if(optionalDimage.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		Dimage dimage = optionalDimage.get();
+		dress.setDimage(dimage);
+		
+		dressRepository.flush();
+		
+		DressModel dressModel = new DressModel(dress);
 		
 		//TODO link 추가
 		

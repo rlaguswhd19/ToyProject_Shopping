@@ -69,12 +69,6 @@ public class DressController {
 			return badRequest(errors);
 		}
 		
-		dressValidator.idCheck(id, errors);
-		
-		if(errors.hasErrors()) {
-			return badRequest(errors);
-		}
-		
 		return dressService.updateDress(id, dressDto);
 	}
 	

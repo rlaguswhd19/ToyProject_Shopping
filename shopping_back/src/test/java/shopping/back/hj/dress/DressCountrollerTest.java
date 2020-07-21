@@ -264,7 +264,7 @@ public class DressCountrollerTest {
 		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		
-		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+		mockMvc.perform(RestDocumentationRequestBuilders.put("/api/dress/{id}", dress.getId())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -272,6 +272,28 @@ public class DressCountrollerTest {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("name").value(dressName))
+//			.andDo(document(identifier, snippets))
+		;
+	}
+	
+	@Test
+	@TestDescription("존재하지 않는 Dress 수정하기")
+	public void updateDress_BadRequest_NotFoundDress() throws Exception {
+		Dress dress = generateDress(100);
+		Long dimage_id = dress.getDimage().getId();
+		String dressName = "update dressName";
+		
+		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setDimage_id(dimage_id);
+		dressDto.setName(dressName);
+		
+		mockMvc.perform(put("/api/dress/{id}", 12341141L)
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isNotFound())
 		;
 	}
 	
@@ -291,7 +313,7 @@ public class DressCountrollerTest {
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				)
 			.andDo(print())
-			.andExpect(status().isBadRequest())
+			.andExpect(status().isNotFound())
 		;
 	}
 	

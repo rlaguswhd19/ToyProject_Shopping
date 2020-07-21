@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class DimageController {
 	
 	@Autowired
-	private ImageValidator imageValidator;
+	private DimageValidator imageValidator;
 	
 	@Autowired
 	private DimageService dimageService;
