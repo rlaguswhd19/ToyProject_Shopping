@@ -276,14 +276,59 @@ public class DressCountrollerTest {
 	}
 	
 	@Test
-	@TestDescription("입력값이 잘못된 경우 BadRequest 응답하기")
-	public void updateDress_BadRequest_WrongInput() throws Exception {
+	@TestDescription("Dimage_id가 잘못된 경우 BadRequest 응답하기")
+	public void updateDress_BadRequest_WrongDimage_id() throws Exception {
 		Dress dress = generateDress(100);
 		String dressName = "update dressName";
 		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(2031455L);
+		dressDto.setDimage_id(2031423L);
 		dressDto.setName(dressName);
+		
+		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+		;
+	}
+	
+	@Test
+	@TestDescription("입력값이 잘못된 경우 BadRequest 응답하기 Valid 수행")
+	public void updateDress_BadRequest_WrongInput_Valid() throws Exception {
+		Dress dress = generateDress(100);
+		Long dimage_id = dress.getDimage().getId();
+		String dressName = "update dressName";
+		
+		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setDimage_id(dimage_id);
+		dressDto.setName(dressName);
+		dressDto.setDiscount(121);
+		
+		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+		;
+	}
+	
+	@Test
+	@TestDescription("입력값이 잘못된 경우 BadRequest 응답하기 DressValidator 수행")
+	public void updateDress_BadRequest_WrongInput_Validator() throws Exception {
+		Dress dress = generateDress(100);
+		Long dimage_id = dress.getDimage().getId();
+		String dressName = "update dressName";
+		
+		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setDimage_id(dimage_id);
+		dressDto.setName(dressName);
+		dressDto.setPrice(0L);
+		dressDto.setDiscount(100);
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
 				.content(objectMapper.writeValueAsString(dressDto))

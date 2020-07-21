@@ -30,7 +30,7 @@ public class DressValidator {
 			errors.reject("wrongPrice", "Price is Wrong");
 		}
 
-		if (dressDto.getDiscount() >= 100) { // 100% 할인일 경우
+		if (dressDto.getDiscount() == 100) { // 100% 할인일 경우
 			errors.rejectValue("discount", "discount = 100 is wrongValue", "할인율은 100%일 수 없습니다.");
 			errors.reject("wrongDiscount", "Discount is Wrong");
 		}
