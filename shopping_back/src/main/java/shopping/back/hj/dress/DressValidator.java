@@ -18,6 +18,9 @@ public class DressValidator {
 	@Autowired
 	DimageRepository dimageRepository;
 	
+	@Autowired
+	DressRepository dressRepository;
+	
 	public void validate(DressDto dressDto, Errors errors) {
 
 		if (dressDto.getPrice() == 0) { // 파는 가격이 0일 경우
@@ -47,6 +50,14 @@ public class DressValidator {
 		if(optionalDimage.isEmpty()) {
 			errors.rejectValue("dimage_id", "dimage_id = "+dimage_id+" is wrongValue", "Dimage를 찾을 수 없습니다.");
 			errors.reject("wrongDimage_id", "Dimage_id is Wrong");
+		}
+	}
+
+	public void idCheck(Long id, Errors errors) {
+		Optional<Dress> optionalDress = dressRepository.findById(id);
+		
+		if(optionalDress.isEmpty()) {
+			errors.reject("id", "Dress_id is Wrong notFound Dress");
 		}
 	}
 }

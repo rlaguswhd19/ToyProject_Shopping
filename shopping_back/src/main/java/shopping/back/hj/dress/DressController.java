@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,26 @@ public class DressController {
 		return dressService.getDress(id);
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateDress(@PathVariable Long id, @RequestBody @Valid DressDto dressDto, Errors errors) {
+		if(errors.hasErrors()) {
+			return badRequest(errors);
+		}
+		
+		dressValidator.validate(dressDto, errors);
+		
+		if(errors.hasErrors()) {
+			return badRequest(errors);
+		}
+		
+		dressValidator.idCheck(id, errors);
+		
+		if(errors.hasErrors()) {
+			return badRequest(errors);
+		}
+		
+		return dressService.updateDress(id, dressDto);
+	}
 	
 	private ResponseEntity<?> badRequest(Errors errors) {
 		return ResponseEntity.badRequest().body(new ErrorsModel(errors));

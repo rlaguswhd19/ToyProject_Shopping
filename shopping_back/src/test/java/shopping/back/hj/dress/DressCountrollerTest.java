@@ -97,7 +97,7 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
-				.dimage(newDimage)
+				.dimage_id(newDimage.getId())
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -131,11 +131,7 @@ public class DressCountrollerTest {
 							fieldWithPath("price").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
-							fieldWithPath("dimage").description("이미지 Entity"),
-							fieldWithPath("dimage.id").description("이미지 id"),
-							fieldWithPath("dimage.image_files").description("대표 이미지"),
-							fieldWithPath("dimage.dpage_files").description("page 이미지")
-							
+							fieldWithPath("dimage_id").description("이미지 id")
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
@@ -152,7 +148,7 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
-							fieldWithPath("dimage").type(Dimage.class).description("이미지 Entity FK")
+							fieldWithPath("dimage").type(JsonFieldType.OBJECT).description("이미지 Entity FK")
 					)
 				))
 			;
@@ -261,11 +257,14 @@ public class DressCountrollerTest {
 	@TestDescription("Dress를 정상적으로 수정하기")
 	public void updateDress() throws Exception {
 		Dress dress = generateDress(100);
+		Long dimage_id = dress.getDimage().getId();
 		String dressName = "update dressName";
+		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		
-		mockMvc.perform(put("/api/dress")
+		mockMvc.perform(put("/api/dress/{id}", dress.getId())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -281,17 +280,18 @@ public class DressCountrollerTest {
 	public void updateDress_BadRequest_WrongInput() throws Exception {
 		Dress dress = generateDress(100);
 		String dressName = "update dressName";
+		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
+		dressDto.setDimage_id(2031455L);
 		dressDto.setName(dressName);
 		
-		mockMvc.perform(put("/api/dress")
+		mockMvc.perform(put("/api/dress/{id}", dress.getId())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				)
 			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("name").value(dressName))
+			.andExpect(status().isBadRequest())
 		;
 	}
 	
