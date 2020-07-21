@@ -1,14 +1,23 @@
 package shopping.back.hj.dress;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dimages.DimageRepository;
+import shopping.back.hj.dimages.DimageService;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @Component
 public class DressValidator {
 
+	@Autowired
+	DimageRepository dimageRepository;
+	
 	public void validate(DressDto dressDto, Errors errors) {
 
 		if (dressDto.getPrice() == 0) { // 파는 가격이 0일 경우
@@ -31,5 +40,13 @@ public class DressValidator {
 		}
 		
 		DressType dressType = dressDto.getDress_type();
+		
+		
+		Long dimage_id = dressDto.getDimage_id();
+		Optional<Dimage> optionalDimage = dimageRepository.findById(dimage_id);
+		if(optionalDimage.isEmpty()) {
+			errors.rejectValue("dimage_id", "dimage_id = "+dimage_id+" is wrongValue", "Dimage를 찾을 수 없습니다.");
+			errors.reject("wrongDimage_id", "Dimage_id is Wrong");
+		}
 	}
 }
