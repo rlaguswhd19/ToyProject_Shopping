@@ -29,7 +29,7 @@ public class DimageController {
 	@Autowired
 	private DimageRepository dimageRepository;
 	
-	@PostMapping("/basic")
+	@PostMapping
 	public ResponseEntity<?> createDimage(@RequestPart MultipartFile[] files) throws IllegalStateException, IOException {
 		
 		// file이 있으면 없을경우 page 등록을 못하게 하자.
@@ -45,7 +45,7 @@ public class DimageController {
 		return dimageService.createDimage(files);
 	}
 	
-	@DeleteMapping("/basic/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteDimage(@PathVariable Long id) {
 		
 		Optional<Dimage> optionalDimage = dimageRepository.findById(id);

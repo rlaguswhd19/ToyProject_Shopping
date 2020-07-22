@@ -48,7 +48,7 @@ public class DimageControllerTest {
 	@TestDescription("이미지 파일을 전송하는 Test")
 	public void create_dimage() throws Exception {
 		
-		mockMvc.perform(multipart("/api/dimages/basic")
+		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(file2)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
@@ -63,7 +63,7 @@ public class DimageControllerTest {
 	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
 	public void create_dimage_BadRequest_WrongFile() throws Exception {
 		
-		mockMvc.perform(multipart("/api/dimages/basic")
+		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(wrongFile)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
@@ -84,7 +84,7 @@ public class DimageControllerTest {
 		ResponseEntity<?> returnData = dimagesService.createDimage(files);
 		Dimage dimage = (Dimage) returnData.getBody();
 		
-		mockMvc.perform(delete("/api/dimages/basic/{id}", dimage.getId())
+		mockMvc.perform(delete("/api/dimages/{id}", dimage.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)

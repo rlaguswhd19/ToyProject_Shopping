@@ -65,8 +65,6 @@
 import axios from 'axios'
 
 export default {
-	name: 'HelloWorld',
-
 	data() {
 		return {
 			dressDto: {
@@ -93,7 +91,7 @@ export default {
 
 			axios({
 				method: 'post',
-				url: 'http://localhost:8080/api/dimages/basic',
+				url: 'http://localhost:8080/api/dimages',
 				data: formData,
 				headers: {
 					'Content-Type': 'multipart/form-data',
