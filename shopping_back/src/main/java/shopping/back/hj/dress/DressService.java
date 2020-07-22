@@ -111,8 +111,8 @@ public class DressService {
 		dressRepository.flush();
 		
 		DressModel dressModel = new DressModel(dress);
-		
-		//TODO link 추가
+		dressModel.add(new Link("/docs/dress.html/resources-update-dress").withRel("profile"));
+		dressModel.link_imagePath(dressModel, dress.getDimage());
 		
 		return ResponseEntity.ok(dressModel);
 	}

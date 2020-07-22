@@ -227,7 +227,7 @@ public class DressCountrollerTest {
 			.andDo(print())
 			.andDo(document("get-dress",
 					requestHeaders(
-							headerWithName("accept").description("Accept header")
+							headerWithName(HttpHeaders.ACCEPT).description("Accept header")
 					),
 					pathParameters(
 							parameterWithName("id").description("Dress id")
@@ -243,8 +243,10 @@ public class DressCountrollerTest {
 	
 	@Test
 	@TestDescription("없는 Dress 조회했을때 404 응답하기")
-	public void getDress_isNotFound() throws Exception {
-		mockMvc.perform(get("/api/dress/{id}", 123014123)
+	public void getDress_isNotFoundDress() throws Exception {
+		Dress dress = generateDress(100);
+		
+		mockMvc.perform(get("/api/dress/{id}", 12314123)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
 				)
 			// 404
@@ -272,13 +274,25 @@ public class DressCountrollerTest {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("name").value(dressName))
-//			.andDo(document(identifier, snippets))
+			.andDo(document("update-dress",
+					links(
+							linkWithRel("self").description("link to self"),
+							linkWithRel("profile").description("link to profile")
+					),
+					pathParameters(
+							parameterWithName("id").description("Dress id")
+					),
+					requestHeaders(
+							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header"),
+							headerWithName(HttpHeaders.ACCEPT).description("Accept header")
+					)
+			))
 		;
 	}
 	
 	@Test
 	@TestDescription("존재하지 않는 Dress 수정하기")
-	public void updateDress_BadRequest_NotFoundDress() throws Exception {
+	public void updateDress_isNotFoundDress() throws Exception {
 		Dress dress = generateDress(100);
 		Long dimage_id = dress.getDimage().getId();
 		String dressName = "update dressName";
@@ -299,7 +313,7 @@ public class DressCountrollerTest {
 	
 	@Test
 	@TestDescription("Dimage_id가 잘못된 경우 BadRequest 응답하기")
-	public void updateDress_BadRequest_WrongDimage_id() throws Exception {
+	public void updateDress_isNotFoundDimage() throws Exception {
 		Dress dress = generateDress(100);
 		String dressName = "update dressName";
 		
