@@ -1,12 +1,14 @@
 <template>
-	<div class="home">
-		<img alt="Vue logo" src="../assets/logo.png" />
-	</div>
+	<createDress />
 </template>
 
 <script>
+import createDress from '../components/dress/createDress'
+
 export default {
 	name: 'Home',
-	components: {},
+	components: {
+		createDress,
+	},
 }
 </script>
