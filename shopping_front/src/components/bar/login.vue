@@ -1,12 +1,50 @@
 <template>
-	<div>
-		<v-btn text small> 회원가입 </v-btn>
-		<v-btn text small> 로그인 </v-btn>
-		<v-btn text small> 고객센터 </v-btn>
-		<v-btn text small> <v-icon> mdi-cart-plus</v-icon> </v-btn>
+	<div class="login_nav">
+		<ul class="login_nav_left">
+			<li>
+				<v-btn text small> HJ </v-btn>
+			</li>
+			<li>
+				<v-btn text small> join us </v-btn>
+			</li>
+		</ul>
+
+		<ul class="login_nav_right">
+			<li>
+				<v-btn text small> 회원가입 </v-btn>
+			</li>
+			<li>
+				<v-btn text small> 로그인 </v-btn>
+			</li>
+			<li>
+				<v-btn text small> 고객센터 </v-btn>
+			</li>
+		</ul>
 	</div>
 </template>
 
 <script>
 export default {}
 </script>
+
+<style>
+.login_nav {
+	padding: 0 200px;
+}
+
+.login_nav_right {
+	float: right;
+	list-style-type: none;
+	display: flex;
+}
+
+.login_nav_left {
+	float: left;
+	list-style-type: none;
+	display: flex;
+}
+
+.v-btn {
+	margin: 0 10px;
+}
+</style>

@@ -1,9 +1,6 @@
 <template>
 	<v-app>
-		<loginBar />
-		<v-app-bar>
-			<mainBar />
-		</v-app-bar>
+		<Header />
 		<v-content>
 			<router-view />
 		</v-content>
@@ -11,15 +8,13 @@
 </template>
 
 <script>
-import mainBar from './components/bar/main'
-import loginBar from './components/bar/login'
+import Header from './components/bar/header'
 
 export default {
 	name: 'App',
 
 	components: {
-		mainBar,
-		loginBar,
+		Header,
 	},
 
 	data() {},
