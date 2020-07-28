@@ -17,12 +17,6 @@
 				<v-btn text small> 로그인 </v-btn>
 			</li>
 			<li>
-				<v-btn text small> 장바구니 </v-btn>
-			</li>
-			<li>
-				<v-btn text small> 주문배송조회 </v-btn>
-			</li>
-			<li>
 				<v-btn text small> 고객센터 </v-btn>
 			</li>
 		</ul>
