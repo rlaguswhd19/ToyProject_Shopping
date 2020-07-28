@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<Header />
+		<Nav />
 		<v-content>
 			<router-view />
 		</v-content>
@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import Header from './components/bar/header'
+import Nav from './components/bar/nav'
 
 export default {
 	name: 'App',
 
 	components: {
-		Header,
+		Nav,
 	},
 
 	data() {},

@@ -17,6 +17,12 @@
 				<v-btn text small> 로그인 </v-btn>
 			</li>
 			<li>
+				<v-btn text small> 장바구니 </v-btn>
+			</li>
+			<li>
+				<v-btn text small> 주문배송조회 </v-btn>
+			</li>
+			<li>
 				<v-btn text small> 고객센터 </v-btn>
 			</li>
 		</ul>
@@ -29,19 +35,16 @@ export default {}
 
 <style>
 .login_nav {
-	padding: 0 200px;
+	border: 2px red solid;
+}
+.login_nav,
+ul {
+	list-style-type: none;
+	display: flex;
 }
 
 .login_nav_right {
-	float: right;
-	list-style-type: none;
-	display: flex;
-}
-
-.login_nav_left {
-	float: left;
-	list-style-type: none;
-	display: flex;
+	margin-left: auto;
 }
 
 .v-btn {

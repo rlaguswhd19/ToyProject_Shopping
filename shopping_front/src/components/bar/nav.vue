@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="header">
 		<loginBar />
 		<mainBar />
 	</div>
@@ -17,3 +17,11 @@ export default {
 	},
 }
 </script>
+
+<style>
+.header {
+	border: 2px blue solid;
+	display: flex;
+	flex-direction: column;
+}
+</style>
