@@ -1,15 +1,15 @@
 <template>
 	<div class="main_nav">
-		<a href="http://localhost:3000"
-			><img src="../../assets/maison_de.png" height="100"
-		/></a>
+		<div class="logo">
+			<a href="http://localhost:3000">H STORE </a>
+		</div>
 		<div class="category_nav">
 			<ul>
-				<li><v-btn x-large text>Men</v-btn></li>
-				<li><v-btn x-large text>Women</v-btn></li>
-				<li><v-btn x-large text>kid</v-btn></li>
-				<li><v-btn x-large text>sport</v-btn></li>
-				<li><v-btn x-large text>brands</v-btn></li>
+				<li><a>Men</a></li>
+				<li><a>Women</a></li>
+				<li><a>Kid</a></li>
+				<li><a>Sport</a></li>
+				<li><a>Brand</a></li>
 			</ul>
 		</div>
 
@@ -30,21 +30,37 @@ export default {
 
 <style>
 .main_nav {
-	border: 2px solid black;
 	display: flex;
-	/* vertical-align: middle; */
+	height: 60px;
+	margin: auto 0;
+}
+
+.logo {
+	border: 2px red solid;
+	width: 20%;
 }
 
 .category_nav {
 	display: flex;
-	/* margin-left: auto; */
-	margin: auto 0;
+	margin: auto;
+	border: black 1px solid;
+}
+
+.category_nav ul li a {
+	padding: 0 40px;
+	font-size: 16px;
+	font-weight: 600;
+	color: black;
+}
+
+.category_nav ul li a:hover {
+	color: red;
 }
 
 .search_bar {
+	width: 20%;
+	border: red 1px solid;
 	display: flex;
-	margin: auto 0;
-	margin-left: auto;
 }
 
 #_search_bar {

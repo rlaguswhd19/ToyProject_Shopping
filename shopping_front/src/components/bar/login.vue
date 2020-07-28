@@ -29,7 +29,7 @@ export default {}
 
 <style>
 .login_nav {
-	border: 2px red solid;
+	display: flex;
 }
 .login_nav,
 ul {

@@ -1,7 +1,10 @@
 <template>
 	<div class="header">
+		<hr />
 		<loginBar />
+		<hr />
 		<mainBar />
+		<hr />
 	</div>
 </template>
 
@@ -20,8 +23,8 @@ export default {
 
 <style>
 .header {
-	border: 2px blue solid;
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 </style>
