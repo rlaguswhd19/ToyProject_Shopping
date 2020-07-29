@@ -30,11 +30,13 @@ export default {}
 <style>
 .login_nav {
 	display: flex;
+	height: 30px;
 }
 .login_nav,
 ul {
 	list-style-type: none;
 	display: flex;
+	margin: auto 0;
 }
 
 .login_nav_right {

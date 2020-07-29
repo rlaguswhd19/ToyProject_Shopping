@@ -1,9 +1,9 @@
 <template>
 	<v-app>
 		<Nav />
-		<v-content>
+		<div class="router-content">
 			<router-view />
-		</v-content>
+		</div>
 	</v-app>
 </template>
 
@@ -20,3 +20,9 @@ export default {
 	data() {},
 }
 </script>
+
+<style>
+.router-content {
+	padding: 20px 300px;
+}
+</style>

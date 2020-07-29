@@ -1,5 +1,15 @@
 <template>
-	<v-container>
+	<div>
+		<v-file-input
+			type="file"
+			show-size
+			counter
+			multiple
+			label="File input"
+			v-model="files"
+			accept="image/*"
+		></v-file-input>
+		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
 		<v-text-field
 			label="Brand"
 			placeholder="브랜드를 입력하세요."
@@ -48,17 +58,7 @@
 			outlined
 			v-model="dressDto.explanation"
 		></v-text-field>
-		<v-file-input
-			type="file"
-			show-size
-			counter
-			multiple
-			label="File input"
-			v-model="files"
-			accept="image/*"
-		></v-file-input>
-		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
-	</v-container>
+	</div>
 </template>
 
 <script>
@@ -119,3 +119,5 @@ export default {
 	},
 }
 </script>
+
+<style></style>

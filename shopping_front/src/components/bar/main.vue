@@ -1,7 +1,9 @@
 <template>
 	<div class="main_nav">
 		<div class="logo">
-			<a href="http://localhost:3000">H STORE </a>
+			<ul>
+				<li><a href="http://localhost:3000">H STORE </a></li>
+			</ul>
 		</div>
 		<div class="category_nav">
 			<ul>
@@ -15,7 +17,7 @@
 
 		<div class="search_bar">
 			<input type="search" size="30" id="_search_bar" />
-			<v-btn text>
+			<v-btn text style="margin: auto 0;">
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
 		</div>
@@ -36,19 +38,26 @@ export default {
 }
 
 .logo {
-	border: 2px red solid;
 	width: 20%;
+	padding: 0 16px;
+}
+
+.logo ul li a {
+	color: black;
+	font-size: 40px;
+	font-weight: 1000;
+	font-style: oblique;
+	text-decoration: none;
 }
 
 .category_nav {
 	display: flex;
 	margin: auto;
-	border: black 1px solid;
 }
 
 .category_nav ul li a {
 	padding: 0 40px;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 600;
 	color: black;
 }
@@ -59,7 +68,6 @@ export default {
 
 .search_bar {
 	width: 20%;
-	border: red 1px solid;
 	display: flex;
 }
 
@@ -68,6 +76,7 @@ export default {
 	border-radius: 2px;
 	height: 40px;
 	padding: 10px 10px 10px 10px;
+	margin: auto 0;
 }
 #_search_bar:focus {
 	outline: 2px solid #8d8d8d;
