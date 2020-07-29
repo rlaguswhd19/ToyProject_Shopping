@@ -8,8 +8,13 @@
 			label="File input"
 			v-model="files"
 			accept="image/*"
+			@change="changeImages"
 		></v-file-input>
-		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
+
+		<div v-for="itemUrl in itemUrls" :key="itemUrl.id">
+			<img :src="itemUrl.url" width="500" :alt="itemUrl.name" />
+		</div>
+
 		<v-text-field
 			label="Brand"
 			placeholder="브랜드를 입력하세요."
@@ -58,6 +63,7 @@
 			outlined
 			v-model="dressDto.explanation"
 		></v-text-field>
+		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
 	</div>
 </template>
 
@@ -79,9 +85,23 @@ export default {
 				dimage_id: '',
 			},
 			files: '',
+			itemUrls: [],
 		}
 	},
 	methods: {
+		changeImages() {
+			console.log(this.files[0])
+			this.itemUrls = []
+			for (let i = 0; i < this.files.length; i++) {
+				this.itemUrls.push({
+					id: i,
+					url: URL.createObjectURL(this.files[i]),
+					name: this.files[i].name,
+				})
+			}
+			console.log(this.itemUrls)
+		},
+
 		post_dress() {
 			let formData = new FormData()
 
