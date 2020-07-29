@@ -32,6 +32,9 @@ public class DimageService {
 
 		// 파일을 쓰면서 String을 받아서 이미지 도메인에 저장
 		String filesNames = writeFiles(files, newDimage.getId());
+		if(filesNames == null) {
+			
+		}
 
 		newDimage.setImage_files(filesNames);
 
@@ -68,18 +71,15 @@ public class DimageService {
 		}
 
 		basePath += "/" + id;
-		File timeDir = new File(basePath);
+		File idDir = new File(basePath);
 
 		// id로 된것이 없으면 파일을 만든다.
-		if (!timeDir.exists()) {
-			timeDir.mkdir();
+		if (!idDir.exists()) {
+			idDir.mkdir();
 		}
 
-		StringBuilder files_name = new StringBuilder();
 
 		for (MultipartFile file : files) {
-			// 파일 path
-			files_name.append(file.getOriginalFilename() + "/");
 
 			String fileName = basePath + "/" + file.getOriginalFilename();
 
@@ -89,8 +89,14 @@ public class DimageService {
 			// 파일 복사 multipartfile -> file
 			file.transferTo(saveImage);
 		}
-
-		return files_name.toString();
+		
+		File[] FileList = idDir.listFiles();
+		StringBuilder filesName = new StringBuilder();
+		for (int i = 0; i < FileList.length; i++) {
+			filesName.append(FileList[i].getName() + "/");
+		}
+		
+		return filesName.toString();
 	}
 
 	public ResponseEntity<?> deleteDimage(Dimage dimage) {

@@ -3,6 +3,7 @@ package shopping.back.hj.dimages;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
@@ -56,6 +57,7 @@ public class DimageControllerTest {
 				)
 		.andDo(print())
 		.andExpect(status().isCreated())
+		.andExpect(jsonPath("image_files").value(file1.getOriginalFilename()+"/"+file2.getOriginalFilename()+"/"))
 		;
 	}
 	
