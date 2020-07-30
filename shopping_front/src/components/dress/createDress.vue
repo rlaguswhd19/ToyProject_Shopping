@@ -1,16 +1,5 @@
 <template>
-	<div>
-		<v-file-input
-			type="file"
-			show-size
-			counter
-			multiple
-			label="File input"
-			v-model="files"
-			accept="image/*"
-			@change="onChangeImages"
-		></v-file-input>
-
+	<div class="content_wrap">
 		<div class="preview_wrap">
 			<div class="preview_list_wrap">
 				<!-- <div v-for="preview in previews" :key="preview.id"> -->
@@ -29,66 +18,77 @@
 				/>
 			</div>
 
-			<div class="representation_preview_wrap" v-if="previews.length > 0">
+			<div class="representation_preview_wrap">
 				<v-img
-					:src="previews[previewIdx].url"
+					:src="representationPreview.url"
 					width="500"
 					height="600"
 					contain
-					:alt="previews[previewIdx].name"
+					:alt="representationPreview.name"
 				/>
 			</div>
 		</div>
-
-		<v-text-field
-			label="Brand"
-			placeholder="브랜드를 입력하세요."
-			outlined
-			v-model="dressDto.brand"
-		></v-text-field>
-		<v-text-field
-			label="Name"
-			placeholder="이름을 입력하세요."
-			outlined
-			v-model="dressDto.name"
-		></v-text-field>
-		<v-text-field
-			label="article_number"
-			placeholder="품번을 입력하세요."
-			outlined
-			v-model="dressDto.article_number"
-		></v-text-field>
-		<v-text-field
-			label="dress_type"
-			placeholder="옷타입을 입력하세요."
-			outlined
-			v-model="dressDto.dress_type"
-		></v-text-field>
-		<v-text-field
-			label="sex"
-			placeholder="성별을 입력하세요."
-			outlined
-			v-model="dressDto.sex"
-		></v-text-field>
-		<v-text-field
-			label="price"
-			placeholder="가격을 입력하세요."
-			outlined
-			v-model="dressDto.price"
-		></v-text-field>
-		<v-text-field
-			label="discount"
-			placeholder="할인율을 입력하세요."
-			outlined
-			v-model="dressDto.discount"
-		></v-text-field>
-		<v-text-field
-			label="explanation"
-			placeholder="설명을 입력하세요."
-			outlined
-			v-model="dressDto.explanation"
-		></v-text-field>
-		<v-btn @click="post_dress" style="float: right;">등록</v-btn>
+		<div class="input_wrap">
+			<v-file-input
+				type="file"
+				show-size
+				counter
+				multiple
+				label="File input"
+				v-model="files"
+				accept="image/*"
+				@change="onChangeImages"
+			></v-file-input>
+			<v-text-field
+				label="Brand"
+				placeholder="브랜드를 입력하세요."
+				outlined
+				v-model="dressDto.brand"
+			></v-text-field>
+			<v-text-field
+				label="Name"
+				placeholder="이름을 입력하세요."
+				outlined
+				v-model="dressDto.name"
+			></v-text-field>
+			<v-text-field
+				label="article_number"
+				placeholder="품번을 입력하세요."
+				outlined
+				v-model="dressDto.article_number"
+			></v-text-field>
+			<v-text-field
+				label="dress_type"
+				placeholder="옷타입을 입력하세요."
+				outlined
+				v-model="dressDto.dress_type"
+			></v-text-field>
+			<v-text-field
+				label="sex"
+				placeholder="성별을 입력하세요."
+				outlined
+				v-model="dressDto.sex"
+			></v-text-field>
+			<v-text-field
+				label="price"
+				placeholder="가격을 입력하세요."
+				outlined
+				v-model="dressDto.price"
+			></v-text-field>
+			<v-text-field
+				label="discount"
+				placeholder="할인율을 입력하세요."
+				outlined
+				v-model="dressDto.discount"
+			></v-text-field>
+			<v-text-field
+				label="explanation"
+				placeholder="설명을 입력하세요."
+				outlined
+				v-model="dressDto.explanation"
+			></v-text-field>
+			<v-btn @click="post_dress" style="float: right;">등록</v-btn>
+		</div>
 	</div>
 </template>
 
@@ -112,14 +112,20 @@ export default {
 
 			files: '',
 			previews: [],
-			previewIdx: 0,
-			currentPreview: '',
+			representationPreview: {
+				id: 0,
+				url: '',
+				name: 'noimage',
+			},
+			currentPreview: null,
 		}
 	},
 	methods: {
 		mouseover(id) {
-			// 현재것을 지우고
-			this.currentPreview.style.outline = 'none'
+			// 현재것이 있다면 지우고 아니면 처음
+			if (this.currentPreview != null) {
+				this.currentPreview.style.outline = 'none'
+			}
 
 			// 지금것을 선택해 css 변경
 			let objId = 'preview_' + id
@@ -127,7 +133,7 @@ export default {
 			this.currentPreview.style.outline = '2px black solid'
 
 			// 대표 이지미 변경
-			this.previewIdx = id
+			this.representationPreview = this.previews[id]
 		},
 
 		mouseout(id) {
@@ -146,7 +152,7 @@ export default {
 				})
 			}
 
-			console.log(this.previews)
+			this.representationPreview = this.previews[0]
 		},
 
 		post_dress() {
@@ -165,7 +171,6 @@ export default {
 				},
 			}).then(response => {
 				this.dressDto.dimage_id = response.data.id
-				console.log(this.dressDto)
 				this.post_dressDto()
 			})
 		},
@@ -195,5 +200,29 @@ export default {
 
 .preview_list {
 	margin-bottom: 20px;
+}
+
+.representation_preview_wrap {
+	outline: 1px black solid;
+}
+
+.content_wrap {
+	margin: 10px;
+	display: flex;
+	flex-direction: row;
+}
+
+.input_wrap {
+	display: flex;
+	flex-direction: column;
+	outline: 1px red solid;
+	margin-left: 20px;
+	width: 100%;
+}
+
+.preview_list_wrap {
+	/* width: 80px; */
+	outline: 1px black solid;
+	margin-right: 20px;
 }
 </style>
