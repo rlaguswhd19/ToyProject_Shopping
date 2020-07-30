@@ -1,5 +1,5 @@
 <template>
-	<div class="main_nav">
+	<div class="main_nav_wrap">
 		<div class="logo">
 			<ul>
 				<li><a href="http://localhost:3000">H STORE </a></li>
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style>
-.main_nav {
+.main_nav_wrap {
 	display: flex;
 	height: 60px;
 	margin: auto 0;

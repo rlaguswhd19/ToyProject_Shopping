@@ -8,11 +8,36 @@
 			label="File input"
 			v-model="files"
 			accept="image/*"
-			@change="changeImages"
+			@change="onChangeImages"
 		></v-file-input>
 
-		<div v-for="itemUrl in itemUrls" :key="itemUrl.id">
-			<img :src="itemUrl.url" width="500" :alt="itemUrl.name" />
+		<div class="preview_wrap">
+			<div class="preview_list_wrap">
+				<!-- <div v-for="preview in previews" :key="preview.id"> -->
+				<v-img
+					v-for="preview in previews"
+					:key="preview.id"
+					class="preview_list"
+					:id="'preview_' + preview.id"
+					:src="preview.url"
+					width="50"
+					height="60"
+					:alt="preview.name"
+					contain
+					@mouseover="mouseover(preview.id)"
+					@mouseout="mouseout(preview.id)"
+				/>
+			</div>
+
+			<div class="representation_preview_wrap" v-if="previews.length > 0">
+				<v-img
+					:src="previews[previewIdx].url"
+					width="500"
+					height="600"
+					contain
+					:alt="previews[previewIdx].name"
+				/>
+			</div>
 		</div>
 
 		<v-text-field
@@ -84,22 +109,44 @@ export default {
 				explanation: 'DSN-Logo Tee Black',
 				dimage_id: '',
 			},
+
 			files: '',
-			itemUrls: [],
+			previews: [],
+			previewIdx: 0,
+			currentPreview: '',
 		}
 	},
 	methods: {
-		changeImages() {
-			console.log(this.files[0])
-			this.itemUrls = []
+		mouseover(id) {
+			// 현재것을 지우고
+			this.currentPreview.style.outline = 'none'
+
+			// 지금것을 선택해 css 변경
+			let objId = 'preview_' + id
+			this.currentPreview = document.getElementById(objId)
+			this.currentPreview.style.outline = '2px black solid'
+
+			// 대표 이지미 변경
+			this.previewIdx = id
+		},
+
+		mouseout(id) {
+			let objId = 'preview_' + id
+			this.currentPreview = document.getElementById(objId)
+			this.currentPreview.style.outline = '2px black solid'
+		},
+
+		onChangeImages() {
+			this.previews = []
 			for (let i = 0; i < this.files.length; i++) {
-				this.itemUrls.push({
+				this.previews.push({
 					id: i,
 					url: URL.createObjectURL(this.files[i]),
 					name: this.files[i].name,
 				})
 			}
-			console.log(this.itemUrls)
+
+			console.log(this.previews)
 		},
 
 		post_dress() {
@@ -140,4 +187,13 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.preview_wrap {
+	display: flex;
+	flex-direction: row;
+}
+
+.preview_list {
+	margin-bottom: 20px;
+}
+</style>

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import mainBar from './main'
-import loginBar from './login'
+import mainBar from '../components/bar/main'
+import loginBar from '../components/bar/login'
 
 export default {
 	name: 'header',

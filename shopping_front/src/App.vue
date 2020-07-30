@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Nav from './components/bar/nav'
+import Nav from './views/Nav'
 
 export default {
 	name: 'App',
@@ -16,8 +16,6 @@ export default {
 	components: {
 		Nav,
 	},
-
-	data() {},
 }
 </script>
 

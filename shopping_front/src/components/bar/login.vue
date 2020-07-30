@@ -1,5 +1,5 @@
 <template>
-	<div class="login_nav">
+	<div class="login_nav_wrap">
 		<ul class="login_nav_left">
 			<li>
 				<v-btn text small> HJ </v-btn>
@@ -28,7 +28,7 @@ export default {}
 </script>
 
 <style>
-.login_nav {
+.login_nav_wrap {
 	display: flex;
 	height: 30px;
 }
