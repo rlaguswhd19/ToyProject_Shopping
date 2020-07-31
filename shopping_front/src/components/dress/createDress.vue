@@ -3,19 +3,22 @@
 		<div class="preview_wrap">
 			<div class="preview_list_wrap">
 				<!-- <div v-for="preview in previews" :key="preview.id"> -->
-				<v-img
+				<div
+					class="preview_list"
 					v-for="preview in previews"
 					:key="preview.id"
-					class="preview_list"
-					:id="'preview_' + preview.id"
-					:src="preview.url"
-					width="50"
-					height="60"
-					:alt="preview.name"
-					contain
-					@mouseover="mouseover(preview.id)"
-					@mouseout="mouseout(preview.id)"
-				/>
+				>
+					<v-img
+						:id="'preview_' + preview.id"
+						:src="preview.url"
+						width="50"
+						height="60"
+						:alt="preview.name"
+						contain
+						@mouseover="mouseover(preview.id)"
+						@mouseout="mouseout(preview.id)"
+					/>
+				</div>
 			</div>
 
 			<div class="representation_preview_wrap">
@@ -94,6 +97,8 @@
 
 <script>
 import axios from 'axios'
+
+require('../../css/dress/dressDetail.css')
 
 export default {
 	data() {
@@ -191,38 +196,3 @@ export default {
 	},
 }
 </script>
-
-<style>
-.preview_wrap {
-	display: flex;
-	flex-direction: row;
-}
-
-.preview_list {
-	margin-bottom: 20px;
-}
-
-.representation_preview_wrap {
-	outline: 1px black solid;
-}
-
-.content_wrap {
-	margin: 10px;
-	display: flex;
-	flex-direction: row;
-}
-
-.input_wrap {
-	display: flex;
-	flex-direction: column;
-	outline: 1px red solid;
-	margin-left: 20px;
-	width: 100%;
-}
-
-.preview_list_wrap {
-	/* width: 80px; */
-	outline: 1px black solid;
-	margin-right: 20px;
-}
-</style>
