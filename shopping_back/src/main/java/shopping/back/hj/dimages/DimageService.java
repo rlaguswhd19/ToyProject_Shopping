@@ -24,18 +24,25 @@ public class DimageService {
 	@Autowired
 	private StaticResourcesProperties staticResourcesProperties;
 
-	public ResponseEntity<?> createDimage(MultipartFile[] files) throws IllegalStateException, IOException {
+	public ResponseEntity<?> createDimage(MultipartFile[] files, int repIdx) throws IllegalStateException, IOException {
 		// 이미지를 생성한다.
-		Dimage dimage = Dimage.builder().build();
+		Dimage dimage = Dimage.builder()
+				.image_repIdx(repIdx)
+				.build();
 
 		Dimage newDimage = dimageRepository.save(dimage);
-
+		System.out.println(newDimage.getImage_files());
+		
 		// 파일을 쓰면서 String을 받아서 이미지 도메인에 저장
 		String filesNames = writeFiles(files, newDimage.getId());
-		if(filesNames == null) {
-			
+		
+		
+		if(filesNames == null || filesNames.equals("")) {
+			return ResponseEntity.badRequest().build();
 		}
 
+		System.out.println("########################");
+		System.out.println(filesNames);
 		newDimage.setImage_files(filesNames);
 
 		// 갱신

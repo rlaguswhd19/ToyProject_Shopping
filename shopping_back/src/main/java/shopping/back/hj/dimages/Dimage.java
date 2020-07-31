@@ -22,11 +22,11 @@ public class Dimage {
 	
 	private String image_files;
 	
-	private String dpage_files;
+	private Integer image_repIdx;
 
 	@Override
 	public String toString() {
-		return "Dimage [id=" + id + ", image_files=" + image_files + ", dpage_files=" + dpage_files + "]";
+		return "Dimage [id=" + id + ", image_files=" + image_files + ", image_repIdx=" + image_repIdx + "]";
 	}
 	
 }

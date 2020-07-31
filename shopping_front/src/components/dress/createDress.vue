@@ -3,12 +3,27 @@
 		<div class="preview_wrap">
 			<div class="preview_list_wrap">
 				<!-- <div v-for="preview in previews" :key="preview.id"> -->
+				<div class="preview_list">
+					<v-img
+						v-if="previews.length != 0"
+						:id="'preview_' + representationPreview"
+						:src="previews[representationPreview].url"
+						width="50"
+						height="60"
+						:alt="previews[representationPreview].name"
+						contain
+						@mouseover="mouseover(representationPreview)"
+						@mouseout="mouseout(representationPreview)"
+					/>
+				</div>
+
 				<div
 					class="preview_list"
 					v-for="preview in previews"
 					:key="preview.id"
 				>
 					<v-img
+						v-if="preview.id != representationPreview"
 						:id="'preview_' + preview.id"
 						:src="preview.url"
 						width="50"
@@ -23,36 +38,46 @@
 
 			<div class="representation_preview_wrap">
 				<v-img
-					:src="representationPreview.url"
+					v-if="previews.length == 0"
+					src="../../assets/noimage.jpg"
 					width="500"
 					height="600"
 					contain
-					:alt="representationPreview.name"
+					alt="noimage"
 				/>
+				<v-img
+					v-else
+					:src="previews[bigPreview].url"
+					width="500"
+					height="600"
+					contain
+					:alt="previews[bigPreview].name"
+				/>
+				<v-file-input
+					type="file"
+					show-size
+					counter
+					multiple
+					label="File input"
+					v-model="files"
+					accept="image/*"
+					@change="changeImages"
+				></v-file-input>
+				<v-btn @click="changeRepresentation">대표이미지</v-btn>
 			</div>
 		</div>
 		<div class="input_wrap">
-			<v-file-input
-				type="file"
-				show-size
-				counter
-				multiple
-				label="File input"
-				v-model="files"
-				accept="image/*"
-				@change="onChangeImages"
-			></v-file-input>
-			<v-text-field
-				label="Brand"
-				placeholder="브랜드를 입력하세요."
-				outlined
-				v-model="dressDto.brand"
-			></v-text-field>
 			<v-text-field
 				label="Name"
 				placeholder="이름을 입력하세요."
 				outlined
 				v-model="dressDto.name"
+			></v-text-field>
+			<v-text-field
+				label="Brand"
+				placeholder="브랜드를 입력하세요."
+				outlined
+				v-model="dressDto.brand"
 			></v-text-field>
 			<v-text-field
 				label="article_number"
@@ -117,11 +142,11 @@ export default {
 
 			files: '',
 			previews: [],
-			representationPreview: {
-				id: 0,
-				url: '',
-				name: 'noimage',
-			},
+			// 대표 이미지 인덱스
+			representationPreview: 0,
+			// 크게 보이는 이미지
+			bigPreview: 0,
+			// 현재 선택된 미리보기
 			currentPreview: null,
 		}
 	},
@@ -131,14 +156,13 @@ export default {
 			if (this.currentPreview != null) {
 				this.currentPreview.style.outline = 'none'
 			}
-
 			// 지금것을 선택해 css 변경
 			let objId = 'preview_' + id
 			this.currentPreview = document.getElementById(objId)
 			this.currentPreview.style.outline = '2px black solid'
 
 			// 대표 이지미 변경
-			this.representationPreview = this.previews[id]
+			this.bigPreview = id
 		},
 
 		mouseout(id) {
@@ -146,8 +170,10 @@ export default {
 			this.currentPreview = document.getElementById(objId)
 			this.currentPreview.style.outline = '2px black solid'
 		},
-
-		onChangeImages() {
+		changeRepresentation() {
+			this.representationPreview = this.bigPreview
+		},
+		changeImages() {
 			this.previews = []
 			for (let i = 0; i < this.files.length; i++) {
 				this.previews.push({
@@ -156,8 +182,6 @@ export default {
 					name: this.files[i].name,
 				})
 			}
-
-			this.representationPreview = this.previews[0]
 		},
 
 		post_dress() {
@@ -166,6 +190,8 @@ export default {
 			for (let i = 0; i < this.files.length; i++) {
 				formData.append('files', this.files[i])
 			}
+
+			formData.append('idx', this.representationPreview)
 
 			axios({
 				method: 'post',

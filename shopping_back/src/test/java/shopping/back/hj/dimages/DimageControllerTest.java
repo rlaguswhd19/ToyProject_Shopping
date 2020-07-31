@@ -52,6 +52,7 @@ public class DimageControllerTest {
 		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(file2)
+				.param("idx", "1")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
@@ -62,12 +63,43 @@ public class DimageControllerTest {
 	}
 	
 	@Test
+	@TestDescription("대표이미지 인덱스가 이미지 파일 길이보다 클때")
+	public void create_dimage_BadRequest_WrongRepIdx() throws Exception {
+		
+		mockMvc.perform(multipart("/api/dimages")
+				.file(file1)
+				.file(file2)
+				.param("idx", "123")
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
+		.andDo(print())
+		.andExpect(status().isBadRequest())
+		;
+	}
+	
+	@Test
 	@TestDescription("이미지 확장자가 아닌 파일을 전송하는 Test, ImageValidator 수행")
 	public void create_dimage_BadRequest_WrongFile() throws Exception {
 		
 		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(wrongFile)
+				.param("idx", "2")
+				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			;
+	}
+	
+	@Test
+	@TestDescription("이미지 파일을 안보낼때")
+	public void create_dimage_BadRequest_EmptyFile() throws Exception {
+		
+		mockMvc.perform(multipart("/api/dimages")
+				.param("idx", "2")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
@@ -83,7 +115,7 @@ public class DimageControllerTest {
 		files[0] = file1;
 		files[1] = file2;
 		
-		ResponseEntity<?> returnData = dimagesService.createDimage(files);
+		ResponseEntity<?> returnData = dimagesService.createDimage(files, 2);
 		Dimage dimage = (Dimage) returnData.getBody();
 		
 		mockMvc.perform(delete("/api/dimages/{id}", dimage.getId())
