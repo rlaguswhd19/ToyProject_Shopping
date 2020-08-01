@@ -38,18 +38,20 @@
 
 			<div class="representation_preview_wrap">
 				<v-img
+					class="representation_preview"
 					v-if="previews.length == 0"
 					src="../../assets/noimage.jpg"
-					width="500"
-					height="600"
+					width="650"
+					height="720"
 					contain
 					alt="noimage"
 				/>
 				<v-img
 					v-else
+					class="representation_preview"
 					:src="previews[bigPreview].url"
-					width="500"
-					height="600"
+					width="650"
+					height="720"
 					contain
 					:alt="previews[bigPreview].name"
 				/>

@@ -11,6 +11,9 @@
 
 		<ul class="login_nav_right">
 			<li>
+				<v-btn text small> 주문조회 </v-btn>
+			</li>
+			<li>
 				<v-btn text small> 회원가입 </v-btn>
 			</li>
 			<li>
