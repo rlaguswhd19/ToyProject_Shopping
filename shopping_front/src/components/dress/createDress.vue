@@ -3,43 +3,77 @@
 		<div class="preview_wrap">
 			<div class="preview_list_wrap">
 				<!-- <div v-for="preview in previews" :key="preview.id"> -->
-				<div class="preview_list">
-					<v-img
-						v-if="previews.length != 0"
-						:id="'preview_' + representationPreview"
-						:src="previews[representationPreview].url"
-						width="50"
-						height="60"
-						:alt="previews[representationPreview].name"
-						contain
-						@mouseover="mouseover(representationPreview)"
-						@mouseout="mouseout(representationPreview)"
-					/>
-				</div>
+				<div v-if="previews.length != 0">
+					<div
+						class="preview_list"
+						v-if="bigPreview == representationPreview"
+					>
+						<v-img
+							:id="'preview_' + representationPreview"
+							:src="previews[representationPreview].url"
+							width="50"
+							height="60"
+							:alt="previews[representationPreview].name"
+							contain
+							style="outline: 2px black solid;"
+							@mouseover="mouseover(representationPreview)"
+						/>
+					</div>
+					<div class="preview_list" v-else>
+						<v-img
+							:id="'preview_' + representationPreview"
+							:src="previews[representationPreview].url"
+							width="50"
+							height="60"
+							:alt="previews[representationPreview].name"
+							contain
+							@mouseover="mouseover(representationPreview)"
+						/>
+					</div>
 
-				<div
-					class="preview_list"
-					v-for="preview in previews"
-					:key="preview.id"
-				>
-					<v-img
-						v-if="preview.id != representationPreview"
-						:id="'preview_' + preview.id"
-						:src="preview.url"
-						width="50"
-						height="60"
-						:alt="preview.name"
-						contain
-						@mouseover="mouseover(preview.id)"
-						@mouseout="mouseout(preview.id)"
-					/>
+					<div
+						class="preview_list"
+						v-for="preview in previews"
+						:key="preview.id"
+					>
+						<!-- v-if로 idx값에 따라 outline을 설정하기 -->
+						<v-img
+							v-if="
+								preview.id != representationPreview &&
+								preview.id != bigPreview
+							"
+							:id="'preview_' + preview.id"
+							:src="preview.url"
+							width="50"
+							height="60"
+							:alt="preview.name"
+							contain
+							@mouseover="mouseover(preview.id)"
+						/>
+
+						<v-img
+							v-if="
+								preview.id != representationPreview &&
+								preview.id == bigPreview
+							"
+							:id="'preview_' + preview.id"
+							:src="preview.url"
+							width="50"
+							height="60"
+							:alt="preview.name"
+							outline="2px black solid"
+							contain
+							style="outline: 2px black solid;"
+							@mouseover="mouseover(preview.id)"
+						/>
+					</div>
 				</div>
 			</div>
 
-			<div class="representation_preview_wrap">
+			<div class="big_preview_wrap">
 				<v-img
-					class="representation_preview"
 					v-if="previews.length == 0"
+					class="big_preview"
 					src="../../assets/noimage.jpg"
 					width="650"
 					height="720"
@@ -48,7 +82,7 @@
 				/>
 				<v-img
 					v-else
-					class="representation_preview"
+					class="big_preview"
 					:src="previews[bigPreview].url"
 					width="650"
 					height="720"
@@ -149,34 +183,21 @@ export default {
 			// 크게 보이는 이미지
 			bigPreview: 0,
 			// 현재 선택된 미리보기
-			currentPreview: null,
 		}
 	},
 	methods: {
 		mouseover(id) {
-			// 현재것이 있다면 지우고 아니면 처음
-			if (this.currentPreview != null) {
-				this.currentPreview.style.outline = 'none'
-			}
-			// 지금것을 선택해 css 변경
-			let objId = 'preview_' + id
-			this.currentPreview = document.getElementById(objId)
-			this.currentPreview.style.outline = '2px black solid'
-
-			// 대표 이지미 변경
+			//bigPreview 변경
 			this.bigPreview = id
 		},
 
-		mouseout(id) {
-			let objId = 'preview_' + id
-			this.currentPreview = document.getElementById(objId)
-			this.currentPreview.style.outline = '2px black solid'
-		},
 		changeRepresentation() {
 			this.representationPreview = this.bigPreview
 		},
+
 		changeImages() {
 			this.previews = []
+
 			for (let i = 0; i < this.files.length; i++) {
 				this.previews.push({
 					id: i,

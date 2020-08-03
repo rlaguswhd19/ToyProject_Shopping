@@ -20,11 +20,11 @@
 	margin-bottom: 20px;
 }
 
-.representation_preview_wrap {
+.big_preview_wrap {
 	outline: 1px black solid;
 }
 
-.representation_preview{
+.big_preview{
 	outline: 2px red solid;
 }
 
