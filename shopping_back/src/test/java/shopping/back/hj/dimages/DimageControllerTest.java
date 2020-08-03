@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dimages.DimageService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

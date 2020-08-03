@@ -1,12 +1,15 @@
 package shopping.back.hj.dress;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +18,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dsize.Dsize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -63,6 +67,9 @@ public class Dress {
 	// 시간
 	private LocalDate created_date = LocalDate.now();
 
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
 	private Dimage dimage;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Dsize> dsize;
 }

@@ -5,7 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 
-import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dress.dimages.Dimage;
 
 public class DressModel extends EntityModel<Dress> {
 

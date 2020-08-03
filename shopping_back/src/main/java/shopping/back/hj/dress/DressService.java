@@ -18,9 +18,9 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import shopping.back.hj.dimages.Dimage;
-import shopping.back.hj.dimages.DimageRepository;
-import shopping.back.hj.dimages.DimageService;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dimages.DimageRepository;
+import shopping.back.hj.dress.dimages.DimageService;
 
 @Service
 public class DressService {
@@ -32,18 +32,11 @@ public class DressService {
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private DimageRepository dimageRepository;
+	private DimageService dimageService;
 
 	public ResponseEntity createDress(DressDto dressDto) throws IllegalStateException, IOException {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
-
-		Optional<Dimage> optionalDimage = dimageRepository.findById(dressDto.getDimage_id());
-		if(optionalDimage.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		Dimage dimage = optionalDimage.get();
-		dress.setDimage(dimage);
 
 		Dress newDress = dressRepository.save(dress);
 
@@ -99,16 +92,13 @@ public class DressService {
 			return ResponseEntity.notFound().build();
 		}
 		Dress dress = optionalDress.get();
-		modelMapper.map(dressDto, dress);
 		
-		Optional<Dimage> optionalDimage = dimageRepository.findById(dressDto.getDimage_id());
-		if(optionalDimage.isEmpty()) {
+		Dimage dimage = dimageService.findById(dressDto.getDimage().getId());
+		if(dimage == null) {
 			return ResponseEntity.notFound().build();
 		}
-		Dimage dimage = optionalDimage.get();
-		dress.setDimage(dimage);
 		
-		dressRepository.flush();
+		modelMapper.map(dressDto, dress);
 		
 		DressModel dressModel = new DressModel(dress);
 		dressModel.add(new Link("/docs/dress.html/resources-update-dress").withRel("profile"));

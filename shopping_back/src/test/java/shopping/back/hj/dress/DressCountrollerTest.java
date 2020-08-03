@@ -8,13 +8,12 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.relaxedLinks;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,8 +47,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
-import shopping.back.hj.dimages.Dimage;
-import shopping.back.hj.dimages.DimageRepository;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dimages.DimageRepository;
+import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressSize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -75,10 +78,12 @@ public class DressCountrollerTest {
 	private DimageRepository dimageRepository;
 	
 	// 파일 2개
-	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
+	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());;
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test2.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	
-	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());
+	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());;
+	private Set<Dsize> dsize = createDsize();
+	
 	@Test
 	@TestDescription("정상적으로 Dress를 생성하고 등록하는 Test")
 	public void createDress() throws Exception {
@@ -97,7 +102,8 @@ public class DressCountrollerTest {
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
-				.dimage_id(newDimage.getId())
+				.dimage(newDimage)
+				.dsize(dsize)
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -122,7 +128,7 @@ public class DressCountrollerTest {
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					requestFields (
+					relaxedRequestFields (
 							fieldWithPath("brand").description("브랜드"),
 							fieldWithPath("name").description("이름"),
 							fieldWithPath("article_number").description("품번"),
@@ -131,7 +137,8 @@ public class DressCountrollerTest {
 							fieldWithPath("price").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
-							fieldWithPath("dimage_id").description("이미지 id")
+							fieldWithPath("dimage").description("이미지"),
+							fieldWithPath("dsize").description("사이즈 info")
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
@@ -148,7 +155,8 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
-							fieldWithPath("dimage").type(JsonFieldType.OBJECT).description("이미지 Entity FK")
+							fieldWithPath("dimage").type(JsonFieldType.OBJECT).description("이미지 FK"),
+							fieldWithPath("dsize").type(JsonFieldType.ARRAY).description("사이즈 info")
 					)
 				))
 			;
@@ -259,11 +267,9 @@ public class DressCountrollerTest {
 	@TestDescription("Dress를 정상적으로 수정하기")
 	public void updateDress() throws Exception {
 		Dress dress = generateDress(100);
-		Long dimage_id = dress.getDimage().getId();
 		String dressName = "update dressName";
 		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(RestDocumentationRequestBuilders.put("/api/dress/{id}", dress.getId())
@@ -277,7 +283,8 @@ public class DressCountrollerTest {
 			.andDo(document("update-dress",
 					links(
 							linkWithRel("self").description("link to self"),
-							linkWithRel("profile").description("link to profile")
+							linkWithRel("profile").description("link to profile"),
+							linkWithRel("images-dress").description("link to Dimage")
 					),
 					pathParameters(
 							parameterWithName("id").description("Dress id")
@@ -294,11 +301,9 @@ public class DressCountrollerTest {
 	@TestDescription("존재하지 않는 Dress 수정하기")
 	public void updateDress_isNotFoundDress() throws Exception {
 		Dress dress = generateDress(100);
-		Long dimage_id = dress.getDimage().getId();
 		String dressName = "update dressName";
 		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(put("/api/dress/{id}", 12341141L)
@@ -316,9 +321,8 @@ public class DressCountrollerTest {
 	public void updateDress_isNotFoundDimage() throws Exception {
 		Dress dress = generateDress(100);
 		String dressName = "update dressName";
-		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(2031423L);
+		dressDto.getDimage().setId(2302132031013L);
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
@@ -339,7 +343,6 @@ public class DressCountrollerTest {
 		String dressName = "update dressName";
 		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		dressDto.setDiscount(121);
 		
@@ -357,11 +360,9 @@ public class DressCountrollerTest {
 	@TestDescription("입력값이 잘못된 경우 BadRequest 응답하기 DressValidator 수행")
 	public void updateDress_BadRequest_WrongInput_Validator() throws Exception {
 		Dress dress = generateDress(100);
-		Long dimage_id = dress.getDimage().getId();
 		String dressName = "update dressName";
 		
 		DressDto dressDto = modelMapper.map(dress, DressDto.class);
-		dressDto.setDimage_id(dimage_id);
 		dressDto.setName(dressName);
 		dressDto.setPrice(0L);
 		dressDto.setDiscount(100);
@@ -376,12 +377,40 @@ public class DressCountrollerTest {
 		;
 	}
 	
+	public Set<Dsize> createDsize() {
+		Set<Dsize> dsize = new HashSet<>();
+		
+		Dsize d1 = Dsize.builder()
+				.size(DressSize.L)
+				.height(100)
+				.width(50)
+				.build();
+		Dsize d2 = Dsize.builder()
+				.size(DressSize.M)
+				.height(90)
+				.width(40)
+				.build();
+		Dsize d3 = Dsize.builder()
+				.size(DressSize.S)
+				.height(80)
+				.width(30)
+				.build();
+		
+		dsize.add(d1);
+		dsize.add(d2);
+		dsize.add(d3);
+		
+		return dsize;
+	}
+	
+	
 	public Dress generateDress(int idx) {
 		Dimage dimage = Dimage.builder()
 				.image_files("test" + idx + ".jpg")
 				.build();
-		
 		Dimage newDimage = dimageRepository.save(dimage);
+		
+		Set<Dsize> dsize = createDsize();
 		
 		Dress dress = Dress.builder()
 				.brand("test listsDress" + idx)
@@ -394,6 +423,7 @@ public class DressCountrollerTest {
 				.explanation("test listsDress")
 				.created_date(LocalDate.now())
 				.dimage(newDimage)
+				.dsize(dsize)
 				.build();
 		
 		return dressRepository.save(dress);

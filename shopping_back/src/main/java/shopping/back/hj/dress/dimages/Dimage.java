@@ -1,4 +1,4 @@
-package shopping.back.hj.dimages;
+package shopping.back.hj.dress.dimages;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

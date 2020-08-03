@@ -179,7 +179,7 @@ export default {
 			representationPreview: 0,
 			// 크게 보이는 이미지
 			bigPreview: 0,
-			// 현재 선택된 미리보기
+			sizeSet: '',
 		}
 	},
 	methods: {

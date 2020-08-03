@@ -1,4 +1,4 @@
-package shopping.back.hj.dimages;
+package shopping.back.hj.dress.dimages;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -36,13 +36,10 @@ public class DimageService {
 		// 파일을 쓰면서 String을 받아서 이미지 도메인에 저장
 		String filesNames = writeFiles(files, newDimage.getId());
 		
-		
 		if(filesNames == null || filesNames.equals("")) {
 			return ResponseEntity.badRequest().build();
 		}
 
-		System.out.println("########################");
-		System.out.println(filesNames);
 		newDimage.setImage_files(filesNames);
 
 		// 갱신

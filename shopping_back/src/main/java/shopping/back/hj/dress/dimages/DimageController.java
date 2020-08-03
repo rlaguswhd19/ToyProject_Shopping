@@ -1,4 +1,4 @@
-package shopping.back.hj.dimages;
+package shopping.back.hj.dress.dimages;
 
 import java.io.IOException;
 import java.util.Optional;

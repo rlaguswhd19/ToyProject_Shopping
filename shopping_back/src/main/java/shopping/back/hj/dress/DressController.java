@@ -1,6 +1,8 @@
 package shopping.back.hj.dress;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopping.back.hj.common.ErrorsModel;
+import shopping.back.hj.dress.dsize.Dsize;
 
 @RestController
 @CrossOrigin(origins = { "*" })
@@ -34,6 +37,7 @@ public class DressController {
 	
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) throws IllegalStateException, IOException {
+		
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}

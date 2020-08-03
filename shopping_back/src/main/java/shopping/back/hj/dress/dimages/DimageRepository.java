@@ -1,4 +1,4 @@
-package shopping.back.hj.dimages;
+package shopping.back.hj.dress.dimages;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

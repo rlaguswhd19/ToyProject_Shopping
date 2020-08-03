@@ -1,5 +1,8 @@
 package shopping.back.hj.dress;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
@@ -12,7 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shopping.back.hj.dimages.Dimage;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dsize.Dsize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -57,5 +61,8 @@ public class DressDto {
 		private String explanation;
 		
 		@NotNull
-		private Long dimage_id;
+		private Dimage dimage;
+		
+		@NotNull
+		private Set<Dsize> dsize = new HashSet<>();
 }

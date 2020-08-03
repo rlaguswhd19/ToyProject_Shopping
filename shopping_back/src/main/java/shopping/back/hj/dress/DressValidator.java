@@ -1,14 +1,10 @@
 package shopping.back.hj.dress;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import shopping.back.hj.dimages.Dimage;
-import shopping.back.hj.dimages.DimageRepository;
-import shopping.back.hj.dimages.DimageService;
+import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 

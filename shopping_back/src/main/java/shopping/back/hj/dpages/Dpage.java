@@ -31,9 +31,6 @@ public class Dpage {
 	@OneToOne
 	private Dress dress;
 	
-	// 색상당 사이즈 및 수량
-	private HashMap<String, ColorInfo> size_info;
-	
 	// account(게시글의 주인) 게시글주인은 많은 페이지를 가질 수 있다.
 	@ManyToOne
 	private Account account;
@@ -41,4 +38,6 @@ public class Dpage {
 	// 조회수
 	private Integer views;
 	
+	// 댓글
+	// 평점
 }
