@@ -38,6 +38,9 @@ public class DressValidator {
 			errors.reject("wrongSex", "Sex is Wrong");
 		}
 		
+		// dressType
 		DressType dressType = dressDto.getDress_type();
+		
+		// dsize 크기 비교 go to hell...
 	}
 }

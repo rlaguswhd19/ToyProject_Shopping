@@ -6,6 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
+import shopping.back.hj.dress.dimages.Dimage;
+import shopping.back.hj.dress.dimages.DimageRepository;
+import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressSize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -43,6 +50,9 @@ public class DressValidatorTest {
 	
 	@Autowired
 	private DressRepository dressRepository;
+	
+	@Autowired
+	private DimageRepository dimageRepository;
 	
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
 	private MockMultipartFile file2 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -68,6 +78,9 @@ public class DressValidatorTest {
 	@Test
 	@TestDescription("DressDto의 로직에 맞지 않는 값들을 보내는 Test, DressValidator 수행")
 	public void createDress_BadRequest_WrongInput() throws Exception {
+		Set<Dsize> dsize = createDsize();
+		Dimage dimage = createDimage(1);
+		
 		DressDto dressDto = DressDto.builder()
 				.brand("Test COVERNAT")
 				.name("Test")
@@ -77,6 +90,8 @@ public class DressValidatorTest {
 				.dress_type(DressType.Top)
 				.discount(100)
 				.explanation("Test")
+				.dimage(dimage)
+				.dsize(dsize)
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -91,5 +106,39 @@ public class DressValidatorTest {
 			.andExpect(jsonPath("content[0].code").exists())
 			.andExpect(jsonPath("_links.index").exists())
 			;
+	}
+	
+	public Set<Dsize> createDsize() {
+		Set<Dsize> dsize = new HashSet<>();
+		
+		Dsize d1 = Dsize.builder()
+				.size(DressSize.L)
+				.height(100)
+				.width(50)
+				.build();
+		Dsize d2 = Dsize.builder()
+				.size(DressSize.M)
+				.height(90)
+				.width(40)
+				.build();
+		Dsize d3 = Dsize.builder()
+				.size(DressSize.S)
+				.height(80)
+				.width(30)
+				.build();
+		
+		dsize.add(d1);
+		dsize.add(d2);
+		dsize.add(d3);
+		
+		return dsize;
+	}
+	
+	public Dimage createDimage(int idx) {
+		Dimage dimage = Dimage.builder()
+				.image_files("test" + idx + ".jpg")
+				.build();
+		Dimage newDimage = dimageRepository.save(dimage);
+		return newDimage;
 	}
 }
