@@ -72,7 +72,7 @@ public class DressValidatorTest {
 				.brand("Test COVERNAT")
 				.name("Test")
 				.article_number("C1804SL01WH")
-				.sex(Sex.Man)
+				.sex(Sex.Men)
 				.price(0L)
 				.dress_type(DressType.Top)
 				.discount(100)

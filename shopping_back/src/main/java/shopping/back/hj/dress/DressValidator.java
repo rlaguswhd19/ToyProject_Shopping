@@ -37,7 +37,7 @@ public class DressValidator {
 
 		// TODO begin
 		Sex sex = dressDto.getSex();
-		if(!(sex == Sex.Man || sex == Sex.Woman || sex == Sex.Public)) {
+		if(!(sex == Sex.Men || sex == Sex.Women || sex == Sex.Free)) {
 			errors.rejectValue("sex", "sex is wrongValue", "다른 성별이 올 수 없습니다.");
 			errors.reject("wrongSex", "Sex is Wrong");
 		}
