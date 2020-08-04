@@ -94,6 +94,8 @@ public class DressValidatorTest {
 				.dsize(dsize)
 				.build();
 		
+		System.out.println(dressDto);
+		
 		mockMvc.perform(post("/api/dress")
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -113,16 +115,19 @@ public class DressValidatorTest {
 		
 		Dsize d1 = Dsize.builder()
 				.size(DressSize.L)
-				.height(100)
+				.info(100)
+				.height(85)
 				.width(50)
 				.build();
 		Dsize d2 = Dsize.builder()
 				.size(DressSize.M)
-				.height(90)
+				.info(90)
+				.height(80)
 				.width(40)
 				.build();
 		Dsize d3 = Dsize.builder()
 				.size(DressSize.S)
+				.info(80)
 				.height(80)
 				.width(30)
 				.build();

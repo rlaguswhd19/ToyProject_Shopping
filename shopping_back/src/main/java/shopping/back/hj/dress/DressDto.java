@@ -64,5 +64,12 @@ public class DressDto {
 		private Dimage dimage;
 		
 		@NotNull
-		private Set<Dsize> dsize = new HashSet<>();
+		private Set<Dsize> dsize;
+
+		@Override
+		public String toString() {
+			return "DressDto [brand=" + brand + ", name=" + name + ", article_number=" + article_number
+					+ ", dress_type=" + dress_type + ", sex=" + sex + ", price=" + price + ", discount=" + discount
+					+ ", explanation=" + explanation + ", dimage=" + dimage + ", dsize=" + dsize + "]";
+		}
 }

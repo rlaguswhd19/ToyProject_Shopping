@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopping.back.hj.common.ErrorsModel;
-import shopping.back.hj.dress.dsize.Dsize;
 
 @RestController
 @CrossOrigin(origins = { "*" })

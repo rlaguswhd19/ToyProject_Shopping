@@ -27,6 +27,8 @@ public class Dsize {
 	@Enumerated(EnumType.STRING)
 	private DressSize size;
 	
+	private Integer info;
+	
 	private Integer width;
 	
 	private Integer height;

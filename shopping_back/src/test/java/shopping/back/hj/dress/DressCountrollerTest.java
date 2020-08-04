@@ -382,16 +382,19 @@ public class DressCountrollerTest {
 		
 		Dsize d1 = Dsize.builder()
 				.size(DressSize.L)
+				.info(100)
 				.height(100)
 				.width(50)
 				.build();
 		Dsize d2 = Dsize.builder()
 				.size(DressSize.M)
+				.info(90)
 				.height(90)
 				.width(40)
 				.build();
 		Dsize d3 = Dsize.builder()
 				.size(DressSize.S)
+				.info(80)
 				.height(80)
 				.width(30)
 				.build();
