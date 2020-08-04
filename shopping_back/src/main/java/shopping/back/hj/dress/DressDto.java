@@ -1,6 +1,5 @@
 package shopping.back.hj.dress;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EnumType;
@@ -31,6 +30,9 @@ public class DressDto {
 		// 이름
 		@NotEmpty
 		private String name;
+		
+		@NotEmpty
+		private String color;
 		
 		// 품번
 		@NotEmpty

@@ -89,6 +89,7 @@ public class DressValidatorTest {
 				.price(0L)
 				.dress_type(DressType.Top)
 				.discount(100)
+				.color("blue")
 				.explanation("Test")
 				.dimage(dimage)
 				.dsize(dsize)

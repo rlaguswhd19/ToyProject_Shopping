@@ -103,55 +103,57 @@
 			</div>
 		</div>
 		<div class="input_wrap">
-			<v-text-field
-				label="Name"
-				placeholder="이름을 입력하세요."
-				outlined
+			<div>
+				<input
+					type="text"
+					class="hj_input"
+					v-model="dressDto.sex"
+					placeholder="sex"
+				/>
+				<input
+					type="text"
+					class="hj_input"
+					placeholder="category"
+					v-model="dressDto.dress_type"
+				/>
+			</div>
+
+			<input
+				type="text"
+				class="hj_input"
 				v-model="dressDto.name"
-			></v-text-field>
-			<v-text-field
-				label="Brand"
-				placeholder="브랜드를 입력하세요."
-				outlined
-				v-model="dressDto.brand"
-			></v-text-field>
-			<v-text-field
-				label="article_number"
-				placeholder="품번을 입력하세요."
-				outlined
+				placeholder="name"
+			/>
+			<input
+				type="text"
+				class="hj_input"
 				v-model="dressDto.article_number"
-			></v-text-field>
+				placeholder="article_number"
+			/>
+
+			<!-- 여기도 selector -->
 			<v-text-field
-				label="dress_type"
-				placeholder="옷타입을 입력하세요."
-				outlined
-				v-model="dressDto.dress_type"
+				label="Color"
+				placeholder="색깔을 입력하세요."
+				v-model="dressDto.color"
 			></v-text-field>
-			<v-text-field
-				label="sex"
-				placeholder="성별을 입력하세요."
-				outlined
-				v-model="dressDto.sex"
-			></v-text-field>
+
 			<v-text-field
 				label="price"
 				placeholder="가격을 입력하세요."
-				outlined
 				v-model="dressDto.price"
 			></v-text-field>
 			<v-text-field
 				label="discount"
 				placeholder="할인율을 입력하세요."
-				outlined
 				v-model="dressDto.discount"
 			></v-text-field>
 			<v-text-field
 				label="explanation"
 				placeholder="설명을 입력하세요."
-				outlined
 				v-model="dressDto.explanation"
 			></v-text-field>
-			<v-btn @click="post_dress" style="float: right;">등록</v-btn>
+			<v-btn @click="post_dress">등록</v-btn>
 		</div>
 	</div>
 </template>
@@ -171,6 +173,7 @@ export default {
 				dress_type: 'Top',
 				sex: 'Men',
 				price: '39000',
+				color: 'blue',
 				discount: '30',
 				explanation: 'DSN-Logo Tee Black',
 				dimage: '',
@@ -186,7 +189,6 @@ export default {
 			// 현재 선택된 미리보기
 		}
 	},
-
 	methods: {
 		mouseover(id) {
 			//bigPreview 변경

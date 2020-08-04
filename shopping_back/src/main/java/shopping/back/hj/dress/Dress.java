@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.sun.istack.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -43,6 +41,9 @@ public class Dress {
 
 	// 브랜드
 	private String brand;
+	
+	//색깔
+	private String color;
 
 	// 품번
 	private String article_number;
