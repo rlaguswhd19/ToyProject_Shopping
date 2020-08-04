@@ -9,6 +9,7 @@
 						v-if="bigPreview == representationPreview"
 					>
 						<v-img
+							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
 							width="50"
 							height="60"
@@ -20,6 +21,7 @@
 					</div>
 					<div class="preview_list" v-else>
 						<v-img
+							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
 							width="50"
 							height="60"
@@ -40,6 +42,7 @@
 								preview.id != representationPreview &&
 								preview.id != bigPreview
 							"
+							:id="'preview_' + preview.id"
 							:src="preview.url"
 							width="50"
 							height="60"
@@ -53,6 +56,7 @@
 								preview.id != representationPreview &&
 								preview.id == bigPreview
 							"
+							:id="'preview_' + preview.id"
 							:src="preview.url"
 							width="50"
 							height="60"
@@ -85,7 +89,6 @@
 					contain
 					:alt="previews[bigPreview].name"
 				/>
-
 				<v-file-input
 					type="file"
 					show-size
@@ -179,7 +182,7 @@ export default {
 			representationPreview: 0,
 			// 크게 보이는 이미지
 			bigPreview: 0,
-			sizeSet: '',
+			// 현재 선택된 미리보기
 		}
 	},
 	methods: {
