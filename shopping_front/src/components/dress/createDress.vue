@@ -187,26 +187,6 @@ export default {
 		}
 	},
 
-	mounted() {
-		this.dressDto.dsize.push({
-			size: 'S',
-			info: 80,
-			width: 30,
-			height: 50,
-		})
-		this.dressDto.dsize.push({
-			size: 'M',
-			info: 90,
-			width: 40,
-			height: 60,
-		})
-		this.dressDto.dsize.push({
-			size: 'L',
-			info: 100,
-			width: 50,
-			height: 70,
-		})
-	},
 	methods: {
 		mouseover(id) {
 			//bigPreview 변경
