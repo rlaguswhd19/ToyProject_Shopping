@@ -5,6 +5,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +31,19 @@ public class Dsize {
 	@Enumerated(EnumType.STRING)
 	private DressSize size;
 	
+	@NotNull
+	@Min(0)
+	@Max(200)
 	private Integer info;
 	
+	@NotNull
+	@Min(0)
+	@Max(200)
 	private Integer width;
 	
+	@NotNull
+	@Min(0)
+	@Max(200)
 	private Integer height;
 
 	@Override

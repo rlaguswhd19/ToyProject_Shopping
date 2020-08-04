@@ -169,11 +169,12 @@ export default {
 				name: ' DSN-Logo Tee Black',
 				article_number: 'TN20S0137',
 				dress_type: 'Top',
-				sex: 'Man',
+				sex: 'Men',
 				price: '39000',
 				discount: '30',
 				explanation: 'DSN-Logo Tee Black',
-				dimage_id: '',
+				dimage: '',
+				dsize: [],
 			},
 
 			files: '',
@@ -184,6 +185,27 @@ export default {
 			bigPreview: 0,
 			// 현재 선택된 미리보기
 		}
+	},
+
+	mounted() {
+		this.dressDto.dsize.push({
+			size: 'S',
+			info: 80,
+			width: 30,
+			height: 50,
+		})
+		this.dressDto.dsize.push({
+			size: 'M',
+			info: 90,
+			width: 40,
+			height: 60,
+		})
+		this.dressDto.dsize.push({
+			size: 'L',
+			info: 100,
+			width: 50,
+			height: 70,
+		})
 	},
 	methods: {
 		mouseover(id) {
@@ -224,7 +246,8 @@ export default {
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
-				this.dressDto.dimage_id = response.data.id
+				console.log(response)
+				this.dressDto.dimage = response.data
 				this.post_dressDto()
 			})
 		},

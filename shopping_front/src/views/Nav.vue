@@ -13,7 +13,7 @@ import mainBar from '../components/bar/main'
 import loginBar from '../components/bar/login'
 
 export default {
-	name: 'header',
+	name: 'Nav',
 	components: {
 		mainBar,
 		loginBar,

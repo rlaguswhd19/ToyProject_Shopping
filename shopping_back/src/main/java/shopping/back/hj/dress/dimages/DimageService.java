@@ -31,7 +31,6 @@ public class DimageService {
 				.build();
 
 		Dimage newDimage = dimageRepository.save(dimage);
-		System.out.println(newDimage.getImage_files());
 		
 		// 파일을 쓰면서 String을 받아서 이미지 도메인에 저장
 		String filesNames = writeFiles(files, newDimage.getId());
