@@ -102,8 +102,26 @@
 				<v-btn @click="changeRepresentation">대표이미지</v-btn>
 			</div>
 		</div>
-		<div class="input_wrap">
-			<div>
+
+		<!-- 입력 -->
+
+		<div class="info_wrap">
+			<div class="input_wrap">
+				<input
+					type="text"
+					class="hj_input"
+					v-model="dressDto.article_number"
+					placeholder="article_number"
+				/>
+				<input
+					type="text"
+					class="hj_input"
+					v-model="dressDto.name"
+					placeholder="name"
+				/>
+			</div>
+			<span>category</span>
+			<div class="category_wrap">
 				<input
 					type="text"
 					class="hj_input"
@@ -113,31 +131,39 @@
 				<input
 					type="text"
 					class="hj_input"
-					placeholder="category"
+					placeholder="dress_type"
 					v-model="dressDto.dress_type"
 				/>
 			</div>
 
+			<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
+			<span>color</span>
 			<input
 				type="text"
 				class="hj_input"
-				v-model="dressDto.name"
-				placeholder="name"
-			/>
-			<input
-				type="text"
-				class="hj_input"
-				v-model="dressDto.article_number"
-				placeholder="article_number"
-			/>
-
-			<!-- 여기도 selector -->
-			<v-text-field
-				label="Color"
-				placeholder="색깔을 입력하세요."
+				placeholder="색상을 선택해 주세요."
+				readonly
 				v-model="dressDto.color"
-			></v-text-field>
-
+			/>
+			<div class="colors_wrap">
+				<div v-for="color in colors" :key="color">
+					<div
+						v-if="color == dressDto.color"
+						class="color_box"
+						:style="
+							'background-color:' +
+							color +
+							'; border: 5px black solid;'
+						"
+					></div>
+					<div
+						v-else
+						class="color_box"
+						@click="changeColor(color)"
+						:style="'background-color:' + color"
+					></div>
+				</div>
+			</div>
 			<v-text-field
 				label="price"
 				placeholder="가격을 입력하세요."
@@ -173,20 +199,28 @@ export default {
 				dress_type: 'Top',
 				sex: 'Men',
 				price: '39000',
-				color: 'blue',
+				color: '색상을 선택해 주세요',
 				discount: '30',
 				explanation: 'DSN-Logo Tee Black',
 				dimage: '',
 				dsize: [],
 			},
-
+			colors: [
+				'RED',
+				'ORANGE',
+				'YELLOW',
+				'GREEN',
+				'BLUE',
+				'PURPLE',
+				'BLACK',
+				'WHITE',
+			],
 			files: '',
 			previews: [],
 			// 대표 이미지 인덱스
 			representationPreview: 0,
 			// 크게 보이는 이미지
 			bigPreview: 0,
-			// 현재 선택된 미리보기
 		}
 	},
 	methods: {
@@ -210,7 +244,9 @@ export default {
 				})
 			}
 		},
-
+		changeColor(color) {
+			this.dressDto.color = color
+		},
 		post_dress() {
 			let formData = new FormData()
 
