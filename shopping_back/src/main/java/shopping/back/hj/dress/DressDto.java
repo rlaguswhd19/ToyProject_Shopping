@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -31,8 +32,8 @@ public class DressDto {
 		@NotEmpty
 		private String name;
 		
-		@NotEmpty
-		private String color;
+		@NotNull
+		private DressColor color;
 		
 		// 품번
 		@NotEmpty

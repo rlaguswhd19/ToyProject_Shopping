@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
@@ -25,6 +26,15 @@ public class DressValidator {
 
 	public void validate(DressDto dressDto, Errors errors) {
 
+		DressColor dressColor = dressDto.getColor();
+		if (!(dressColor == DressColor.RED || dressColor == DressColor.ORANGE || dressColor == DressColor.YELLOW
+				|| dressColor == DressColor.GREEN || dressColor == DressColor.BLUE || dressColor == DressColor.PURPLE
+				|| dressColor == DressColor.BLACK || dressColor == DressColor.WHITE)) {
+			errors.rejectValue("color", "color is wrongValue", "다른 색상이 올 수 없습니다.");
+			errors.reject("wrongColor", "Color is Wrong");
+		}
+
+		// price
 		if (dressDto.getPrice() == 0) { // 파는 가격이 0일 경우
 //			field error
 			errors.rejectValue("price", "price = 0 is wrongValue", "판매액은 0원일 수 없습니다.");
@@ -37,7 +47,7 @@ public class DressValidator {
 			errors.reject("wrongDiscount", "Discount is Wrong");
 		}
 
-		// TODO begin
+		// sex
 		Sex sex = dressDto.getSex();
 		if (!(sex == Sex.Men || sex == Sex.Women || sex == Sex.Free)) {
 			errors.rejectValue("sex", "sex is wrongValue", "다른 성별이 올 수 없습니다.");
@@ -75,7 +85,8 @@ public class DressValidator {
 
 				if (temp.getWidth() >= ds.getWidth() || temp.getHeight() >= ds.getHeight()
 						|| temp.getInfo() >= ds.getInfo()) {
-					errors.rejectValue("dsize", "옷 사이즈 "+temp.getSize() + "보다  " + ds.getSize() + "이 작습니다.", "dsize 에러");
+					errors.rejectValue("dsize", "옷 사이즈 " + temp.getSize() + "보다  " + ds.getSize() + "이 작습니다.",
+							"dsize 에러");
 					errors.reject("wrongDsize", "Dsize is Wrong");
 				}
 

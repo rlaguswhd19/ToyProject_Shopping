@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
@@ -43,7 +44,7 @@ public class Dress {
 	private String brand;
 	
 	//색깔
-	private String color;
+	private DressColor color;
 
 	// 품번
 	private String article_number;

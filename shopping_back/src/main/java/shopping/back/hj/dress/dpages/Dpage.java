@@ -1,7 +1,5 @@
-package shopping.back.hj.dpages;
+package shopping.back.hj.dress.dpages;
 
-import java.util.HashMap;
-import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.Dress;
-import shopping.back.hj.enums.ColorInfo;
 
 @Entity
 @Builder @AllArgsConstructor @NoArgsConstructor

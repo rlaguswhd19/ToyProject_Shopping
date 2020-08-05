@@ -50,6 +50,7 @@ import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
@@ -99,7 +100,7 @@ public class DressCountrollerTest {
 				.article_number("C1804SL01WH")
 				.sex(Sex.Men)
 				.price(39000L)
-				.color("blue")
+				.color(DressColor.BLACK)
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("Test")
@@ -135,6 +136,7 @@ public class DressCountrollerTest {
 							fieldWithPath("article_number").description("품번"),
 							fieldWithPath("dress_type").description("타입"),
 							fieldWithPath("sex").description("성별"),
+							fieldWithPath("color").description("색상"),
 							fieldWithPath("price").description("가격"),
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
@@ -152,6 +154,7 @@ public class DressCountrollerTest {
 							fieldWithPath("article_number").type(JsonFieldType.STRING).description("품번"),
 							fieldWithPath("dress_type").type(JsonFieldType.STRING).description("타입"),
 							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+							fieldWithPath("color").type(JsonFieldType.STRING).description("색상"),
 							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
@@ -422,7 +425,7 @@ public class DressCountrollerTest {
 				.article_number("test listsDress")
 				.sex(Sex.Free)
 				.price(39000L)
-				.color("blue")
+				.color(DressColor.BLACK)
 				.dress_type(DressType.Top)
 				.discount(10)
 				.explanation("test listsDress")

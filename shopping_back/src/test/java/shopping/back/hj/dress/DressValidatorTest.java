@@ -30,6 +30,7 @@ import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
 import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
@@ -89,7 +90,7 @@ public class DressValidatorTest {
 				.price(0L)
 				.dress_type(DressType.Top)
 				.discount(100)
-				.color("blue")
+				.color(DressColor.BLACK)
 				.explanation("Test")
 				.dimage(dimage)
 				.dsize(dsize)
