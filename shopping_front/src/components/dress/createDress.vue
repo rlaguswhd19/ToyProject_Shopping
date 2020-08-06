@@ -11,11 +11,11 @@
 						<v-img
 							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
-							width="50"
-							height="60"
+							width="40"
+							height="50"
 							:alt="previews[representationPreview].name"
 							contain
-							style="outline: 2px black solid;"
+							style="outline: 1px black solid;"
 							@mouseover="mouseover(representationPreview)"
 						/>
 					</div>
@@ -23,8 +23,8 @@
 						<v-img
 							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
-							width="50"
-							height="60"
+							width="40"
+							height="50"
 							:alt="previews[representationPreview].name"
 							contain
 							@mouseover="mouseover(representationPreview)"
@@ -44,8 +44,8 @@
 							"
 							:id="'preview_' + preview.id"
 							:src="preview.url"
-							width="50"
-							height="60"
+							width="40"
+							height="50"
 							:alt="preview.name"
 							contain
 							@mouseover="mouseover(preview.id)"
@@ -58,12 +58,12 @@
 							"
 							:id="'preview_' + preview.id"
 							:src="preview.url"
-							width="50"
-							height="60"
+							width="40"
+							height="50"
 							:alt="preview.name"
 							outline="2px black solid"
 							contain
-							style="outline: 2px black solid;"
+							style="outline: 1px black solid;"
 							@mouseover="mouseover(preview.id)"
 						/>
 					</div>
@@ -102,84 +102,81 @@
 				<v-btn @click="changeRepresentation">대표이미지</v-btn>
 			</div>
 		</div>
-
 		<!-- 입력 -->
-
 		<div class="info_wrap">
-			<div class="input_wrap">
-				<input
-					type="text"
-					class="hj_input"
-					v-model="dressDto.article_number"
-					placeholder="article_number"
-				/>
-				<input
-					type="text"
-					class="hj_input"
-					v-model="dressDto.name"
-					placeholder="name"
-				/>
-			</div>
-			<span>category</span>
-			<div class="category_wrap">
-				<input
-					type="text"
-					class="hj_input"
-					v-model="dressDto.sex"
-					placeholder="sex"
-				/>
-				<input
-					type="text"
-					class="hj_input"
-					placeholder="dress_type"
-					v-model="dressDto.dress_type"
-				/>
-			</div>
-
-			<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
-			<span>color</span>
-			<input
-				type="text"
-				class="hj_input"
-				placeholder="색상을 선택해 주세요."
-				readonly
-				v-model="dressDto.color"
-			/>
-			<div class="colors_wrap">
-				<div v-for="color in colors" :key="color">
-					<div
-						v-if="color == dressDto.color"
-						class="color_box"
-						:style="
-							'background-color:' +
-							color +
-							'; border: 5px black solid;'
-						"
-					></div>
-					<div
-						v-else
-						class="color_box"
-						@click="changeColor(color)"
-						:style="'background-color:' + color"
-					></div>
+			<v-card style="height: 720px; padding: 20px;">
+				<div class="input_wrap">
+					<input
+						type="text"
+						class="hj_input"
+						v-model="dressDto.name"
+						placeholder="name"
+					/>
+					<input
+						type="text"
+						class="hj_input"
+						v-model="dressDto.article_number"
+						placeholder="article_number"
+					/>
 				</div>
-			</div>
-			<v-text-field
-				label="price"
-				placeholder="가격을 입력하세요."
-				v-model="dressDto.price"
-			></v-text-field>
-			<v-text-field
-				label="discount"
-				placeholder="할인율을 입력하세요."
-				v-model="dressDto.discount"
-			></v-text-field>
-			<v-text-field
-				label="explanation"
-				placeholder="설명을 입력하세요."
-				v-model="dressDto.explanation"
-			></v-text-field>
-			<v-btn @click="post_dress">등록</v-btn>
+				<span>category</span>
+				<div class="category_wrap">
+					<v-select
+						:items="sexs"
+						label="Sex"
+						v-model="dressDto.sex"
+						dense
+						solo
+						style="width: 20%; margin-right: 5%;"
+					></v-select>
+					<v-select
+						:items="dress_types"
+						label="DressType"
+						v-model="dressDto.dress_type"
+						dense
+						solo
+					></v-select>
+				</div>
+
+				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
+				<span>color</span>
+				<input
+					type="text"
+					class="hj_input"
+					placeholder="색상을 선택해 주세요."
+					readonly
+					v-model="dressDto.color"
+				/>
+				<div class="colors_wrap">
+					<div v-for="color in colors" :key="color">
+						<div
+							class="color_box"
+							@click="changeColor(color)"
+							:style="'background-color:' + color"
+						></div>
+					</div>
+				</div>
+				<div class="content_row">
+					<v-text-field
+						label="price"
+						placeholder="가격을 입력하세요."
+						v-model="dressDto.price"
+						style="width: 50%; margin-right: 30px;"
+					></v-text-field>
+					<v-text-field
+						label="discount"
+						placeholder="할인율을 입력하세요."
+						v-model="dressDto.discount"
+						style="width: 20%;"
+					></v-text-field>
+				</div>
+				<v-text-field
+					label="explanation"
+					placeholder="설명을 입력하세요."
+					v-model="dressDto.explanation"
+				></v-text-field>
+				<v-btn @click="post_dress">등록</v-btn>
+			</v-card>
 		</div>
 	</div>
 </template>
@@ -221,6 +218,8 @@ export default {
 			representationPreview: 0,
 			// 크게 보이는 이미지
 			bigPreview: 0,
+			sexs: ['Men', 'Women', 'Free'],
+			dress_types: ['Top', 'Bottom'],
 		}
 	},
 	methods: {

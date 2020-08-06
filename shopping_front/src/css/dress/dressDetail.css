@@ -1,19 +1,20 @@
 
 .content_wrap {
 	margin: 10px;
+	width: 100%;
 	display: flex;
-	flex-direction: row;
 }
 
 .preview_wrap {
 	display: flex;
 	flex-direction: row;
+	/* outline: 1px black solid; */
 }
 
 .preview_list_wrap {
+	margin-top: 100px;
 	width: 50px;
 	height: 720px;
-	outline: 1px black solid;
 	margin-right: 20px;
 }
 
@@ -22,26 +23,24 @@
 }
 
 .big_preview_wrap {
-	outline: 1px black solid;
 }
 
 .big_preview{
-	outline: 2px red solid;
 }
 
 .info_wrap {
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
-	outline: 2px blue solid;
-	margin-left: 30px;
+	/* outline: 2px blue solid; */
+	margin-left: 70px;
 	width: 100%;
 	height: 720px;
 	padding: 10px;
 }
 
 .input_wrap{
-	outline: 1px purple solid;
+	/* outline: 1px purple solid; */
 	display: flex;
 	flex-direction: column;
 	margin: 20px 0;
@@ -53,34 +52,51 @@
 	border: 2px #999999 solid;
 	border-radius: 5px;
 	height: 50px;
-	/* width: 100%; */
+	width: 100%;
 	padding: 1px 8px;
 	margin: 10px 0;
 	margin-right: 20px;
 }
 
+.hj_input:focus {
+	outline: none !important;
+	border-color: #719ECE;
+	box-shadow: 1px 1px 20px #cce6ff;
+}
+
 .category_wrap{
-	outline: 1px black solid;
-	margin-bottom: 30px;
+	/* outline: 1px black solid; */
+	margin-bottom: 20px;
+	display: flex;
 }
 
 .colors_wrap{
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	outline: 1px red solid;
+	/* outline: 1px red solid; */
 }
 
 .color_box{
 	width: 40px;
 	height: 40px;
-	margin: 10px;
-	border: 1px black solid;
+	margin: 11px;
+	/* border: 1px black solid; */
 	border-radius: 10px;
+	opacity: 0.8;
 }
 
 .color_box:hover{
-	border: 4px black solid;
+	/* border: 4px black solid; */
 	/* outline: 5px black solid; */
+	box-shadow: 1px 1px 10px #9b9b9b;
 }
 
+.content_row{
+	display: flex;
+}
+
+.content_column{
+	display: flex;
+	flex-direction: column;
+}

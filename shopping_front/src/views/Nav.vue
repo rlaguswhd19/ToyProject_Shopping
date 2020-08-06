@@ -27,4 +27,8 @@ export default {
 	flex-direction: column;
 	position: relative;
 }
+
+hr {
+	border-top: 1px #cccccc solid;
+}
 </style>
