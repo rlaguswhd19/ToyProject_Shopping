@@ -104,7 +104,27 @@
 		</div>
 		<!-- 입력 -->
 		<div class="info_wrap">
-			<v-card style="height: 720px; padding: 20px;">
+			<v-card style="height: 800px; padding: 20px;">
+				<h2>Dress Info</h2>
+				<span>category</span>
+				<div class="category_wrap">
+					<v-select
+						:items="sexs"
+						label="Sex"
+						v-model="dressDto.sex"
+						dense
+						solo
+						style="width: 30%; margin-right: 5%;"
+					></v-select>
+					<v-select
+						:items="dress_types"
+						label="DressType"
+						v-model="dressDto.dress_type"
+						style="width: 60%;"
+						dense
+						solo
+					></v-select>
+				</div>
 				<div class="input_wrap">
 					<input
 						type="text"
@@ -118,26 +138,61 @@
 						v-model="dressDto.article_number"
 						placeholder="article_number"
 					/>
-				</div>
-				<span>category</span>
-				<div class="category_wrap">
-					<v-select
-						:items="sexs"
-						label="Sex"
-						v-model="dressDto.sex"
-						dense
-						solo
-						style="width: 20%; margin-right: 5%;"
-					></v-select>
-					<v-select
-						:items="dress_types"
-						label="DressType"
-						v-model="dressDto.dress_type"
-						dense
-						solo
-					></v-select>
-				</div>
+					<v-btn
+						color="primary"
+						width="30%"
+						style="margin: auto 0;"
+						@click="size_chart = true"
+						>size chart</v-btn
+					>
+					<v-dialog v-model="size_chart" max-width="290">
+						<v-card>
+							<v-card-title class="headline"
+								>Use Google's location service?</v-card-title
+							>
 
+							<v-card-text>
+								Let Google help apps determine location. This
+								means sending anonymous location data to Google,
+								even when no apps are running.
+							</v-card-text>
+
+							<v-card-actions>
+								<v-spacer></v-spacer>
+
+								<v-btn
+									color="green darken-1"
+									text
+									@click="size_chart = false"
+								>
+									Disagree
+								</v-btn>
+
+								<v-btn
+									color="green darken-1"
+									text
+									@click="size_chart = false"
+								>
+									Agree
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+				</div>
+				<div class="content_row">
+					<v-text-field
+						label="price"
+						placeholder="Price"
+						v-model="dressDto.price"
+						style="width: 50%; margin-right: 30px;"
+					></v-text-field>
+					<v-text-field
+						label="discount"
+						placeholder="Discount"
+						v-model="dressDto.discount"
+						style="width: 20%;"
+					></v-text-field>
+				</div>
 				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
 				<span>color</span>
 				<input
@@ -152,30 +207,25 @@
 						<div
 							class="color_box"
 							@click="changeColor(color)"
-							:style="'background-color:' + color"
+							:style="
+								'background-color:' +
+								color +
+								'; border: 1px black solid;'
+							"
 						></div>
 					</div>
-				</div>
-				<div class="content_row">
-					<v-text-field
-						label="price"
-						placeholder="가격을 입력하세요."
-						v-model="dressDto.price"
-						style="width: 50%; margin-right: 30px;"
-					></v-text-field>
-					<v-text-field
-						label="discount"
-						placeholder="할인율을 입력하세요."
-						v-model="dressDto.discount"
-						style="width: 20%;"
-					></v-text-field>
 				</div>
 				<v-text-field
 					label="explanation"
 					placeholder="설명을 입력하세요."
 					v-model="dressDto.explanation"
 				></v-text-field>
-				<v-btn @click="post_dress">등록</v-btn>
+				<v-btn
+					@click="post_dress"
+					color="primary"
+					style="width: 100%; margin: auto;"
+					>등록</v-btn
+				>
 			</v-card>
 		</div>
 	</div>
@@ -220,6 +270,7 @@ export default {
 			bigPreview: 0,
 			sexs: ['Men', 'Women', 'Free'],
 			dress_types: ['Top', 'Bottom'],
+			size_chart: false,
 		}
 	},
 	methods: {
