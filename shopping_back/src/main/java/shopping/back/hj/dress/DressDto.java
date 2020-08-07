@@ -33,6 +33,7 @@ public class DressDto {
 		private String name;
 		
 		@NotNull
+		@Enumerated(EnumType.STRING)
 		private DressColor color;
 		
 		// 품번

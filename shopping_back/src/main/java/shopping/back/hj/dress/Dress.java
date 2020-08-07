@@ -44,6 +44,7 @@ public class Dress {
 	private String brand;
 	
 	//색깔
+	@Enumerated(EnumType.STRING)
 	private DressColor color;
 
 	// 품번

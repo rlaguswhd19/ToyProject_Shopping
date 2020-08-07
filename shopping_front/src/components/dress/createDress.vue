@@ -152,7 +152,9 @@
 					<a @click="size_chart = true">
 						<i class="mdi mdi-chart-bar" />size_chart / color
 					</a>
-					<span style="color: red; float: right;"
+					<span
+						v-if="dressDto.dsize.length == 0"
+						style="color: red; float: right;"
 						>! 사이즈 정보를 입력하세요</span
 					>
 				</span>
@@ -175,8 +177,11 @@
 									<i class="mdi mdi-close"
 								/></v-btn>
 							</v-card-title>
-							<v-card-text style="height: 500px;">
-								<div class="content_row">
+							<v-card-text>
+								<div
+									class="content_row"
+									style="margin-bottom: 30px;"
+								>
 									<v-checkbox
 										v-for="(s, idx) in sizes"
 										:key="idx"
@@ -185,13 +190,7 @@
 										class="hj_check"
 									/>
 								</div>
-								<div
-									class="content_row"
-									style="
-										outline: 1px black solid;
-										height: 407px;
-									"
-								>
+								<div class="content_row">
 									<div class="table_wrap">
 										<table class="size_chart">
 											<thead>
@@ -243,6 +242,8 @@
 									<v-img
 										src="../../assets/sizeinfo.jpg"
 										contain
+										height="300"
+										width="250"
 										style="outline: black 1px solid;"
 									/>
 								</div>
