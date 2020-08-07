@@ -98,7 +98,7 @@
 						label="File input"
 						v-model="files"
 						accept="image/*"
-						@change="changeImages"
+						@change="change_image"
 						dense
 						outlined
 					></v-file-input>
@@ -156,7 +156,12 @@
 						>! 사이즈 정보를 입력하세요</span
 					>
 				</span>
-				<v-dialog v-model="size_chart" max-width="1000px">
+				<v-dialog
+					v-model="size_chart"
+					max-width="1000px"
+					persistent
+					scrollable
+				>
 					<v-card>
 						<div class="size_chart_wrap">
 							<v-card-title
@@ -164,82 +169,101 @@
 								<v-btn
 									text
 									style="margin-left: auto;"
+									fab
 									@click="size_chart = false"
 								>
 									<i class="mdi mdi-close"
 								/></v-btn>
 							</v-card-title>
-							<div class="content_row">
-								<v-checkbox
-									v-for="(s, idx) in sizes"
-									:key="idx"
-									:label="s.size"
-									v-model="checks[idx]"
-									class="hj_check"
-								/>
-							</div>
-							<div class="content_row">
-								<table class="size_chart">
-									<thead>
-										<th style="width: 52px; !important">
-											사이즈
-										</th>
-										<td>일반 표시</td>
-										<td>가슴 둘레(cm)</td>
-										<td>신장(cm)</td>
-									</thead>
-									<tbody>
-										<tr
-											v-for="(s, idx) in sizes"
-											:key="idx"
-										>
-											<th v-if="checks[idx]">
-												{{ s.size }}
-											</th>
-											<td v-if="checks[idx]">
-												<input
-													type="text"
-													class="td_input"
-													v-model="s.info"
-												/>
-											</td>
-											<td v-if="checks[idx]">
-												<input
-													type="text"
-													class="td_input"
-													v-model="s.width"
-												/>
-											</td>
-											<td v-if="checks[idx]">
-												<input
-													type="text"
-													class="td_input"
-													v-model="s.height"
-												/>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<img src="../../assets/sizeinfo.jpg" />
-							</div>
-
+							<v-card-text style="height: 500px;">
+								<div class="content_row">
+									<v-checkbox
+										v-for="(s, idx) in sizes"
+										:key="idx"
+										:label="s.size"
+										v-model="checks[idx]"
+										class="hj_check"
+									/>
+								</div>
+								<div
+									class="content_row"
+									style="
+										outline: 1px black solid;
+										height: 407px;
+									"
+								>
+									<div class="table_wrap">
+										<table class="size_chart">
+											<thead>
+												<th
+													style="width: 52; !important"
+												>
+													사이즈
+												</th>
+												<td>일반 표시</td>
+												<td>가슴 둘레(cm)</td>
+												<td>신장(cm)</td>
+											</thead>
+											<tbody>
+												<tr
+													v-for="(s, idx) in sizes"
+													:key="idx"
+												>
+													<th v-if="checks[idx]">
+														{{ s.size }}
+													</th>
+													<td v-if="checks[idx]">
+														<input
+															type="text"
+															class="td_input"
+															v-model="s.info"
+															style="width: 100%;"
+														/>
+													</td>
+													<td v-if="checks[idx]">
+														<input
+															type="text"
+															class="td_input"
+															v-model="s.width"
+															style="width: 100%;"
+														/>
+													</td>
+													<td v-if="checks[idx]">
+														<input
+															type="text"
+															class="td_input"
+															v-model="s.height"
+															style="width: 100%;"
+														/>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<v-img
+										src="../../assets/sizeinfo.jpg"
+										contain
+										style="outline: black 1px solid;"
+									/>
+								</div>
+							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>
 
 								<v-btn
 									color="green darken-1"
 									text
-									@click="size_chart = false"
+									@click="reset_size"
 								>
-									Disagree
+									reset
 								</v-btn>
 
 								<v-btn
 									color="primary"
 									text
-									@click="updateDsize"
+									@click="update_dsize"
 								>
-									등록
+									submit
 								</v-btn>
 							</v-card-actions>
 						</div>
@@ -335,32 +359,50 @@ export default {
 				{ size: 'XXL', info: '', width: '', height: '' },
 				{ size: 'XXXL', info: '', width: '', height: '' },
 			],
-			checks: [
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-			],
+			checks: [true, true, true, true, true, true, true, true, true],
 		}
 	},
 	methods: {
-		updateDsize() {
+		reset_size() {
+			this.sizes = [
+				{ size: 'XXXS', info: '', width: '', height: '' },
+				{ size: 'XXS', info: '', width: '', height: '' },
+				{ size: 'XS', info: '', width: '', height: '' },
+				{ size: 'S', info: '', width: '', height: '' },
+				{ size: 'M', info: '', width: '', height: '' },
+				{ size: 'L', info: '', width: '', height: '' },
+				{ size: 'XL', info: '', width: '', height: '' },
+				{ size: 'XXL', info: '', width: '', height: '' },
+				{ size: 'XXXL', info: '', width: '', height: '' },
+			]
+
+			this.checks = [true, true, true, true, true, true, true, true, true]
+
+			this.dressDto.dsize = []
+		},
+
+		update_dsize() {
 			this.dressDto.dsize = []
 			for (let i = 0; i < this.sizes.length; i++) {
 				let size = this.sizes[i]
 				if (this.checks[i]) {
+					if (
+						size.size == '' ||
+						size.info == '' ||
+						size.width == '' ||
+						size.height == ''
+					) {
+						alert('error')
+						this.dressDto.dsize = []
+						break
+					}
 					this.dressDto.dsize.push(size)
 				}
 			}
 			this.size_chart = false
 		},
 
-		changeImages() {
+		change_image() {
 			this.previews = []
 
 			for (let i = 0; i < this.files.length; i++) {
