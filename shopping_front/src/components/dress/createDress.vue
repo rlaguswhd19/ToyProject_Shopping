@@ -11,23 +11,23 @@
 						<v-img
 							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
-							width="40"
-							height="50"
+							:width="smallSize.width"
+							:height="smallSize.height"
 							:alt="previews[representationPreview].name"
 							contain
 							style="outline: 1px black solid;"
-							@mouseover="mouseover(representationPreview)"
+							@mouseover="bigPreview = representationPreview"
 						/>
 					</div>
 					<div class="preview_list" v-else>
 						<v-img
 							:id="'preview_' + representationPreview"
 							:src="previews[representationPreview].url"
-							width="40"
-							height="50"
+							:width="smallSize.width"
+							:height="smallSize.height"
 							:alt="previews[representationPreview].name"
 							contain
-							@mouseover="mouseover(representationPreview)"
+							@mouseover="bigPreview = representationPreview"
 						/>
 					</div>
 
@@ -44,11 +44,11 @@
 							"
 							:id="'preview_' + preview.id"
 							:src="preview.url"
-							width="40"
-							height="50"
+							:width="smallSize.width"
+							:height="smallSize.height"
 							:alt="preview.name"
 							contain
-							@mouseover="mouseover(preview.id)"
+							@mouseover="bigPreview = preview.id"
 						/>
 
 						<v-img
@@ -58,13 +58,13 @@
 							"
 							:id="'preview_' + preview.id"
 							:src="preview.url"
-							width="40"
-							height="50"
+							:width="smallSize.width"
+							:height="smallSize.height"
 							:alt="preview.name"
 							outline="2px black solid"
 							contain
 							style="outline: 1px black solid;"
-							@mouseover="mouseover(preview.id)"
+							@mouseover="bigPreview = preview.id"
 						/>
 					</div>
 				</div>
@@ -75,8 +75,8 @@
 					v-if="previews.length == 0"
 					class="big_preview"
 					src="../../assets/noimage.jpg"
-					width="650"
-					height="720"
+					:width="bigSize.width"
+					:height="bigSize.height"
 					contain
 					alt="noimage"
 				/>
@@ -84,22 +84,30 @@
 					v-else
 					class="big_preview"
 					:src="previews[bigPreview].url"
-					width="650"
-					height="720"
+					:width="bigSize.width"
+					:height="bigSize.height"
 					contain
 					:alt="previews[bigPreview].name"
 				/>
-				<v-file-input
-					type="file"
-					show-size
-					counter
-					multiple
-					label="File input"
-					v-model="files"
-					accept="image/*"
-					@change="changeImages"
-				></v-file-input>
-				<v-btn @click="changeRepresentation">대표이미지</v-btn>
+				<div class="content_row">
+					<v-file-input
+						type="file"
+						show-size
+						counter
+						multiple
+						label="File input"
+						v-model="files"
+						accept="image/*"
+						@change="changeImages"
+						dense
+						outlined
+					></v-file-input>
+					<v-btn
+						@click="representationPreview = bigPreview"
+						color="primary"
+						>대표이미지</v-btn
+					>
+				</div>
 			</div>
 		</div>
 		<!-- 입력 -->
@@ -138,24 +146,82 @@
 						v-model="dressDto.article_number"
 						placeholder="article_number"
 					/>
-					<v-btn
-						color="primary"
-						width="30%"
-						style="margin: auto 0;"
-						@click="size_chart = true"
-						>size chart</v-btn
+				</div>
+				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
+				<span>
+					<a @click="size_chart = true">
+						<i class="mdi mdi-chart-bar" />size_chart / color
+					</a>
+					<span style="color: red; float: right;"
+						>! 사이즈 정보를 입력하세요</span
 					>
-					<v-dialog v-model="size_chart" max-width="290">
-						<v-card>
-							<v-card-title class="headline"
-								>Use Google's location service?</v-card-title
-							>
-
-							<v-card-text>
-								Let Google help apps determine location. This
-								means sending anonymous location data to Google,
-								even when no apps are running.
-							</v-card-text>
+				</span>
+				<v-dialog v-model="size_chart" max-width="1000px">
+					<v-card>
+						<div class="size_chart_wrap">
+							<v-card-title
+								>Size Info
+								<v-btn
+									text
+									style="margin-left: auto;"
+									@click="size_chart = false"
+								>
+									<i class="mdi mdi-close"
+								/></v-btn>
+							</v-card-title>
+							<div class="content_row">
+								<v-checkbox
+									v-for="(s, idx) in sizes"
+									:key="idx"
+									:label="s.size"
+									v-model="checks[idx]"
+									class="hj_check"
+								/>
+							</div>
+							<div class="content_row">
+								<table class="size_chart">
+									<thead>
+										<th style="width: 52px; !important">
+											사이즈
+										</th>
+										<td>일반 표시</td>
+										<td>가슴 둘레(cm)</td>
+										<td>신장(cm)</td>
+									</thead>
+									<tbody>
+										<tr
+											v-for="(s, idx) in sizes"
+											:key="idx"
+										>
+											<th v-if="checks[idx]">
+												{{ s.size }}
+											</th>
+											<td v-if="checks[idx]">
+												<input
+													type="text"
+													class="td_input"
+													v-model="s.info"
+												/>
+											</td>
+											<td v-if="checks[idx]">
+												<input
+													type="text"
+													class="td_input"
+													v-model="s.width"
+												/>
+											</td>
+											<td v-if="checks[idx]">
+												<input
+													type="text"
+													class="td_input"
+													v-model="s.height"
+												/>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<img src="../../assets/sizeinfo.jpg" />
+							</div>
 
 							<v-card-actions>
 								<v-spacer></v-spacer>
@@ -169,61 +235,45 @@
 								</v-btn>
 
 								<v-btn
-									color="green darken-1"
+									color="primary"
 									text
-									@click="size_chart = false"
+									@click="updateDsize"
 								>
-									Agree
+									등록
 								</v-btn>
 							</v-card-actions>
-						</v-card>
-					</v-dialog>
-				</div>
+						</div>
+					</v-card>
+				</v-dialog>
+				<v-select
+					:items="colors"
+					label="Color"
+					v-model="dressDto.color"
+					dense
+					solo
+					style="width: 100%;"
+				></v-select>
 				<div class="content_row">
 					<v-text-field
-						label="price"
 						placeholder="Price"
 						v-model="dressDto.price"
 						style="width: 50%; margin-right: 30px;"
 					></v-text-field>
 					<v-text-field
-						label="discount"
 						placeholder="Discount"
 						v-model="dressDto.discount"
 						style="width: 20%;"
 					></v-text-field>
 				</div>
-				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
-				<span>color</span>
-				<input
-					type="text"
-					class="hj_input"
-					placeholder="색상을 선택해 주세요."
-					readonly
-					v-model="dressDto.color"
-				/>
-				<div class="colors_wrap">
-					<div v-for="color in colors" :key="color">
-						<div
-							class="color_box"
-							@click="changeColor(color)"
-							:style="
-								'background-color:' +
-								color +
-								'; border: 1px black solid;'
-							"
-						></div>
-					</div>
-				</div>
 				<v-text-field
-					label="explanation"
 					placeholder="설명을 입력하세요."
 					v-model="dressDto.explanation"
 				></v-text-field>
 				<v-btn
 					@click="post_dress"
 					color="primary"
-					style="width: 100%; margin: auto;"
+					width="100%"
+					style="margin: auto;"
 					>등록</v-btn
 				>
 			</v-card>
@@ -243,8 +293,8 @@ export default {
 				brand: 'THISISNEVERTHAT',
 				name: ' DSN-Logo Tee Black',
 				article_number: 'TN20S0137',
-				dress_type: 'Top',
-				sex: 'Men',
+				dress_type: '',
+				sex: '',
 				price: '39000',
 				color: '색상을 선택해 주세요',
 				discount: '30',
@@ -268,19 +318,46 @@ export default {
 			representationPreview: 0,
 			// 크게 보이는 이미지
 			bigPreview: 0,
+			bigSize: { width: 630, height: 700 },
+			smallSize: { width: 40, height: 50 },
+
 			sexs: ['Men', 'Women', 'Free'],
 			dress_types: ['Top', 'Bottom'],
 			size_chart: false,
+			sizes: [
+				{ size: 'XXXS', info: '', width: '', height: '' },
+				{ size: 'XXS', info: '', width: '', height: '' },
+				{ size: 'XS', info: '', width: '', height: '' },
+				{ size: 'S', info: '', width: '', height: '' },
+				{ size: 'M', info: '', width: '', height: '' },
+				{ size: 'L', info: '', width: '', height: '' },
+				{ size: 'XL', info: '', width: '', height: '' },
+				{ size: 'XXL', info: '', width: '', height: '' },
+				{ size: 'XXXL', info: '', width: '', height: '' },
+			],
+			checks: [
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+			],
 		}
 	},
 	methods: {
-		mouseover(id) {
-			//bigPreview 변경
-			this.bigPreview = id
-		},
-
-		changeRepresentation() {
-			this.representationPreview = this.bigPreview
+		updateDsize() {
+			this.dressDto.dsize = []
+			for (let i = 0; i < this.sizes.length; i++) {
+				let size = this.sizes[i]
+				if (this.checks[i]) {
+					this.dressDto.dsize.push(size)
+				}
+			}
+			this.size_chart = false
 		},
 
 		changeImages() {
@@ -294,9 +371,7 @@ export default {
 				})
 			}
 		},
-		changeColor(color) {
-			this.dressDto.color = color
-		},
+
 		post_dress() {
 			let formData = new FormData()
 
@@ -314,7 +389,6 @@ export default {
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
-				console.log(response)
 				this.dressDto.dimage = response.data
 				this.post_dressDto()
 			})
