@@ -150,7 +150,7 @@
 				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
 				<span>
 					<a @click="size_chart = true">
-						<i class="mdi mdi-chart-bar" />size_chart / color
+						<i class="mdi mdi-chart-bar" />size_chart
 					</a>
 					<span
 						v-if="dressDto.dsize.length == 0"
@@ -384,6 +384,8 @@ export default {
 
 		update_dsize() {
 			this.dressDto.dsize = []
+			let isOk = true
+
 			for (let i = 0; i < this.sizes.length; i++) {
 				let size = this.sizes[i]
 				if (this.checks[i]) {
@@ -395,12 +397,16 @@ export default {
 					) {
 						alert('error')
 						this.dressDto.dsize = []
+						isOk = false
 						break
 					}
 					this.dressDto.dsize.push(size)
 				}
 			}
-			this.size_chart = false
+
+			if (isOk) {
+				this.size_chart = false
+			}
 		},
 
 		change_image() {
