@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -18,6 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
 import shopping.back.hj.enums.DressColor;
@@ -77,4 +79,7 @@ public class Dress {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dsize> dsize;
+	
+//	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+//	private Account manager;
 }

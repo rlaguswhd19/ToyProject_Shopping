@@ -7,8 +7,8 @@
 		</div>
 		<div class="category_nav">
 			<ul>
-				<li><a>Men</a></li>
-				<li><a>Women</a></li>
+				<li><a @click="test('/')">Men</a></li>
+				<li><a @click="test('/about')">Women</a></li>
 				<li><a>Kid</a></li>
 				<li><a>Sport</a></li>
 				<li><a>Brand</a></li>
@@ -25,7 +25,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+	methods: {
+		test(to) {
+			this.$router.push(to)
+		},
+	},
+}
 </script>
 
 <style>
