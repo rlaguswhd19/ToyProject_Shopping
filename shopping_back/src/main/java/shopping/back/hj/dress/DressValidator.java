@@ -10,9 +10,9 @@ import org.springframework.validation.Errors;
 
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressCategory;
 import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
-import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @Component
@@ -35,17 +35,16 @@ public class DressValidator {
 			errors.reject("wrongArticle_number", "Article_number is Wrong");
 		}
 		
-		DressType dress_type = dressDto.getDress_type();
-		if(!(dress_type == DressType.Top || dress_type == DressType.Bottom)) {
-			errors.rejectValue("dress_type", "dress_type is wrongValue", "옷의 타입이 잘못된 값입니다.");
-			errors.reject("wrongDress_type", "Dress_type is Wrong");
+		DressCategory category = dressDto.getCategory();
+		if(!(category == DressCategory.Top || category == DressCategory.Bottom)) {
+			errors.rejectValue("category", "category is wrongValue", "카테고리가 잘못된 값입니다.");
+			errors.reject("wrongDressCategory", "DressCategory is Wrong");
 		}
 		
 		DressColor dressColor = dressDto.getColor();
 		if (!(dressColor == DressColor.RED || dressColor == DressColor.ORANGE || dressColor == DressColor.YELLOW
 				|| dressColor == DressColor.GREEN || dressColor == DressColor.BLUE || dressColor == DressColor.PURPLE
 				|| dressColor == DressColor.BLACK || dressColor == DressColor.WHITE)) {
-			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 			errors.rejectValue("color", "color is wrongValue", "다른 색상이 올 수 없습니다.");
 			errors.reject("wrongColor", "Color is Wrong");
 		}
@@ -59,7 +58,7 @@ public class DressValidator {
 			errors.reject("wrongPrice", "Price is Wrong");
 		}
 
-		if (dressDto.getDiscount() >= 100 || dressDto.getDiscount() < 1) { // 100% 할인일 경우
+		if (dressDto.getDiscount() >= 100 || dressDto.getDiscount() < 0) { // 100% 할인일 경우
 			errors.rejectValue("discount", "discount = "+dressDto.getDiscount()+" is wrongValue", "할인율은 +"+dressDto.getDiscount()+"%일 수 없습니다.");
 			errors.reject("wrongDiscount", "Discount is Wrong");
 		}

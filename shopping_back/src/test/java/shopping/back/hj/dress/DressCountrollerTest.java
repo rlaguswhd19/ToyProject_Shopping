@@ -50,9 +50,9 @@ import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressCategory;
 import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
-import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @SpringBootTest
@@ -100,7 +100,7 @@ public class DressCountrollerTest {
 				.sex(Sex.Men)
 				.price(39000L)
 				.color(DressColor.BLACK)
-				.dress_type(DressType.Top)
+				.category(DressCategory.Top)
 				.discount(10)
 				.explanation("Test")
 				.dimage(newDimage)
@@ -130,10 +130,9 @@ public class DressCountrollerTest {
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
 					relaxedRequestFields (
-							fieldWithPath("brand").description("브랜드"),
 							fieldWithPath("name").description("이름"),
 							fieldWithPath("article_number").description("품번"),
-							fieldWithPath("dress_type").description("타입"),
+							fieldWithPath("category").description("카테고리"),
 							fieldWithPath("sex").description("성별"),
 							fieldWithPath("color").description("색상"),
 							fieldWithPath("price").description("가격"),
@@ -149,9 +148,8 @@ public class DressCountrollerTest {
 					relaxedResponseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("dress_id"),
 							fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-							fieldWithPath("brand").type(JsonFieldType.STRING).description("브랜드"),
 							fieldWithPath("article_number").type(JsonFieldType.STRING).description("품번"),
-							fieldWithPath("dress_type").type(JsonFieldType.STRING).description("타입"),
+							fieldWithPath("category").type(JsonFieldType.STRING).description("카테고리"),
 							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
 							fieldWithPath("color").type(JsonFieldType.STRING).description("색상"),
 							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
@@ -427,7 +425,7 @@ public class DressCountrollerTest {
 				.sex(Sex.Free)
 				.price(39000L)
 				.color(DressColor.BLACK)
-				.dress_type(DressType.Top)
+				.category(DressCategory.Top)
 				.discount(10)
 				.explanation("test listsDress")
 				.created_date(LocalDate.now())

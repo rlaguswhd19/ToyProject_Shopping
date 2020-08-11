@@ -1,5 +1,5 @@
 package shopping.back.hj.enums;
 
-public enum DressType {
+public enum DressCategory {
 	Top, Bottom;
 }

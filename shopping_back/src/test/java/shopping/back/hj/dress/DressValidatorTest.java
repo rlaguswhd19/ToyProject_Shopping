@@ -1,6 +1,5 @@
 package shopping.back.hj.dress;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,9 +29,9 @@ import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressCategory;
 import shopping.back.hj.enums.DressColor;
 import shopping.back.hj.enums.DressSize;
-import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @SpringBootTest
@@ -87,7 +86,7 @@ public class DressValidatorTest {
 				.article_number("C1804SL01WH")
 				.sex(Sex.Men)
 				.price(0L)
-				.dress_type(DressType.Top)
+				.category(DressCategory.Top)
 				.discount(100)
 				.color(DressColor.BLACK)
 				.explanation("Test")

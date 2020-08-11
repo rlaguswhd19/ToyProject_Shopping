@@ -118,7 +118,7 @@
 				<div class="category_wrap">
 					<v-select
 						:items="sexs"
-						label="Sex"
+						label="성별"
 						v-model="dressDto.sex"
 						dense
 						solo
@@ -126,8 +126,8 @@
 					></v-select>
 					<v-select
 						:items="dress_types"
-						label="DressType"
-						v-model="dressDto.dress_type"
+						label="옷 타입"
+						v-model="dressDto.category"
 						style="width: 60%;"
 						dense
 						solo
@@ -139,7 +139,7 @@
 						class="hj_input"
 						min="100"
 						v-model="dressDto.name"
-						placeholder="name"
+						placeholder="이름"
 					/>
 					<input
 						type="text"
@@ -147,7 +147,7 @@
 						min="0"
 						max="100"
 						v-model="dressDto.article_number"
-						placeholder="article_number"
+						placeholder="제품코드"
 					/>
 				</div>
 				<!-- 여기도 selector 색깔 에시를 주고 선택하기 색깔 보여주고... -->
@@ -284,7 +284,7 @@
 				</v-dialog>
 				<v-select
 					:items="colors"
-					label="Color"
+					label="색상"
 					v-model="dressDto.color"
 					dense
 					solo
@@ -294,14 +294,14 @@
 					<input
 						type="number"
 						class="hj_input"
-						placeholder="Price"
+						placeholder="가격"
 						v-model="dressDto.price"
 						style="width: 60%; margin-right: 10%;"
 					/>
 					<input
 						type="number"
 						class="hj_input"
-						placeholder="Discount"
+						placeholder="할인율"
 						v-model="dressDto.discount"
 						style="width: 30%;"
 					/>
@@ -332,7 +332,7 @@ export default {
 			dressDto: {
 				name: ' DSN-Logo Tee Black',
 				article_number: 'TN20S0137',
-				dress_type: 'Top',
+				category: 'Top',
 				sex: 'Men',
 				price: '39000',
 				color: '색상을 선택해 주세요',
@@ -367,9 +367,27 @@ export default {
 				{ size: 'XXXS', info: '', width: '', height: '', count: '' },
 				{ size: 'XXS', info: '', width: '', height: '', count: '' },
 				{ size: 'XS', info: '', width: '', height: '', count: '' },
-				{ size: 'S', info: '', width: '', height: '', count: '' },
-				{ size: 'M', info: '', width: '', height: '', count: '' },
-				{ size: 'L', info: '', width: '', height: '', count: '' },
+				{
+					size: 'S',
+					info: '85',
+					width: '43',
+					height: '50',
+					count: '10',
+				},
+				{
+					size: 'M',
+					info: '90',
+					width: '45',
+					height: '60',
+					count: '10',
+				},
+				{
+					size: 'L',
+					info: '95',
+					width: '47',
+					height: '70',
+					count: '10',
+				},
 				{ size: 'XL', info: '', width: '', height: '', count: '' },
 				{ size: 'XXL', info: '', width: '', height: '', count: '' },
 				{ size: 'XXXL', info: '', width: '', height: '', count: '' },
@@ -484,6 +502,7 @@ export default {
 				},
 			})
 				.then(response => {
+					alert('등록 완료!!')
 					console.log(response)
 				})
 				.catch(error => {

@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressCategory;
 import shopping.back.hj.enums.DressColor;
-import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -39,7 +39,7 @@ public class DressDto {
 		// 상의  하의
 		@NotNull
 		@Enumerated(EnumType.STRING)
-		private DressType dress_type;
+		private DressCategory category;
 		
 		// 성별
 		@NotNull
@@ -68,11 +68,10 @@ public class DressDto {
 
 		@Override
 		public String toString() {
-			return "DressDto [name=" + name + ", color=" + color + ", article_number=" + article_number
-					+ ", dress_type=" + dress_type + ", sex=" + sex + ", price=" + price + ", discount=" + discount
-					+ ", explanation=" + explanation + ", dimage=" + dimage + ", dsize=" + dsize + "]";
+			return "DressDto [name=" + name + ", color=" + color + ", article_number=" + article_number + ", category="
+					+ category + ", sex=" + sex + ", price=" + price + ", discount=" + discount + ", explanation="
+					+ explanation + ", dimage=" + dimage + ", dsize=" + dsize + "]";
 		}
-
 		
 		
 }

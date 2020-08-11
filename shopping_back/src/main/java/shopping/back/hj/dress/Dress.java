@@ -9,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -19,11 +18,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
+import shopping.back.hj.enums.DressCategory;
 import shopping.back.hj.enums.DressColor;
-import shopping.back.hj.enums.DressType;
 import shopping.back.hj.enums.Sex;
 
 @Entity
@@ -51,7 +49,7 @@ public class Dress {
 
 	// 상의 하의
 	@Enumerated(EnumType.STRING)
-	private DressType dress_type;
+	private DressCategory category;
 
 	// 성별
 //	@Column(columnDefinition = "varchar(255) default 'Public'")

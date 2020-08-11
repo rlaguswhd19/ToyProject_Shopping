@@ -16,13 +16,50 @@
 			<div class="bar">
 				abs
 			</div>
-			<div class="Lists_wrap" style="outline: 1px red solid;">
+			<div class="Lists_wrap">
 				<div
 					v-for="(dress, idx) in dressLists"
 					:key="idx"
 					class="Lists_dress"
+					@click="Test(dress.id)"
 				>
-					{{ dress.id }}
+					<v-img
+						:src="get_imagePath(dress)"
+						contain
+						height="230"
+						width="230"
+						style="margin: 1px 0;"
+					/>
+					<div class="content_col">
+						<h3>{{ dress.name }}</h3>
+						<p>
+							{{ dress.category }}
+						</p>
+						<p>
+							<span
+								style="
+									color: red;
+									opacity: 70;
+									margin-right: 5px;
+								"
+							>
+								{{
+									get_discountedPrice(
+										dress.price,
+										dress.discount,
+									)
+								}}원
+							</span>
+							<span
+								style="
+									text-decoration: line-through;
+									color: #9b9b9b;
+								"
+							>
+								{{ dress.price }}원
+							</span>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -43,17 +80,33 @@ export default {
 	},
 	watch: {
 		select: function () {
-			this.getDressLists()
+			this.get_dressLists()
 		},
 		page: function () {
-			this.getDressLists()
+			this.get_dressLists()
 		},
 	},
 	mounted() {
-		this.getDressLists()
+		this.get_dressLists()
 	},
 	methods: {
-		getDressLists() {
+		Test(id) {
+			alert(id)
+		},
+		get_imagePath(dress) {
+			let image_path = dress.dimage.image_files.split('/')
+			let idx = dress.dimage.image_repIdx
+			return (
+				'http://localhost:8080/assets/images/' +
+				dress.dimage.id +
+				'/' +
+				image_path[idx]
+			)
+		},
+		get_discountedPrice(price, discount) {
+			return (price * (100 - discount)) / 100
+		},
+		get_dressLists() {
 			let sort
 			if (this.select == '신상품순') {
 				sort = 'id,desc'
@@ -79,7 +132,7 @@ export default {
 				},
 			}).then(response => {
 				this.dressLists = response.data._embedded.dressList
-				console.log(this.dressLists)
+				console.log(response.data)
 			})
 		},
 	},
