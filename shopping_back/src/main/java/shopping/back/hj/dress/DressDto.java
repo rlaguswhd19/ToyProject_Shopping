@@ -24,10 +24,6 @@ import shopping.back.hj.enums.Sex;
 @Getter @Setter
 public class DressDto {
 	
-		// 브랜드
-		@NotEmpty
-		private String brand;
-		
 		// 이름
 		@NotEmpty
 		private String name;
@@ -72,8 +68,11 @@ public class DressDto {
 
 		@Override
 		public String toString() {
-			return "DressDto [brand=" + brand + ", name=" + name + ", article_number=" + article_number
+			return "DressDto [name=" + name + ", color=" + color + ", article_number=" + article_number
 					+ ", dress_type=" + dress_type + ", sex=" + sex + ", price=" + price + ", discount=" + discount
 					+ ", explanation=" + explanation + ", dimage=" + dimage + ", dsize=" + dsize + "]";
 		}
+
+		
+		
 }

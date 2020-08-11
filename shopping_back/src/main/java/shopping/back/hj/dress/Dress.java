@@ -42,9 +42,6 @@ public class Dress {
 	// 이름
 	private String name;
 
-	// 브랜드
-	private String brand;
-	
 	//색깔
 	@Enumerated(EnumType.STRING)
 	private DressColor color;

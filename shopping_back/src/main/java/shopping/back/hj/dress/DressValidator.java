@@ -45,6 +45,7 @@ public class DressValidator {
 		if (!(dressColor == DressColor.RED || dressColor == DressColor.ORANGE || dressColor == DressColor.YELLOW
 				|| dressColor == DressColor.GREEN || dressColor == DressColor.BLUE || dressColor == DressColor.PURPLE
 				|| dressColor == DressColor.BLACK || dressColor == DressColor.WHITE)) {
+			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 			errors.rejectValue("color", "color is wrongValue", "다른 색상이 올 수 없습니다.");
 			errors.reject("wrongColor", "Color is Wrong");
 		}
@@ -97,6 +98,8 @@ public class DressValidator {
 			if (ds == null) {
 				continue;
 			} else {
+				
+				// 작은것보다 작은지 검증하기
 				if (temp == null) {
 					temp = ds;
 					continue;

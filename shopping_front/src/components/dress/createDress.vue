@@ -205,6 +205,7 @@
 												<td>일반 표시</td>
 												<td>가슴 둘레(cm)</td>
 												<td>신장(cm)</td>
+												<td>수량</td>
 											</thead>
 											<tbody>
 												<tr
@@ -235,6 +236,14 @@
 															type="text"
 															class="td_input"
 															v-model="s.height"
+															style="width: 100%;"
+														/>
+													</td>
+													<td v-if="checks[idx]">
+														<input
+															type="text"
+															class="td_input"
+															v-model="s.count"
 															style="width: 100%;"
 														/>
 													</td>
@@ -355,15 +364,15 @@ export default {
 			dress_types: ['Top', 'Bottom'],
 			size_chart: false,
 			sizes: [
-				{ size: 'XXXS', info: '', width: '', height: '' },
-				{ size: 'XXS', info: '', width: '', height: '' },
-				{ size: 'XS', info: '', width: '', height: '' },
-				{ size: 'S', info: '', width: '', height: '' },
-				{ size: 'M', info: '', width: '', height: '' },
-				{ size: 'L', info: '', width: '', height: '' },
-				{ size: 'XL', info: '', width: '', height: '' },
-				{ size: 'XXL', info: '', width: '', height: '' },
-				{ size: 'XXXL', info: '', width: '', height: '' },
+				{ size: 'XXXS', info: '', width: '', height: '', count: '' },
+				{ size: 'XXS', info: '', width: '', height: '', count: '' },
+				{ size: 'XS', info: '', width: '', height: '', count: '' },
+				{ size: 'S', info: '', width: '', height: '', count: '' },
+				{ size: 'M', info: '', width: '', height: '', count: '' },
+				{ size: 'L', info: '', width: '', height: '', count: '' },
+				{ size: 'XL', info: '', width: '', height: '', count: '' },
+				{ size: 'XXL', info: '', width: '', height: '', count: '' },
+				{ size: 'XXXL', info: '', width: '', height: '', count: '' },
 			],
 			checks: [true, true, true, true, true, true, true, true, true],
 		}
@@ -371,15 +380,15 @@ export default {
 	methods: {
 		reset_size() {
 			this.sizes = [
-				{ size: 'XXXS', info: '', width: '', height: '' },
-				{ size: 'XXS', info: '', width: '', height: '' },
-				{ size: 'XS', info: '', width: '', height: '' },
-				{ size: 'S', info: '', width: '', height: '' },
-				{ size: 'M', info: '', width: '', height: '' },
-				{ size: 'L', info: '', width: '', height: '' },
-				{ size: 'XL', info: '', width: '', height: '' },
-				{ size: 'XXL', info: '', width: '', height: '' },
-				{ size: 'XXXL', info: '', width: '', height: '' },
+				{ size: 'XXXS', info: '', width: '', height: '', count: '' },
+				{ size: 'XXS', info: '', width: '', height: '', count: '' },
+				{ size: 'XS', info: '', width: '', height: '', count: '' },
+				{ size: 'S', info: '', width: '', height: '', count: '' },
+				{ size: 'M', info: '', width: '', height: '', count: '' },
+				{ size: 'L', info: '', width: '', height: '', count: '' },
+				{ size: 'XL', info: '', width: '', height: '', count: '' },
+				{ size: 'XXL', info: '', width: '', height: '', count: '' },
+				{ size: 'XXXL', info: '', width: '', height: '', count: '' },
 			]
 
 			this.checks = [true, true, true, true, true, true, true, true, true]
@@ -398,7 +407,8 @@ export default {
 						size.size == '' ||
 						size.info == '' ||
 						size.width == '' ||
-						size.height == ''
+						size.height == '' ||
+						size.count == ''
 					) {
 						alert('error')
 						this.dressDto.dsize = []
@@ -425,48 +435,8 @@ export default {
 				})
 			}
 		},
-		check_dressDto() {
-			if (this.dressDto.name == '' || this.dressDto.name.length > 3) {
-				alert('name')
-			}
 
-			if (this.dressDto.dsize.length == 0) {
-				alert('dsize')
-			}
-
-			if (
-				this.dressDto.article_number == '' ||
-				this.dressDto.article_number.length > 20
-			) {
-				alert('article_number')
-			}
-
-			if (this.dressDto.dress_type == '') {
-				alert('dress_types')
-			}
-
-			if (this.dressDto.sex == '') {
-				alert('sex')
-			}
-
-			if (this.dressDto.price < 1) {
-				alert('price')
-			}
-
-			if (this.dressDto.discount < 1 || this.dressDto.discount > 100) {
-				alert('price')
-			}
-
-			if (this.dressDto.color == '') {
-				alert('color')
-			}
-
-			if (this.dressDto.explanation.length > 500) {
-				alert('explanation')
-			}
-		},
 		post_dress() {
-			this.check_dressDto()
 			let formData = new FormData()
 
 			for (let i = 0; i < this.files.length; i++) {
@@ -488,6 +458,7 @@ export default {
 			})
 		},
 		delete_dimage() {
+			console.log(this.dressDto)
 			this.$axios({
 				method: 'delete',
 				url:
@@ -513,7 +484,6 @@ export default {
 				},
 			})
 				.then(response => {
-					alert(1)
 					console.log(response)
 				})
 				.catch(error => {

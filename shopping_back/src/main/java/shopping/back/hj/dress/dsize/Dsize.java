@@ -32,19 +32,23 @@ public class Dsize {
 	private DressSize size;
 	
 	@NotNull
-	@Min(0)
+	@Min(1)
 	@Max(200)
 	private Integer info;
 	
 	@NotNull
-	@Min(0)
-	@Max(200)
+	@Min(1)
+	@Max(300)
 	private Integer width;
 	
 	@NotNull
-	@Min(0)
-	@Max(200)
+	@Min(1)
+	@Max(300)
 	private Integer height;
+	
+	@NotNull
+	@Min(1)
+	private Integer count;
 
 	@Override
 	public String toString() {

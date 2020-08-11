@@ -34,11 +34,6 @@ public class DimageController {
 	@PostMapping
 	public ResponseEntity<?> createDimage(@RequestPart("files") MultipartFile[] files, @RequestParam("idx") String idx) throws IllegalStateException, IOException {
 		
-		for (MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-		}
-		
-		
 		int repIdx = Integer.parseInt(idx);
 		if(repIdx > files.length) {
 			return ResponseEntity.badRequest().build();

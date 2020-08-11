@@ -83,7 +83,6 @@ public class DressValidatorTest {
 		Dimage dimage = createDimage(1);
 		
 		DressDto dressDto = DressDto.builder()
-				.brand("Test COVERNAT")
 				.name("Test")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Men)
@@ -95,8 +94,6 @@ public class DressValidatorTest {
 				.dimage(dimage)
 				.dsize(dsize)
 				.build();
-		
-		System.out.println(dressDto);
 		
 		mockMvc.perform(post("/api/dress")
 				.content(objectMapper.writeValueAsString(dressDto))
@@ -120,18 +117,21 @@ public class DressValidatorTest {
 				.info(100)
 				.height(85)
 				.width(50)
+				.count(1)
 				.build();
 		Dsize d2 = Dsize.builder()
 				.size(DressSize.M)
 				.info(90)
 				.height(80)
 				.width(40)
+				.count(2)
 				.build();
 		Dsize d3 = Dsize.builder()
 				.size(DressSize.S)
 				.info(80)
 				.height(80)
 				.width(30)
+				.count(3)
 				.build();
 		
 		dsize.add(d1);

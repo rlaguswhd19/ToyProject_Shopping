@@ -95,7 +95,6 @@ public class DressCountrollerTest {
 		Dimage newDimage = dimageRepository.save(dimage);
 		
 		DressDto dressDto = DressDto.builder()
-				.brand("COVERNAT")
 				.name("커버낫 반팔")
 				.article_number("C1804SL01WH")
 				.sex(Sex.Men)
@@ -389,18 +388,21 @@ public class DressCountrollerTest {
 				.info(100)
 				.height(100)
 				.width(50)
+				.count(1)
 				.build();
 		Dsize d2 = Dsize.builder()
 				.size(DressSize.M)
 				.info(90)
 				.height(90)
 				.width(40)
+				.count(2)
 				.build();
 		Dsize d3 = Dsize.builder()
 				.size(DressSize.S)
 				.info(80)
 				.height(80)
 				.width(30)
+				.count(3)
 				.build();
 		
 		dsize.add(d1);
@@ -420,7 +422,6 @@ public class DressCountrollerTest {
 		Set<Dsize> dsize = createDsize();
 		
 		Dress dress = Dress.builder()
-				.brand("test listsDress" + idx)
 				.name("커버낫 반팔")
 				.article_number("test listsDress")
 				.sex(Sex.Free)
