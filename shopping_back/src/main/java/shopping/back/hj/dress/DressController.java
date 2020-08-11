@@ -35,21 +35,16 @@ public class DressController {
 	@Autowired
 	private DressValidator dressValidator;
 	
-	@Autowired
-	private DimageService dimageService;
-	
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) throws IllegalStateException, IOException {
 		
 		if (errors.hasErrors()) {
-			dimageService.deleteDimage(dressDto.getDimage());
 			return badRequest(errors);
 		}
 
 		dressValidator.validate(dressDto, errors);
 
 		if (errors.hasErrors()) {
-			dimageService.deleteDimage(dressDto.getDimage());
 			return badRequest(errors);
 		}
 
