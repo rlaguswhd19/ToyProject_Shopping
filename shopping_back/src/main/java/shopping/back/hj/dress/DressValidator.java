@@ -66,7 +66,12 @@ public class DressValidator {
 		Map<DressSize, Dsize> map = new HashMap<>();
 		DressSize[] arr = { DressSize.XXS, DressSize.XS, DressSize.S, DressSize.M, DressSize.L, DressSize.XL,
 				DressSize.XXL, DressSize.XXXL };
-
+		if(dsize.size() == 0) {
+			errors.rejectValue("dsize", "옷 사이즈를 적지않았습니다.",
+					"dsize 에러");
+			errors.reject("wrongDsize", "Dsize is Wrong");
+		}
+		
 		for (Dsize ds : dsize) {
 			map.put(ds.getSize(), ds);
 		}

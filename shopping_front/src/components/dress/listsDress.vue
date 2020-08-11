@@ -1,19 +1,37 @@
 <template>
-	<div class="content_row" style="outline: 1px black solid;">
-		<div>Men</div>
-		<div style="width: 200px; margin-left: auto;">
-			<v-select
-				:items="filter"
-				label="filter"
-				v-model="select"
-				dense
-				solo
-			></v-select>
+	<div>
+		<div class="content_row" style="outline: 1px black solid;">
+			<div>Men</div>
+			<div style="width: 200px; margin-left: auto;">
+				<v-select
+					:items="filter"
+					label="filter"
+					v-model="select"
+					dense
+					solo
+				></v-select>
+			</div>
+		</div>
+		<div class="content_row">
+			<div class="bar">
+				abs
+			</div>
+			<div class="Lists_wrap" style="outline: 1px red solid;">
+				<div
+					v-for="(dress, idx) in dressLists"
+					:key="idx"
+					class="Lists_dress"
+				>
+					{{ dress.id }}
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+require('../../css/dress/dressLists.css')
+require('../../css/common/common.css')
 export default {
 	data() {
 		return {

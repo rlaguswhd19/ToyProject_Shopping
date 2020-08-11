@@ -35,6 +35,7 @@ public class Dpage {
 	// 조회수
 	private Integer views;
 	
-	// 댓글
 	// 평점
+	
+	// 댓글
 }
