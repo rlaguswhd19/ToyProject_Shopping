@@ -55,13 +55,17 @@
 	width: 100%;
 	padding: 1px 8px;
 	margin: 10px 0;
-	margin-right: 20px;
 }
 
 .hj_input:focus {
 	outline: none !important;
 	border-color: #719ECE;
 	box-shadow: 1px 1px 20px #cce6ff;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
 .category_wrap{

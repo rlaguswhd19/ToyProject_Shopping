@@ -33,6 +33,7 @@ public class DressValidator {
 			errors.rejectValue("color", "color is wrongValue", "다른 색상이 올 수 없습니다.");
 			errors.reject("wrongColor", "Color is Wrong");
 		}
+		
 
 		// price
 		if (dressDto.getPrice() == 0) { // 파는 가격이 0일 경우

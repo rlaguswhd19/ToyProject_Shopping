@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopping.back.hj.common.ErrorsModel;
+import shopping.back.hj.dress.dimages.DimageService;
 
 @RestController
 @CrossOrigin(origins = { "*" })
@@ -34,16 +35,21 @@ public class DressController {
 	@Autowired
 	private DressValidator dressValidator;
 	
+	@Autowired
+	private DimageService dimageService;
+	
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) throws IllegalStateException, IOException {
 		
 		if (errors.hasErrors()) {
+			dimageService.deleteDimage(dressDto.getDimage());
 			return badRequest(errors);
 		}
 
 		dressValidator.validate(dressDto, errors);
 
 		if (errors.hasErrors()) {
+			dimageService.deleteDimage(dressDto.getDimage());
 			return badRequest(errors);
 		}
 

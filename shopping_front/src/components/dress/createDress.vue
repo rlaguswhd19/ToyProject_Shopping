@@ -137,12 +137,15 @@
 					<input
 						type="text"
 						class="hj_input"
+						min="100"
 						v-model="dressDto.name"
 						placeholder="name"
 					/>
 					<input
 						type="text"
 						class="hj_input"
+						min="0"
+						max="100"
 						v-model="dressDto.article_number"
 						placeholder="article_number"
 					/>
@@ -279,16 +282,20 @@
 					style="width: 100%;"
 				></v-select>
 				<div class="content_row">
-					<v-text-field
+					<input
+						type="number"
+						class="hj_input"
 						placeholder="Price"
 						v-model="dressDto.price"
-						style="width: 50%; margin-right: 30px;"
-					></v-text-field>
-					<v-text-field
+						style="width: 60%; margin-right: 10%;"
+					/>
+					<input
+						type="number"
+						class="hj_input"
 						placeholder="Discount"
 						v-model="dressDto.discount"
-						style="width: 20%;"
-					></v-text-field>
+						style="width: 30%;"
+					/>
 				</div>
 				<v-textarea
 					label="Explanation"
@@ -314,7 +321,6 @@ export default {
 	data() {
 		return {
 			dressDto: {
-				brand: 'THISISNEVERTHAT',
 				name: ' DSN-Logo Tee Black',
 				article_number: 'TN20S0137',
 				dress_type: 'Top',
@@ -419,8 +425,48 @@ export default {
 				})
 			}
 		},
+		check_dressDto() {
+			if (this.dressDto.name == '' || this.dressDto.name.length > 3) {
+				alert('name')
+			}
 
+			if (this.dressDto.dsize.length == 0) {
+				alert('dsize')
+			}
+
+			if (
+				this.dressDto.article_number == '' ||
+				this.dressDto.article_number.length > 20
+			) {
+				alert('article_number')
+			}
+
+			if (this.dressDto.dress_type == '') {
+				alert('dress_types')
+			}
+
+			if (this.dressDto.sex == '') {
+				alert('sex')
+			}
+
+			if (this.dressDto.price < 1) {
+				alert('price')
+			}
+
+			if (this.dressDto.discount < 1 || this.dressDto.discount > 100) {
+				alert('price')
+			}
+
+			if (this.dressDto.color == '') {
+				alert('color')
+			}
+
+			if (this.dressDto.explanation.length > 500) {
+				alert('explanation')
+			}
+		},
 		post_dress() {
+			this.check_dressDto()
 			let formData = new FormData()
 
 			for (let i = 0; i < this.files.length; i++) {
@@ -441,6 +487,20 @@ export default {
 				this.post_dressDto()
 			})
 		},
+		delete_dimage() {
+			this.$axios({
+				method: 'delete',
+				url:
+					'http://localhost:8080/api/dimages/' +
+					this.dressDto.dimage.id,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+			}).then(response => {
+				console.log(response)
+			})
+		},
 
 		post_dressDto() {
 			this.$axios({
@@ -451,9 +511,16 @@ export default {
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
-			}).then(response => {
-				console.log(response)
 			})
+				.then(response => {
+					alert(1)
+					console.log(response)
+				})
+				.catch(error => {
+					// 만드는데 실패하면 dimage 지우기
+					this.delete_dimage()
+					console.log(error)
+				})
 		},
 	},
 }
