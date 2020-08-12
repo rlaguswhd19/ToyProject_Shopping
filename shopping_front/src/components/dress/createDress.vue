@@ -559,6 +559,9 @@ export default {
 		},
 
 		change_image() {
+			this.representationPreview = 0
+			this.bigPreview = 0
+
 			if (this.files.length > 8) {
 				alert('8개 이상의 파일은 업로드가 불가합니다.')
 				this.files = []
