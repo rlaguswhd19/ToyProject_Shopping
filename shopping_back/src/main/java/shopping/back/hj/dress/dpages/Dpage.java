@@ -1,6 +1,8 @@
 package shopping.back.hj.dress.dpages;
 
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,6 +36,10 @@ public class Dpage {
 	
 	// 조회수
 	private Integer views;
+	
+	// 옷 같은색 조합 만들기
+//	@OneToMany
+//	private Set<Dress> dress_set;
 	
 	// 평점
 	

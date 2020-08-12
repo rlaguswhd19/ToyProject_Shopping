@@ -2,6 +2,9 @@
 .content_wrap {
 	margin: 10px;
 	width: 100%;
+}
+
+.content_wrap_a{
 	display: flex;
 }
 
@@ -12,14 +15,25 @@
 }
 
 .preview_list_wrap {
-	margin-top: 100px;
+	margin-top: 50px;
 	width: 50px;
-	height: 700px;
+	height: 600px;
 	margin-right: 20px;
 }
 
 .preview_list {
-	margin-bottom: 20px;
+	margin: 20px 5px;
+}
+.size_button{
+	outline: 1px black solid;
+	margin: 0 5px 10px 5px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	font-size: 13px;
+	/* background-color: #9b9b9b; */
+	opacity: 70;
+	
 }
 
 .big_preview_wrap {
