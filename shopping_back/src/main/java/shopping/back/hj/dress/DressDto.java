@@ -1,5 +1,6 @@
 package shopping.back.hj.dress;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.EnumType;
@@ -65,13 +66,21 @@ public class DressDto {
 		
 		@NotNull
 		private Set<Dsize> dsize;
+		
+		@NotEmpty
+		private String material;
+		
+		@NotEmpty
+		private String origin;
+		
+		@NotEmpty
+		private String manufacture;
 
 		@Override
 		public String toString() {
 			return "DressDto [name=" + name + ", color=" + color + ", article_number=" + article_number + ", category="
 					+ category + ", sex=" + sex + ", price=" + price + ", discount=" + discount + ", explanation="
-					+ explanation + ", dimage=" + dimage + ", dsize=" + dsize + "]";
+					+ explanation + ", dimage=" + dimage + ", dsize=" + dsize + ", material=" + material + ", origin="
+					+ origin + ", manufacture=" + manufacture + "]";
 		}
-		
-		
 }

@@ -4,6 +4,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +20,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javassist.bytecode.Mnemonic;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dimages.DimageRepository;
 import shopping.back.hj.dress.dimages.DimageService;
@@ -37,6 +40,12 @@ public class DressService {
 	public ResponseEntity createDress(DressDto dressDto) throws IllegalStateException, IOException {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
+		String manufacture = dressDto.getManufacture();
+		String[] temp = manufacture.split("-");
+		System.out.println(Arrays.toString(temp));
+		dress.setManufacture(LocalDate.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), 1));
+		
+		System.out.println(dress);
 
 		Dress newDress = dressRepository.save(dress);
 

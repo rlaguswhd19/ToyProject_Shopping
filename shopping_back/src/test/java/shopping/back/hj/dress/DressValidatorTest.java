@@ -92,6 +92,9 @@ public class DressValidatorTest {
 				.explanation("Test")
 				.dimage(dimage)
 				.dsize(dsize)
+				.material("겉면: 100%")
+				.origin("한국")
+				.manufacture("2020-03")
 				.build();
 		
 		mockMvc.perform(post("/api/dress")

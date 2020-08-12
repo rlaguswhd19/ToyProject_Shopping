@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,7 +68,7 @@ public class Dress {
 	private String explanation;
 
 	// 시간
-	private LocalDate created_date = LocalDate.now();
+	private LocalDate created = LocalDate.now();
 
 	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
 	private Dimage dimage;
@@ -75,6 +76,22 @@ public class Dress {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dsize> dsize;
 	
+	private String material;
+	
+	private String origin;
+	
+	private LocalDate manufacture;
+
+	@Override
+	public String toString() {
+		return "Dress [id=" + id + ", name=" + name + ", color=" + color + ", article_number=" + article_number
+				+ ", category=" + category + ", sex=" + sex + ", price=" + price + ", discount=" + discount
+				+ ", explanation=" + explanation + ", created=" + created + ", dimage=" + dimage + ", dsize="
+				+ dsize + ", material=" + material + ", origin=" + origin + ", manufacture=" + manufacture + "]";
+	}
+	
 //	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
 //	private Account manager;
+	
+	
 }

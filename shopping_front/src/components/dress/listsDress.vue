@@ -21,21 +21,21 @@
 					v-for="(dress, idx) in dressLists"
 					:key="idx"
 					class="Lists_dress"
-					@click="Test(dress.id)"
+					@click="Test(dress)"
 				>
 					<v-img
 						:src="get_imagePath(dress)"
 						contain
 						height="230"
 						width="230"
-						style="margin: 1px 0;"
+						style="margin: 1px 0 30px 0;"
 					/>
 					<div class="content_col">
 						<h3>{{ dress.name }}</h3>
 						<p>
 							{{ dress.category }}
 						</p>
-						<p>
+						<p v-if="dress.discount != 0">
 							<span
 								style="
 									color: red;
@@ -54,6 +54,17 @@
 								style="
 									text-decoration: line-through;
 									color: #9b9b9b;
+								"
+							>
+								{{ dress.price }}원
+							</span>
+						</p>
+						<p v-else>
+							<span
+								style="
+									color: red;
+									opacity: 70;
+									margin-right: 5px;
 								"
 							>
 								{{ dress.price }}원
@@ -90,8 +101,9 @@ export default {
 		this.get_dressLists()
 	},
 	methods: {
-		Test(id) {
-			alert(id)
+		Test(dress) {
+			alert(dress.id)
+			console.log(dress)
 		},
 		get_imagePath(dress) {
 			let image_path = dress.dimage.image_files.split('/')

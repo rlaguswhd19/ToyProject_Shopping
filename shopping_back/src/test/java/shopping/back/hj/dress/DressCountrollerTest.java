@@ -105,6 +105,9 @@ public class DressCountrollerTest {
 				.explanation("Test")
 				.dimage(newDimage)
 				.dsize(dsize)
+				.material("겉면: 100%")
+				.origin("한국")
+				.manufacture("2020-03")
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
@@ -139,7 +142,10 @@ public class DressCountrollerTest {
 							fieldWithPath("discount").description("할인율"),
 							fieldWithPath("explanation").description("설명"),
 							fieldWithPath("dimage").description("이미지"),
-							fieldWithPath("dsize").description("사이즈 info")
+							fieldWithPath("dsize").description("사이즈 info"),
+							fieldWithPath("material").description("소재"),
+							fieldWithPath("origin").description("제조국"),
+							fieldWithPath("manufacture").description("제조년월")
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
@@ -155,9 +161,12 @@ public class DressCountrollerTest {
 							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
-							fieldWithPath("created_date").type(JsonFieldType.STRING).description("등록 날짜"),
+							fieldWithPath("created").type(JsonFieldType.STRING).description("등록 날짜"),
 							fieldWithPath("dimage").type(JsonFieldType.OBJECT).description("이미지 FK"),
-							fieldWithPath("dsize").type(JsonFieldType.ARRAY).description("사이즈 info")
+							fieldWithPath("dsize").type(JsonFieldType.ARRAY).description("사이즈 info"),
+							fieldWithPath("material").type(JsonFieldType.STRING).description("소재"),
+							fieldWithPath("origin").type(JsonFieldType.STRING).description("제조국"),
+							fieldWithPath("manufacture").type(JsonFieldType.STRING).description("제조년월")
 					)
 				))
 			;
@@ -428,9 +437,12 @@ public class DressCountrollerTest {
 				.category(DressCategory.Top)
 				.discount(10)
 				.explanation("test listsDress")
-				.created_date(LocalDate.now())
+				.created(LocalDate.now())
 				.dimage(newDimage)
 				.dsize(dsize)
+				.material("겉면: 100%")
+				.origin("한국")
+				.manufacture(LocalDate.of(2020, 3, 1))
 				.build();
 		
 		return dressRepository.save(dress);

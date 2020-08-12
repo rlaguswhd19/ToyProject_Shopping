@@ -113,8 +113,19 @@
 			</div>
 			<!-- 입력 -->
 			<div class="info_wrap">
-				<v-card style="height: 800px; padding: 20px;">
-					<h2>Dress Info</h2>
+				<v-card style="height: 750px; padding: 20px;">
+					<div class="content_row">
+						<h2>Dress Info</h2>
+						<p style="margin-left: auto;">
+							가격:
+							{{
+								get_discountedPrice(
+									dressDto.price,
+									dressDto.discount,
+								)
+							}}
+						</p>
+					</div>
 					<span>category</span>
 					<div class="category_wrap">
 						<v-select
@@ -222,9 +233,6 @@
 																type="text"
 																class="td_input"
 																v-model="s.info"
-																style="
-																	width: 100%;
-																"
 															/>
 														</td>
 														<td v-if="checks[idx]">
@@ -233,9 +241,6 @@
 																class="td_input"
 																v-model="
 																	s.width
-																"
-																style="
-																	width: 100%;
 																"
 															/>
 														</td>
@@ -246,9 +251,6 @@
 																v-model="
 																	s.height
 																"
-																style="
-																	width: 100%;
-																"
 															/>
 														</td>
 														<td v-if="checks[idx]">
@@ -257,9 +259,6 @@
 																class="td_input"
 																v-model="
 																	s.count
-																"
-																style="
-																	width: 100%;
 																"
 															/>
 														</td>
@@ -298,10 +297,10 @@
 							</div>
 						</v-card>
 					</v-dialog>
-					<div class="content_row" style="margin-bottom: 50px;">
-						<div v-for="s in sizes" :key="s.size">
+					<div class="content_row" style="margin-bottom: 30px;">
+						<div v-for="(s, idx) in sizes" :key="s.size">
 							<button
-								v-if="s.count == 0"
+								v-if="!checks[idx]"
 								class="size_button"
 								disabled
 								style="
@@ -327,7 +326,6 @@
 							solo
 							style="width: 100%;"
 						></v-select>
-						<div></div>
 					</div>
 					<div class="content_row">
 						<input
@@ -349,7 +347,7 @@
 						@click="post_dress"
 						color="primary"
 						width="100%"
-						style="margin: auto;"
+						style="margin: auto; margin-top: 50px;"
 						>등록</v-btn
 					>
 				</v-card>
@@ -358,10 +356,69 @@
 		<h2>Explanation</h2>
 		<textarea
 			rows="10"
-			style="width: 100%; outline: 1px black solid;"
+			style="width: 100%; outline: 1px black solid; padding: 7px;"
 			v-model="dressDto.explanation"
 		>
 		</textarea>
+		<div class="table_wrap">
+			<table class="table_bottom">
+				<tr>
+					<th style="text-align: left;">
+						제품코드
+					</th>
+					<td>
+						<input
+							type="text"
+							class="td_input"
+							v-model="dressDto.article_number"
+							style="text-align: left;"
+							readonly
+						/>
+					</td>
+					<th style="text-align: left;">색상</th>
+					<td>
+						<input
+							type="text"
+							class="td_input"
+							v-model="dressDto.color"
+							style="text-align: left;"
+							readonly
+						/>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: left;">소재</th>
+					<td colspan="3">
+						<input
+							type="text"
+							class="td_input"
+							v-model="dressDto.material"
+							style="text-align: left;"
+						/>
+					</td>
+				</tr>
+				<tr>
+					<th style="text-align: left;">원산지</th>
+					<td>
+						<input
+							type="text"
+							class="td_input"
+							v-model="dressDto.origin"
+							style="text-align: left;"
+						/>
+					</td>
+					<th style="text-align: left;">제조년월</th>
+					<td style="text-align: left;">
+						<input
+							id="getDate"
+							type="month"
+							:max="dateMax"
+							v-model="dressDto.manufacture"
+						/>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </template>
 
@@ -382,6 +439,9 @@ export default {
 				explanation: 'DSN-Logo Tee Black',
 				dimage: '',
 				dsize: [],
+				material: '',
+				origin: '',
+				manufacture: '',
 			},
 			colors: [
 				'RED',
@@ -435,9 +495,24 @@ export default {
 				{ size: 'XXXL', info: '', width: '', height: '', count: '' },
 			],
 			checks: [true, true, true, true, true, true, true, true, true],
+			dateMax: '',
 		}
 	},
+	mounted() {
+		let date = new Date()
+		if (date.getMonth() - 1 > 9) {
+			this.dateMax = date.getFullYear() + '-' + (date.getMonth() - 1)
+		} else {
+			this.dateMax = date.getFullYear() + '-0' + (date.getMonth() - 1)
+		}
+		console.log(this.dateMax)
+	},
+
 	methods: {
+		get_discountedPrice(price, discount) {
+			return (price * (100 - discount)) / 100
+		},
+
 		reset_size() {
 			this.sizes = [
 				{ size: 'XXXS', info: '', width: '', height: '', count: '' },
@@ -471,7 +546,6 @@ export default {
 						size.count == ''
 					) {
 						alert('error')
-						this.dressDto.dsize = []
 						isOk = false
 						break
 					}
@@ -524,7 +598,6 @@ export default {
 			})
 		},
 		delete_dimage() {
-			console.log(this.dressDto)
 			this.$axios({
 				method: 'delete',
 				url:
@@ -557,6 +630,7 @@ export default {
 					// 만드는데 실패하면 dimage 지우기
 					this.delete_dimage()
 					console.log(error)
+					console.log(1)
 				})
 		},
 	},

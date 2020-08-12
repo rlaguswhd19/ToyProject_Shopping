@@ -38,6 +38,7 @@ public class DressController {
 	@PostMapping
 	public ResponseEntity<?> createDress(@RequestBody @Valid DressDto dressDto, Errors errors) throws IllegalStateException, IOException {
 		System.out.println(dressDto);
+		
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}
