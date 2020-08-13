@@ -1,16 +1,16 @@
 <template>
 	<div>
-		<login />
+		<signup />
 	</div>
 </template>
 
 <script>
-import login from '../components/account/login'
+import signup from '../../components/account/signup'
 
 export default {
-	name: 'Login',
+	name: 'SignUp',
 	components: {
-		login,
+		signup,
 	},
 }
 </script>

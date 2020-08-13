@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="login_wrap">
-			<h3 style="font-size: 50px; margin-bottom: 15px;">Login</h3>
+			<h3 style="font-size: 50px; margin-bottom: 15px;">로그인</h3>
 			<div class="login_box">
 				<input
 					type="email"

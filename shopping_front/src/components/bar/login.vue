@@ -1,36 +1,44 @@
 <template>
 	<div class="login_nav_wrap">
-		<ul class="login_nav_left">
-			<li>
-				<v-btn text small> HJ </v-btn>
-			</li>
-			<li>
-				<v-btn text small> join us </v-btn>
-			</li>
-		</ul>
+		<div class="login_left">
+			<ul>
+				<li>
+					<v-btn text small> HJ </v-btn>
+				</li>
+				<li>
+					<v-btn text small> join us </v-btn>
+				</li>
+			</ul>
+		</div>
 
-		<ul class="login_nav_right">
-			<li>
-				<v-btn text small> 주문조회 </v-btn>
-			</li>
-			<li>
-				<v-btn text small> 회원가입 </v-btn>
-			</li>
-			<li>
-				<v-btn text small @click="test"> 로그인 </v-btn>
-			</li>
-			<li>
-				<v-btn text small> 고객센터 </v-btn>
-			</li>
-		</ul>
+		<div class="login_right">
+			<ul>
+				<li>
+					<v-btn text small> 주문조회 </v-btn>
+				</li>
+				<li>
+					<v-btn text small @click="go('/account/signup')">
+						회원가입
+					</v-btn>
+				</li>
+				<li>
+					<v-btn text small @click="go('/account/signin')">
+						로그인
+					</v-btn>
+				</li>
+				<li>
+					<v-btn text small> 고객센터 </v-btn>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
 <script>
 export default {
 	methods: {
-		test() {
-			this.$router.push('login')
+		go(to) {
+			this.$router.push(to)
 		},
 	},
 }
@@ -41,14 +49,13 @@ export default {
 	display: flex;
 	height: 30px;
 }
-.login_nav,
-ul {
+.login_nav_wrap ul {
 	list-style-type: none;
-	display: flex;
 	margin: auto 0;
+	display: flex;
 }
 
-.login_nav_right {
+.login_right {
 	margin-left: auto;
 }
 

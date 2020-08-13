@@ -46,12 +46,15 @@ export default {
 	padding: 0 16px;
 }
 
-.logo ul li a {
-	color: black;
+.logo a {
 	font-size: 40px;
 	font-weight: 1000;
 	font-style: oblique;
 	text-decoration: none;
+}
+
+.logo li {
+	list-style-type: none;
 }
 
 .category_nav {
@@ -59,14 +62,24 @@ export default {
 	margin: auto;
 }
 
-.category_nav ul li a {
+.category_nav ul {
+	display: flex;
+}
+
+.category_nav ul a {
+	color: black;
+}
+
+.category_nav li {
 	padding: 0 40px;
 	font-size: 18px;
 	font-weight: 600;
 	color: black;
+	list-style-type: none;
+	margin: auto 0;
 }
 
-.category_nav ul li a:hover {
+.category_nav a:hover {
 	color: red;
 }
 
