@@ -302,6 +302,21 @@ public class DressCountrollerTest {
 					requestHeaders(
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header"),
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header")
+					),
+					relaxedRequestFields (
+							fieldWithPath("name").description("이름"),
+							fieldWithPath("article_number").description("품번"),
+							fieldWithPath("category").description("카테고리"),
+							fieldWithPath("sex").description("성별"),
+							fieldWithPath("color").description("색상"),
+							fieldWithPath("price").description("가격"),
+							fieldWithPath("discount").description("할인율"),
+							fieldWithPath("explanation").description("설명"),
+							fieldWithPath("dimage").description("이미지"),
+							fieldWithPath("dsize").description("사이즈 info"),
+							fieldWithPath("material").description("소재"),
+							fieldWithPath("origin").description("제조국"),
+							fieldWithPath("manufacture").description("제조년월")
 					)
 			))
 		;
@@ -439,6 +454,7 @@ public class DressCountrollerTest {
 	public Dress generateDress(int idx) {
 		Dimage dimage = Dimage.builder()
 				.image_files("test" + idx + ".jpg")
+				.image_repIdx(0)
 				.build();
 		Dimage newDimage = dimageRepository.save(dimage);
 		
