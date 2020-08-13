@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="login_wrap">
-			<h3 style="font-size: 50px; margin-bottom: 15px;">로그인</h3>
+			<h3 style="font-size: 35px; margin-bottom: 15px;">로그인</h3>
 			<div class="login_box">
 				<input
 					type="email"
@@ -12,7 +12,7 @@
 				<input
 					type="text"
 					class="hj_input"
-					placeholder="패스워드"
+					placeholder="비밀번호"
 					v-model="account.password"
 				/>
 				<div
