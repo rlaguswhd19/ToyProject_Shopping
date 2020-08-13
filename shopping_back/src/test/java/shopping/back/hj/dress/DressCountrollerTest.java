@@ -387,6 +387,22 @@ public class DressCountrollerTest {
 		;
 	}
 	
+	@Test
+	@TestDescription("입력값이 비어있는 경우 BadRequest 응답하기")
+	public void updateDress_BadRequest_Empty() throws Exception {
+		Dress dress = generateDress(100);
+		DressDto dressDto = DressDto.builder().build();
+		
+		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.content(objectMapper.writeValueAsString(dressDto))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+		;
+	}
+	
 	public Set<Dsize> createDsize() {
 		Set<Dsize> dsize = new HashSet<>();
 		

@@ -37,7 +37,7 @@ public class DressService {
 	@Autowired
 	private DimageService dimageService;
 
-	public ResponseEntity createDress(DressDto dressDto) throws IllegalStateException, IOException {
+	public ResponseEntity<?> createDress(DressDto dressDto) throws IllegalStateException, IOException {
 
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		String manufacture = dressDto.getManufacture();
