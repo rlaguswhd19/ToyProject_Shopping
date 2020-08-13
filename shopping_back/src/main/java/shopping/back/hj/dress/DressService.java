@@ -42,7 +42,6 @@ public class DressService {
 		Dress dress = modelMapper.map(dressDto, Dress.class);
 		String manufacture = dressDto.getManufacture();
 		String[] temp = manufacture.split("-");
-		System.out.println(Arrays.toString(temp));
 		dress.setManufacture(LocalDate.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), 1));
 		
 		System.out.println(dress);

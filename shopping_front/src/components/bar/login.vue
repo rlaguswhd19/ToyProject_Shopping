@@ -17,7 +17,7 @@
 				<v-btn text small> 회원가입 </v-btn>
 			</li>
 			<li>
-				<v-btn text small> 로그인 </v-btn>
+				<v-btn text small @click="test"> 로그인 </v-btn>
 			</li>
 			<li>
 				<v-btn text small> 고객센터 </v-btn>
@@ -27,7 +27,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+	methods: {
+		test() {
+			this.$router.push('login')
+		},
+	},
+}
 </script>
 
 <style>
