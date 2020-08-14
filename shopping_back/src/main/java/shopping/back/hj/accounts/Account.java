@@ -1,5 +1,7 @@
 package shopping.back.hj.accounts;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
@@ -28,7 +30,7 @@ public class Account {
 	@Id @GeneratedValue
 	private Long id;
 
-	private Integer age;
+	private LocalDateTime birth;
 	
 	private String email;
 	
@@ -44,5 +46,5 @@ public class Account {
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Set<AccountRole> role;
+	private Set<AccountRole> role = new HashSet<>();
 }
