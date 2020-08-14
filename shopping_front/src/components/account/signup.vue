@@ -2,7 +2,7 @@
 	<div class="content_row" style="padding: 0 130px; margin-top: 50px;">
 		<div class="signup_left">
 			<span style="font-size: 30px; font-weight: 700;">회원가입</span>
-			<div class="content_row">
+			<div class="content_row" style="margin-top: 20px;">
 				<input
 					type="email"
 					class="hj_input"
@@ -55,7 +55,10 @@
 				v-model="account.phone_number"
 			/>
 			<!-- 생년월일 만들기 -->
-			<div class="content_row" style="margin-top: 50px;">
+			<div style="margin: 30px 0 5px 0;">
+				<span>생년월일</span>
+			</div>
+			<div class="content_row">
 				<v-select
 					:items="years"
 					label="년도"
@@ -97,25 +100,28 @@
 		<div class="signup_right">
 			<ul>
 				<li>
-					<i class="mdi mdi-check" />회원가입은 14세 이상 고객만
-					가능합니다.
+					<i class="mdi mdi-check" style="color: blue;" />회원가입은
+					14세 이상 고객만 가능합니다.
 				</li>
 				<li>
-					<i class="mdi mdi-check" />고객님의 개인정보를 신중히
-					취급하며, 동의없이 정보가 공개되지 않습니다.
+					<i class="mdi mdi-check" style="color: blue;" />고객님의
+					개인정보를 신중히 취급하며, 동의없이 정보가 공개되지
+					않습니다.
 				</li>
 				<li>
-					<i class="mdi mdi-check" />매장에서 가입하신 고객은 웹
-					회원가입 과정을 거쳐야, 정식 아이디/패스워드가 등록됩니다.
+					<i class="mdi mdi-check" style="color: blue;" />매장에서
+					가입하신 고객은 웹 회원가입 과정을 거쳐야, 정식
+					아이디/패스워드가 등록됩니다.
 				</li>
 				<li>
-					<i class="mdi mdi-check" />가입 후 휴대전화로 전송해 드린
-					아디클럽 회원증을 다운로드 하시면, 오프라인 매장에서도 상품
-					구매 후 포인트 적립이 가능합니다.
+					<i class="mdi mdi-check" style="color: blue;" />가입 후
+					휴대전화로 전송해 드린 아디클럽 회원증을 다운로드 하시면,
+					오프라인 매장에서도 상품 구매 후 포인트 적립이 가능합니다.
 				</li>
 				<li>
-					<i class="mdi mdi-check" />마케팅 수신동의 하시면, 할인쿠폰
-					및 이벤트 등의 소식을 받으실 수 있습니다.
+					<i class="mdi mdi-check" style="color: blue;" />마케팅
+					수신동의 하시면, 할인쿠폰 및 이벤트 등의 소식을 받으실 수
+					있습니다.
 				</li>
 			</ul>
 		</div>

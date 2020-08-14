@@ -18,12 +18,6 @@ import shopping.back.hj.enums.Sex;
 @Component
 public class DressValidator {
 
-	@Autowired
-	DimageRepository dimageRepository;
-
-	@Autowired
-	DressRepository dressRepository;
-
 	public void validate(DressDto dressDto, Errors errors) {
 		if(dressDto.getName().length() > 50) {
 			errors.rejectValue("name", "name is wrongValue", "이름의 길이가 50이 넘어서는 안됩니다.");
