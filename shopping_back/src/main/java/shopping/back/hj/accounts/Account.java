@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.dress.Dress;
+import shopping.back.hj.dress.dpages.Dpage;
 import shopping.back.hj.enums.AccountRole;
 
 @Entity
@@ -43,6 +44,9 @@ public class Account {
 	// 양방향 드레스 리스트
 	@OneToMany
 	private Set<Dress> dress_arr;
+	
+	@OneToMany
+	private Set<Dpage> dpage_arr;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
