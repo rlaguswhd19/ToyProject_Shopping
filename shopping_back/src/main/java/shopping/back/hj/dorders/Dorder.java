@@ -30,18 +30,13 @@ public class Dorder {
 	// 주문 날짜
 	private LocalDateTime order_time;
 	
-	// 색상
-	private String color;
-	
-	// 옷 사이즈
+	// 옷 사이즈, 갯수
 	@Enumerated(EnumType.STRING)
 	private DressSize dsize;
 
-	// 갯수
-	private Integer count;
-	
 	// 결제정보 = 상품가격 * 수량 % 할인률
 	// 상품정보 = 상품, 사이즈, 수량, 할인정보
+	// 옷정보
 	@ManyToOne
 	private Dress dress;
 
