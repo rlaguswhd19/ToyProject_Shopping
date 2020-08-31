@@ -154,7 +154,7 @@ export default {
 		let today = new Date()
 		let year = today.getFullYear()
 		this.input_birth.year = year
-		this.input_birth.month = today.getMonth()
+		this.input_birth.month = today.getMonth() + 1
 		this.input_birth.date = today.getDate()
 		for (let i = 0; i <= 100; i++) {
 			this.years.push(year - i)
@@ -175,16 +175,24 @@ export default {
 	methods: {
 		setDate() {
 			let year = this.input_birth.year
+			let temp = this.input_birth.date
+
 			let currentDay = new Date(
 				this.input_birth.year,
 				this.input_birth.month,
 				0,
 			)
+
 			let lastDay = parseInt(currentDay.toString().split(' ')[2])
 			this.dates = []
 			for (let i = 1; i <= lastDay; i++) {
 				this.dates.push(i)
 			}
+
+			if (temp > lastDay) {
+				temp = lastDay
+			}
+			this.input_birth.date = temp
 		},
 	},
 }
