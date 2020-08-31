@@ -8,7 +8,7 @@
 					class="hj_input"
 					style="margin-right: 10px;"
 					placeholder="이메일"
-					v-model="account.email"
+					v-model="accountDto.email"
 				/>
 				<v-btn
 					style="margin: auto;"
@@ -40,7 +40,7 @@
 				type="password"
 				class="hj_input"
 				placeholder="비밀번호"
-				v-model="account.password"
+				v-model="accountDto.password"
 			/>
 			<input
 				type="password"
@@ -52,7 +52,7 @@
 				type="text"
 				class="hj_input"
 				placeholder="휴대폰번호 '-'없이 입력해주세요."
-				v-model="account.phone_number"
+				v-model="accountDto.phone_number"
 			/>
 			<!-- 생년월일 만들기 -->
 			<div style="margin: 30px 0 5px 0;">
@@ -88,12 +88,12 @@
 			<v-btn
 				color="primary"
 				style="
-					width: 60%;
+					width: 100%;
 					height: 50px;
 					border-radius: 1;
 					margin: 15px 0 0 0;
 				"
-				disabled="false"
+				@click="post_account"
 				>회원가입</v-btn
 			>
 		</div>
@@ -132,11 +132,12 @@
 export default {
 	data() {
 		return {
-			account: {
-				email: '',
-				password: '',
-				phone_number: '',
+			accountDto: {
+				email: 'test@naver.com',
+				password: 'test',
+				phone_number: '01047321566',
 				birth: '',
+				address: 'Test',
 			},
 			password_check: '',
 			input_birth: {
@@ -193,6 +194,32 @@ export default {
 				temp = lastDay
 			}
 			this.input_birth.date = temp
+		},
+		post_account() {
+			this.accountDto.birth =
+				this.input_birth.year +
+				'/' +
+				this.input_birth.month +
+				'/' +
+				this.input_birth.date
+
+			console.log(this.accountDto)
+
+			this.$axios({
+				method: 'post',
+				url: 'http://localhost:8080/api/accounts',
+				data: this.accountDto,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+			})
+				.then(r => {
+					console.log(r)
+				})
+				.catch(e => {
+					console.log(e)
+				})
 		},
 	},
 }
