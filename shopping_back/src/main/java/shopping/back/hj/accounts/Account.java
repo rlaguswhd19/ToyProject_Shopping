@@ -1,6 +1,6 @@
 package shopping.back.hj.accounts;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +31,7 @@ public class Account {
 	@Id @GeneratedValue
 	private Long id;
 
-	private LocalDateTime birth;
+	private LocalDate birth;
 	
 	private String email;
 	
@@ -43,12 +43,13 @@ public class Account {
 	
 	// 양방향 드레스 리스트
 	@OneToMany
-	private Set<Dress> dress_arr;
+	private Set<Dress> dress_arr = new HashSet<Dress>();
 	
+	// 양방향 페이지 리스트
 	@OneToMany
-	private Set<Dpage> dpage_arr;
+	private Set<Dpage> dpage_arr = new HashSet<Dpage>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Set<AccountRole> role = new HashSet<>();
+	private Set<AccountRole> roles = new HashSet<>();
 }
