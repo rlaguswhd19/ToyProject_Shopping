@@ -51,5 +51,12 @@ public class Account {
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Set<AccountRole> roles = new HashSet<>();
+	private Set<AccountRole> roles = Set.of(AccountRole.USER);
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", birth=" + birth + ", email=" + email + ", password=" + password + ", address="
+				+ address + ", phone_number=" + phone_number + ", dress_arr=" + dress_arr + ", dpage_arr=" + dpage_arr
+				+ ", roles=" + roles + "]";
+	}
 }

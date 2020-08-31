@@ -11,8 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -29,25 +29,28 @@ public class AccountServiceTest {
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Test
 	public void findByUsername() {
 		// Given
-		Account account = Account.builder()
+		AccountDto accountDto = AccountDto.builder()
 				.email("test@naver.com")
 				.password("test")
 				.address("test")
 				.phone_number("010-4732-1566")
-				.birth(LocalDate.of(1994, 8, 23))
-				.roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
+				.birth("1994/08/23")
 				.build();
 		
-		accountRepository.save(account);
-		
+		Account account = (Account) accountService.createAccount(accountDto).getBody();
+		System.out.println(account);
+
 		// When
 		UserDetails userDetails = accountService.loadUserByUsername(account.getEmail());
 		
 		// Then
-		assertThat(userDetails.getPassword()).isEqualTo(account.getPassword());
+		assertThat(passwordEncoder.matches(accountDto.getPassword(), userDetails.getPassword())).isTrue();
 	}
 	
 	@Test
