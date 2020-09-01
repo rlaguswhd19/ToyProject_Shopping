@@ -13,6 +13,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedR
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -39,12 +41,18 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shopping.back.hj.accounts.Account;
+import shopping.back.hj.accounts.AccountDto;
+import shopping.back.hj.accounts.AccountRepository;
+import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
@@ -77,6 +85,19 @@ public class DressCountrollerTest {
 	
 	@Autowired
 	private DimageRepository dimageRepository;
+	
+	@Autowired
+	private AccountService accountService;
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Before
+	public void setUp() {
+		dressRepository.deleteAll();
+		accountRepository.deleteAll();
+		dimageRepository.deleteAll();
+	}
 	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());;
@@ -111,6 +132,7 @@ public class DressCountrollerTest {
 				.build();
 		
 		mockMvc.perform(post("/api/dress")
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -129,6 +151,7 @@ public class DressCountrollerTest {
 							linkWithRel("images-dress").description("dress image file paths")
 					),
 					requestHeaders(
+							headerWithName(HttpHeaders.AUTHORIZATION).description("Access token"),
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
@@ -178,6 +201,7 @@ public class DressCountrollerTest {
 		Dress dress = generateDress(100);
 		
 		mockMvc.perform(post("/api/dress")
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dress))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -283,6 +307,7 @@ public class DressCountrollerTest {
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(RestDocumentationRequestBuilders.put("/api/dress/{id}", dress.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -332,6 +357,7 @@ public class DressCountrollerTest {
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(put("/api/dress/{id}", 12341141L)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -351,6 +377,7 @@ public class DressCountrollerTest {
 		dressDto.setName(dressName);
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -372,6 +399,7 @@ public class DressCountrollerTest {
 		dressDto.setDiscount(121);
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -393,6 +421,7 @@ public class DressCountrollerTest {
 		dressDto.setDiscount(100);
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -409,6 +438,7 @@ public class DressCountrollerTest {
 		DressDto dressDto = DressDto.builder().build();
 		
 		mockMvc.perform(put("/api/dress/{id}", dress.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.content(objectMapper.writeValueAsString(dressDto))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON + ";charset=UTF-8")
@@ -478,5 +508,38 @@ public class DressCountrollerTest {
 				.build();
 		
 		return dressRepository.save(dress);
+	}
+	
+	private String getBearerToken() throws Exception {
+		return "Bearer"+getAccessToken();
+	}
+	
+	private String getAccessToken() throws Exception {
+		String useremail = "random@naver.com";
+		String password = "random";
+		
+		AccountDto accountDto = AccountDto.builder()
+				.email(useremail)
+				.password(password)
+				.address("random")
+				.phone_number("010-4732-1566")
+				.birth("1994/08/23")
+				.build();
+		
+		Account account = (Account)accountService.createAccount(accountDto).getBody();
+		
+		String clientId = "hjapp";
+		String clientSecret = "hjpass";
+		
+		ResultActions perform = mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(clientId, clientSecret))
+				.param("username", useremail)
+				.param("password", password)
+				.param("grant_type", "password")
+				);
+		
+		var responseBody = perform.andReturn().getResponse().getContentAsString();
+		Jackson2JsonParser parser = new Jackson2JsonParser();
+		return parser.parseMap(responseBody).get("access_token").toString();
 	}
 }

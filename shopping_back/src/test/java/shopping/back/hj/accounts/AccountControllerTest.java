@@ -1,6 +1,6 @@
 package shopping.back.hj.accounts;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +44,7 @@ public class AccountControllerTest {
 	public void createAccount() throws JsonProcessingException, Exception {
 		AccountDto accountDto = AccountDto.builder().build();
 		
-		ResultActions perform = mockMvc.perform(get("/api/accounts")
+		ResultActions perform = mockMvc.perform(post("/api/accounts")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE)
 				.content(objectMapper.writeValueAsString(accountDto))
