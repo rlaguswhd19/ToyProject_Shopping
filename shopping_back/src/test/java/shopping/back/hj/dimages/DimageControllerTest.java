@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
@@ -84,6 +85,7 @@ public class DimageControllerTest {
 		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(file2)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.param("idx", "1")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -101,6 +103,7 @@ public class DimageControllerTest {
 		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(file2)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.param("idx", "123")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -117,6 +120,7 @@ public class DimageControllerTest {
 		mockMvc.perform(multipart("/api/dimages")
 				.file(file1)
 				.file(wrongFile)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.param("idx", "2")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -131,6 +135,7 @@ public class DimageControllerTest {
 	public void create_dimage_BadRequest_EmptyFile() throws Exception {
 		
 		mockMvc.perform(multipart("/api/dimages")
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.param("idx", "2")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
@@ -151,6 +156,7 @@ public class DimageControllerTest {
 		Dimage dimage = (Dimage) returnData.getBody();
 		
 		mockMvc.perform(delete("/api/dimages/{id}", dimage.getId())
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 				)
