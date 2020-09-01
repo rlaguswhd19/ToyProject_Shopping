@@ -1,5 +1,7 @@
 package shopping.back.hj.config;
 
+import java.util.Set;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -11,13 +13,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
+import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.enums.AccountRole;
 
 @Configuration
 public class AppConfig {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private AccountRepository accountRepository;
 	
 	@Bean
 	public ModelMapper modelMapper() {
@@ -35,15 +42,30 @@ public class AppConfig {
 //			
 //			@Override
 //			public void run(ApplicationArguments args) throws Exception {
-//				AccountDto accountDto = AccountDto.builder()
-//						.email("test@naver.com")
-//						.password("test")
-//						.address("test")
+//				AccountDto Admin = AccountDto.builder()
+//						.email("admin@naver.com")
+//						.password("admin")
+//						.address("admin")
 //						.phone_number("010-4732-1566")
 //						.birth("1994/08/23")
 //						.build();
 //				
-//				accountService.createAccount(accountDto);
+//				Account account = (Account) accountService.createAccount(Admin).getBody();
+//				Set<AccountRole> set = account.getRoles();
+//				set.add(AccountRole.ADMIN);
+//				account.setRoles(set);
+//				
+//				accountRepository.flush();
+//				
+//				AccountDto User = AccountDto.builder()
+//						.email("user@naver.com")
+//						.password("user")
+//						.address("user")
+//						.phone_number("010-4732-1566")
+//						.birth("1994/08/23")
+//						.build();
+//				
+//				accountService.createAccount(User);
 //			}
 //		};
 //	}

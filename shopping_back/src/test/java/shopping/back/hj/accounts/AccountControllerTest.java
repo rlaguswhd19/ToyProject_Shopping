@@ -1,10 +1,12 @@
 package shopping.back.hj.accounts;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,6 +42,17 @@ public class AccountControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AccountService accountService;
+	
+	@Before
+	public void setUp() {
+		accountRepository.deleteAll();
+	}
+	
 	@Test
 	@TestDescription("createAccount")
 	public void createAccount() throws JsonProcessingException, Exception {
@@ -53,6 +67,39 @@ public class AccountControllerTest {
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("id").exists())
 				;
+	}
+	
+	private String getBearerToken() throws Exception {
+		return "Bearer"+getAccessToken();
+	}
+	
+	private String getAccessToken() throws Exception {
+		String useremail = "random@naver.com";
+		String password = "random";
+		
+		AccountDto accountDto = AccountDto.builder()
+				.email(useremail)
+				.password(password)
+				.address("random")
+				.phone_number("010-4732-1566")
+				.birth("1994/08/23")
+				.build();
+		
+		Account account = (Account)accountService.createAccount(accountDto).getBody();
+		
+		String clientId = "hjapp";
+		String clientSecret = "hjpass";
+		
+		ResultActions perform = mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(clientId, clientSecret))
+				.param("username", useremail)
+				.param("password", password)
+				.param("grant_type", "password")
+				);
+		
+		var responseBody = perform.andReturn().getResponse().getContentAsString();
+		Jackson2JsonParser parser = new Jackson2JsonParser();
+		return parser.parseMap(responseBody).get("access_token").toString();
 	}
 	
 }
