@@ -59,7 +59,6 @@ public class AccountService implements UserDetailsService {
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		String[] birth_arr = accountDto.getBirth().split("/");
 		account.setBirth(LocalDate.of(Integer.parseInt(birth_arr[0]), Integer.parseInt(birth_arr[1]), Integer.parseInt(birth_arr[2])));
-		
 		Account newAccount = accountRespository.save(account);
 		
 		WebMvcLinkBuilder selfLinkBuilder = linkTo(DressController.class).slash(newAccount.getId());

@@ -44,7 +44,6 @@ public class AccountServiceTest {
 				.build();
 		
 		Account account = (Account) accountService.createAccount(accountDto).getBody();
-		System.out.println(account);
 
 		// When
 		UserDetails userDetails = accountService.loadUserByUsername(account.getEmail());

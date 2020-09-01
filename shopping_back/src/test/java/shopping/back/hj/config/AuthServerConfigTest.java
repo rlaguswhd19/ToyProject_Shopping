@@ -45,19 +45,18 @@ public class AuthServerConfigTest {
 	@Test
 	@TestDescription("인증 토큰을 발급 받는 테스트")
 	public void getAuthToken() throws Exception {
-		String useremail = "test@naver.com";
-		String password = "test";
+		String useremail = "random@naver.com";
+		String password = "random";
 		
 		AccountDto accountDto = AccountDto.builder()
 				.email(useremail)
 				.password(password)
-				.address("test")
+				.address("random")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
 				.build();
 		
-		Account account = (Account) accountService.createAccount(accountDto).getBody();
-		
+		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
 		String clientId = "hjapp";
 		String clientSecret = "hjpass";
