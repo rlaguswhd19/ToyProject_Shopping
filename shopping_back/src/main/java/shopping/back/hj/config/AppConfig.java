@@ -16,6 +16,7 @@ import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.enums.AccountRole;
 
 @Configuration
@@ -26,6 +27,9 @@ public class AppConfig {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AppProperties appProperties;
 	
 	@Bean
 	public ModelMapper modelMapper() {
@@ -44,8 +48,8 @@ public class AppConfig {
 			@Override
 			public void run(ApplicationArguments args) throws Exception {
 				AccountDto Admin = AccountDto.builder()
-						.email("admin@naver.com")
-						.password("admin")
+						.email(appProperties.getAdminEmail())
+						.password(appProperties.getAdminPassword())
 						.address("admin")
 						.phone_number("010-4732-1566")
 						.birth("1994/08/23")
@@ -59,8 +63,8 @@ public class AppConfig {
 				accountRepository.save(account);
 				
 				AccountDto User = AccountDto.builder()
-						.email("user@naver.com")
-						.password("user")
+						.email(appProperties.getUserEmail())
+						.password(appProperties.getUserPassword())
 						.address("user")
 						.phone_number("010-4732-1566")
 						.birth("1994/08/23")

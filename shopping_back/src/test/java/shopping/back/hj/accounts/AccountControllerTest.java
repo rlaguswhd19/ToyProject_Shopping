@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
 
@@ -47,6 +48,9 @@ public class AccountControllerTest {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private AppProperties appProperties;
 	
 	@Before
 	public void setUp() {
@@ -74,12 +78,10 @@ public class AccountControllerTest {
 	}
 	
 	private String getAccessToken() throws Exception {
-		String useremail = "random@naver.com";
-		String password = "random";
 		
 		AccountDto accountDto = AccountDto.builder()
-				.email(useremail)
-				.password(password)
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
 				.address("random")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
@@ -87,13 +89,10 @@ public class AccountControllerTest {
 		
 		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
-		String clientId = "hjapp";
-		String clientSecret = "hjpass";
-		
 		ResultActions perform = mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(clientId, clientSecret))
-				.param("username", useremail)
-				.param("password", password)
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
 				.param("grant_type", "password")
 				);
 		

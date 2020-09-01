@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.common.AppProperties;
 
 @Configuration
 @EnableAuthorizationServer
@@ -29,6 +30,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter{
 	@Autowired
 	private TokenStore tokenStore;
 	
+	@Autowired
+	private AppProperties appProperties;
+	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.passwordEncoder(passwordEncoder);
@@ -37,8 +41,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter{
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-			.withClient("hjapp")
-			.secret(passwordEncoder.encode("hjpass"))
+			.withClient(appProperties.getClientId())
+			.secret(passwordEncoder.encode(appProperties.getClientSecret()))
 			.authorizedGrantTypes("password", "refresh_token")
 			.scopes("read","write")
 			.accessTokenValiditySeconds(3 * 10 * 60)

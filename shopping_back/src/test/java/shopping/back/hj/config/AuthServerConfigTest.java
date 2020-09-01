@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
 
@@ -37,15 +38,16 @@ public class AuthServerConfigTest {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private AppProperties appProperties;
+	
 	@Test
 	@TestDescription("인증 토큰을 발급 받는 테스트")
 	public void getAuthToken() throws Exception {
-		String useremail = "random@naver.com";
-		String password = "random";
 		
 		AccountDto accountDto = AccountDto.builder()
-				.email(useremail)
-				.password(password)
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
 				.address("random")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
@@ -53,13 +55,11 @@ public class AuthServerConfigTest {
 		
 		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
-		String clientId = "hjapp";
-		String clientSecret = "hjpass";
 		
 		mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(clientId, clientSecret))
-				.param("username", useremail)
-				.param("password", password)
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
 				.param("grant_type", "password")
 				)
 			.andDo(print())

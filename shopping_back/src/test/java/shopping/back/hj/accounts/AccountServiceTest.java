@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.enums.AccountRole;
 
 @RunWith(SpringRunner.class)
@@ -27,17 +28,17 @@ public class AccountServiceTest {
 	private AccountService accountService;
 	
 	@Autowired
-	private AccountRepository accountRepository;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private AppProperties appProperties;
 	
 	@Test
 	public void findByUsername() {
 		// Given
 		AccountDto accountDto = AccountDto.builder()
-				.email("test@naver.com")
-				.password("test")
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
 				.address("test")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
@@ -54,14 +55,13 @@ public class AccountServiceTest {
 	
 	@Test
 	public void findByUsername_NotFound() {
-		String Username = "random@naver.com";
 		
 		try {
-			accountService.loadUserByUsername(Username);
+			accountService.loadUserByUsername(appProperties.getUserEmail());
 			fail("findByUsername_NotFound Test Fail");
 		}catch (Exception e) {
 			assertThat(e instanceof UsernameNotFoundException).isTrue();
-			assertThat(e.getMessage()).contains(Username);
+			assertThat(e.getMessage()).contains(appProperties.getUserEmail());
 		}
 		
 	}

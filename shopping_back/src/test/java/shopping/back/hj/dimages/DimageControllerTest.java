@@ -32,6 +32,7 @@ import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.DressRepository;
@@ -64,6 +65,9 @@ public class DimageControllerTest {
 	
 	@Autowired
 	private DimageRepository dimageRepository;
+	
+	@Autowired
+	private AppProperties appProperties;
 	
 	// 파일 2개
 	private MockMultipartFile file1 = new MockMultipartFile("files", "test1.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
@@ -170,12 +174,10 @@ public class DimageControllerTest {
 	}
 	
 	private String getAccessToken() throws Exception {
-		String useremail = "random@naver.com";
-		String password = "random";
 		
 		AccountDto accountDto = AccountDto.builder()
-				.email(useremail)
-				.password(password)
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
 				.address("random")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
@@ -183,13 +185,10 @@ public class DimageControllerTest {
 		
 		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
-		String clientId = "hjapp";
-		String clientSecret = "hjpass";
-		
 		ResultActions perform = mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(clientId, clientSecret))
-				.param("username", useremail)
-				.param("password", password)
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
 				.param("grant_type", "password")
 				);
 		

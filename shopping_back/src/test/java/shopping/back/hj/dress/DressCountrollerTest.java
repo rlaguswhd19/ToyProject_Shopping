@@ -53,6 +53,7 @@ import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
+import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
 import shopping.back.hj.dress.dimages.Dimage;
@@ -91,6 +92,9 @@ public class DressCountrollerTest {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AppProperties appProperties;
 	
 	@Before
 	public void setUp() {
@@ -515,12 +519,10 @@ public class DressCountrollerTest {
 	}
 	
 	private String getAccessToken() throws Exception {
-		String useremail = "random@naver.com";
-		String password = "random";
 		
 		AccountDto accountDto = AccountDto.builder()
-				.email(useremail)
-				.password(password)
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
 				.address("random")
 				.phone_number("010-4732-1566")
 				.birth("1994/08/23")
@@ -528,13 +530,10 @@ public class DressCountrollerTest {
 		
 		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
-		String clientId = "hjapp";
-		String clientSecret = "hjpass";
-		
 		ResultActions perform = mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(clientId, clientSecret))
-				.param("username", useremail)
-				.param("password", password)
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
 				.param("grant_type", "password")
 				);
 		
