@@ -99,7 +99,6 @@ public class DressCountrollerTest {
 	@Before
 	public void setUp() {
 		dressRepository.deleteAll();
-		accountRepository.deleteAll();
 		dimageRepository.deleteAll();
 	}
 	
@@ -519,16 +518,6 @@ public class DressCountrollerTest {
 	}
 	
 	private String getAccessToken() throws Exception {
-		
-		AccountDto accountDto = AccountDto.builder()
-				.email(appProperties.getUserEmail())
-				.password(appProperties.getUserPassword())
-				.address("random")
-				.phone_number("010-4732-1566")
-				.birth("1994/08/23")
-				.build();
-		
-		Account account = (Account)accountService.createAccount(accountDto).getBody();
 		
 		ResultActions perform = mockMvc.perform(post("/oauth/token")
 				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))

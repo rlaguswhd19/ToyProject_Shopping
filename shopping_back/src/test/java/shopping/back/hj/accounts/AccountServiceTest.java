@@ -35,33 +35,23 @@ public class AccountServiceTest {
 	
 	@Test
 	public void findByUsername() {
-		// Given
-		AccountDto accountDto = AccountDto.builder()
-				.email(appProperties.getUserEmail())
-				.password(appProperties.getUserPassword())
-				.address("test")
-				.phone_number("010-4732-1566")
-				.birth("1994/08/23")
-				.build();
-		
-		Account account = (Account) accountService.createAccount(accountDto).getBody();
 
 		// When
-		UserDetails userDetails = accountService.loadUserByUsername(account.getEmail());
+		UserDetails userDetails = accountService.loadUserByUsername(appProperties.getUserEmail());
 		
 		// Then
-		assertThat(passwordEncoder.matches(accountDto.getPassword(), userDetails.getPassword())).isTrue();
+		assertThat(passwordEncoder.matches(appProperties.getUserPassword(), userDetails.getPassword())).isTrue();
 	}
 	
 	@Test
 	public void findByUsername_NotFound() {
 		
 		try {
-			accountService.loadUserByUsername(appProperties.getUserEmail());
+			accountService.loadUserByUsername("test");
 			fail("findByUsername_NotFound Test Fail");
 		}catch (Exception e) {
 			assertThat(e instanceof UsernameNotFoundException).isTrue();
-			assertThat(e.getMessage()).contains(appProperties.getUserEmail());
+			assertThat(e.getMessage()).contains("test");
 		}
 		
 	}
