@@ -66,7 +66,12 @@
 			<version>2.1.0.RELEASE</version>
 		</dependency>
 
-
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>pl.pragmatists</groupId>
 			<artifactId>JUnitParams</artifactId>
