@@ -25,7 +25,7 @@
 								class="hj_input"
 								style="margin-right: 10px;"
 								placeholder="인증번호"
-								v-model="auth_number"
+								v-model="auth_num"
 							/>
 						</v-card-text>
 						<v-card-actions>
@@ -40,14 +40,22 @@
 				type="password"
 				class="hj_input"
 				placeholder="비밀번호"
-				v-model="accountDto.password"
+				v-model="password_input.input"
 			/>
 			<input
 				type="password"
 				class="hj_input"
 				placeholder="비밀번호확인"
-				v-model="password_check"
+				v-model="password_input.check"
 			/>
+			<div style="float: right;">
+				<p
+					v-if="!this.check_result"
+					style="color: red; font-size: 13px;"
+				>
+					비밀번호를 확인해주세요.
+				</p>
+			</div>
 			<input
 				type="text"
 				class="hj_input"
@@ -84,7 +92,37 @@
 					style="width: 30%;"
 				></v-select>
 			</div>
-
+			<getAddress />
+			<input
+				type="text"
+				class="hj_input"
+				id="post_num"
+				placeholder="우편번호"
+				readonly
+			/>
+			<input
+				type="text"
+				class="hj_input"
+				id="road_addr"
+				placeholder="도로명주소"
+				readonly
+			/>
+			<input
+				type="text"
+				class="hj_input"
+				id="jibun_addr"
+				placeholder="지번주소"
+				readonly
+			/>
+			<span id="guide" style="color: #999; display: none;"></span>
+			<input type="text" class="hj_input" placeholder="상세주소" />
+			<input
+				type="text"
+				class="hj_input"
+				id="extra_addr"
+				placeholder="참고항목"
+				readonly
+			/>
 			<v-btn
 				color="primary"
 				style="
@@ -129,7 +167,12 @@
 </template>
 
 <script>
+import getAddress from '../address/getAddress'
+import { EventBus } from '../../utils/eventBus'
+
 export default {
+	components: { getAddress },
+
 	data() {
 		return {
 			accountDto: {
@@ -139,7 +182,11 @@ export default {
 				birth: '',
 				address: 'Test',
 			},
-			password_check: '',
+			password_input: {
+				check: '',
+				input: '',
+			},
+			check_result: false,
 			input_birth: {
 				year: '',
 				month: '',
@@ -149,6 +196,7 @@ export default {
 			months: [],
 			dates: [],
 			auth: false,
+			auth_num: '',
 		}
 	},
 	mounted() {
@@ -164,12 +212,28 @@ export default {
 		for (let i = 1; i <= 12; i++) {
 			this.months.push(i)
 		}
+
+		EventBus.$on('get_address', address => {
+			this.accountDto.address = address
+			console.log(this.accountDto)
+			// this.address = address
+		})
 	},
 	watch: {
 		input_birth: {
 			deep: true,
 			handler() {
 				this.setDate()
+			},
+		},
+		password_input: {
+			deep: true,
+			handler() {
+				if (this.password_input.input == this.password_input.check) {
+					this.check_result = true
+				} else {
+					this.check_result = false
+				}
 			},
 		},
 	},
@@ -195,6 +259,14 @@ export default {
 			}
 			this.input_birth.date = temp
 		},
+		check_password() {
+			if (this.accountDto.password == this.password_check) {
+				return true
+			} else {
+				return false
+			}
+		},
+
 		post_account() {
 			this.accountDto.birth =
 				this.input_birth.year +
@@ -246,7 +318,7 @@ export default {
 .signup_right li {
 	list-style-type: none;
 	font-size: 13px;
-	margin: 20px 0;
+	margin: 30px 0;
 	display: flex;
 }
 

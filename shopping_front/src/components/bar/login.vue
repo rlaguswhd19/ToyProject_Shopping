@@ -17,12 +17,12 @@
 					<v-btn text small> 주문조회 </v-btn>
 				</li>
 				<li>
-					<v-btn text small @click="go('/account/signup')">
+					<v-btn text small @click="go('/account/signUp')">
 						회원가입
 					</v-btn>
 				</li>
 				<li>
-					<v-btn text small @click="go('/account/signin')">
+					<v-btn text small @click="go('/account/signIn')">
 						로그인
 					</v-btn>
 				</li>
