@@ -37,14 +37,6 @@ export default {
 
 			new daum.Postcode({
 				oncomplete(data) {
-					document.getElementById('post_num').value = data.zonecode
-					document.getElementById('road_addr').value =
-						data.roadAddress
-					document.getElementById('jibun_addr').value =
-						data.jibunAddress
-					document.getElementById('extra_addr').value =
-						data.buildingName
-
 					address.post_num = data.zonecode
 					address.road_addr = data.roadAddress
 					address.jibun_addr = data.jibunAddress

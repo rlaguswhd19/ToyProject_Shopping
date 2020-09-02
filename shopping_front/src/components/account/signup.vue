@@ -96,31 +96,35 @@
 			<input
 				type="text"
 				class="hj_input"
-				id="post_num"
 				placeholder="우편번호"
+				v-model="accountDto.address.post_num"
 				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
-				id="road_addr"
 				placeholder="도로명주소"
+				v-model="accountDto.address.road_addr"
 				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
-				id="jibun_addr"
 				placeholder="지번주소"
+				v-model="accountDto.address.jibun_addr"
 				readonly
 			/>
-			<span id="guide" style="color: #999; display: none;"></span>
-			<input type="text" class="hj_input" placeholder="상세주소" />
 			<input
 				type="text"
 				class="hj_input"
-				id="extra_addr"
+				placeholder="상세주소"
+				v-model="accountDto.address.detail_addr"
+			/>
+			<input
+				type="text"
+				class="hj_input"
 				placeholder="참고항목"
+				v-model="accountDto.address.extra_addr"
 				readonly
 			/>
 			<v-btn
@@ -180,7 +184,13 @@ export default {
 				password: 'test',
 				phone_number: '01047321566',
 				birth: '',
-				address: 'Test',
+				address: {
+					post_num: '',
+					road_addr: '',
+					jibun_addr: '',
+					detail_addr: '',
+					extra_addr: '',
+				},
 			},
 			password_input: {
 				check: '',
@@ -205,6 +215,7 @@ export default {
 		this.input_birth.year = year
 		this.input_birth.month = today.getMonth() + 1
 		this.input_birth.date = today.getDate()
+
 		for (let i = 0; i <= 100; i++) {
 			this.years.push(year - i)
 		}
@@ -268,12 +279,20 @@ export default {
 		},
 
 		post_account() {
+			// birth 만들기
 			this.accountDto.birth =
 				this.input_birth.year +
 				'/' +
 				this.input_birth.month +
 				'/' +
 				this.input_birth.date
+
+			// 패스워드 체크
+			if (!this.check_result) {
+				alert('패스워드를 다시 입력하세요')
+				return
+			}
+			this.accountDto.password = this.password_input.input
 
 			console.log(this.accountDto)
 
