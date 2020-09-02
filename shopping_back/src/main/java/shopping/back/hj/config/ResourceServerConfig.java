@@ -1,5 +1,6 @@
 package shopping.back.hj.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableResourceServer
@@ -23,7 +27,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 			.anonymous()
 				.and()
 			.authorizeRequests()
+			
+				// GET 요청 모두 허용
 				.mvcMatchers(HttpMethod.GET, "/api/**")
+					.permitAll()
+				// 회원가입은 로그인 하지 않은 사용자만 가능하다.
+				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
 				.anyRequest()
 					.authenticated()
@@ -31,7 +40,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 			.formLogin()
 //				.loginPage("/api/accounts/signin")
 				.and()
+			.cors()
+				.and()
 			.exceptionHandling()
 				.accessDeniedHandler(new OAuth2AccessDeniedHandler());
+	}
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+	       // - (3)
+	       configuration.addAllowedOrigin("*");
+	       configuration.addAllowedMethod("*");
+	       configuration.addAllowedHeader("*");
+	       configuration.setAllowCredentials(true);
+	       
+	       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	       source.registerCorsConfiguration("/**", configuration);
+	       return source;
 	}
 }

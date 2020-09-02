@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = { "*" })
 @RequestMapping(value = "/api/dimages", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 public class DimageController {
 	

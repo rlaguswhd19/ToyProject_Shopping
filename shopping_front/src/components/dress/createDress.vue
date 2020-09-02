@@ -439,8 +439,8 @@ export default {
 				explanation: 'DSN-Logo Tee Black',
 				dimage: '',
 				dsize: [],
-				material: '',
-				origin: '',
+				material: '겉면: 100%',
+				origin: '중국',
 				manufacture: '',
 			},
 			colors: [
@@ -496,6 +496,7 @@ export default {
 			],
 			checks: [true, true, true, true, true, true, true, true, true],
 			dateMax: '',
+			auth: 'Bearera1ca08c3-2398-4c29-9f62-addc7bf1c446123',
 		}
 	},
 	mounted() {
@@ -593,6 +594,7 @@ export default {
 				url: 'http://localhost:8080/api/dimages',
 				data: formData,
 				headers: {
+					Authorization: this.auth,
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
@@ -607,6 +609,7 @@ export default {
 					'http://localhost:8080/api/dimages/' +
 					this.dressDto.dimage.id,
 				headers: {
+					Authorization: this.auth,
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
@@ -621,6 +624,7 @@ export default {
 				url: 'http://localhost:8080/api/dress',
 				data: this.dressDto,
 				headers: {
+					Authorization: this.auth,
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
