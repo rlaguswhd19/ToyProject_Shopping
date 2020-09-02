@@ -28,19 +28,19 @@ export default {
 	methods: {
 		getAddress() {
 			var address = {
-				post_num: '',
-				road_addr: '',
-				jibun_addr: '',
-				detail_addr: '',
-				extra_addr: '',
+				post: '',
+				road: '',
+				jibun: '',
+				detail: '',
+				extra: '',
 			}
 
 			new daum.Postcode({
 				oncomplete(data) {
-					address.post_num = data.zonecode
-					address.road_addr = data.roadAddress
-					address.jibun_addr = data.jibunAddress
-					address.detail_addr = data.buildingName
+					address.post = data.zonecode
+					address.road = data.roadAddress
+					address.jibun = data.jibunAddress
+					address.extra = data.buildingName
 
 					EventBus.$emit('get_address', address)
 					// this.address.post_num = data.zonecode

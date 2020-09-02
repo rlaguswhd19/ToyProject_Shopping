@@ -97,34 +97,34 @@
 				type="text"
 				class="hj_input"
 				placeholder="우편번호"
-				v-model="accountDto.address.post_num"
+				v-model="accountDto.address.post"
 				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
 				placeholder="도로명주소"
-				v-model="accountDto.address.road_addr"
+				v-model="accountDto.address.road"
 				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
 				placeholder="지번주소"
-				v-model="accountDto.address.jibun_addr"
+				v-model="accountDto.address.jibun"
 				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
 				placeholder="상세주소"
-				v-model="accountDto.address.detail_addr"
+				v-model="accountDto.address.detail"
 			/>
 			<input
 				type="text"
 				class="hj_input"
 				placeholder="참고항목"
-				v-model="accountDto.address.extra_addr"
+				v-model="accountDto.address.extra"
 				readonly
 			/>
 			<v-btn
@@ -185,11 +185,11 @@ export default {
 				phone_number: '01047321566',
 				birth: '',
 				address: {
-					post_num: '',
-					road_addr: '',
-					jibun_addr: '',
-					detail_addr: '',
-					extra_addr: '',
+					post: '',
+					road: '',
+					jibun: '',
+					detail: '',
+					extra: '',
 				},
 			},
 			password_input: {
