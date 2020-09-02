@@ -7,8 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

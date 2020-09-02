@@ -31,6 +31,7 @@ public class AccountController {
 	
 	@PostMapping
 	public ResponseEntity<?> createAccount(@RequestBody @Valid AccountDto accountDto, Errors errors){
+		System.out.println(accountDto);
 		if(errors.hasErrors()) {
 			return badRequest(errors);
 		}

@@ -34,6 +34,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 				// 회원가입은 로그인 하지 않은 사용자만 가능하다.
 				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
+//				 Test
+//				.mvcMatchers(HttpMethod.POST, "/api/**").permitAll()
 				.anyRequest()
 					.authenticated()
 				.and()

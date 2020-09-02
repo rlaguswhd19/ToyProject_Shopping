@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,8 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import org.hibernate.validator.constraints.UniqueElements;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dress.Dress;
 import shopping.back.hj.dress.dpages.Dpage;
 import shopping.back.hj.enums.AccountRole;
@@ -39,9 +40,11 @@ public class Account {
 	@Column(unique = true)
 	private String email;
 	
+	
 	private String password;
 	
-	private String address;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Address address;
 	
 	private String phone_number;
 	
