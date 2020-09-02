@@ -90,7 +90,7 @@
 						contain
 						:alt="previews[bigPreview].name"
 					/>
-					<div class="content_row">
+					<div class="content_row" style="margin-top: 15px;">
 						<v-file-input
 							type="file"
 							show-size
@@ -104,6 +104,14 @@
 							outlined
 						></v-file-input>
 						<v-btn
+							v-if="this.previews.length == 0"
+							@click="representationPreview = bigPreview"
+							color="primary"
+							disabled
+							>대표이미지</v-btn
+						>
+						<v-btn
+							v-else
 							@click="representationPreview = bigPreview"
 							color="primary"
 							>대표이미지</v-btn
