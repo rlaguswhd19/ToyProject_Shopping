@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import shopping.back.hj.common.ErrorsModel;
 
 @Controller
-@CrossOrigin(origins = { "*" })
 @RequestMapping(value = "/api/accounts", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 public class AccountController {
 	
@@ -36,7 +35,7 @@ public class AccountController {
 			return badRequest(errors);
 		}
 		
-		accountValidator.validator(accountDto, errors);
+		accountValidator.validator(accountDto, errors); 
 		
 		if(errors.hasErrors()) {
 			return badRequest(errors);

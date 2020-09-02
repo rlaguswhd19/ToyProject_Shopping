@@ -25,7 +25,6 @@ import shopping.back.hj.common.ErrorsModel;
 import shopping.back.hj.dress.dimages.DimageService;
 
 @RestController
-@CrossOrigin(origins = { "*" })
 @RequestMapping(value = "/api/dress", produces = MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8")
 public class DressController {
 

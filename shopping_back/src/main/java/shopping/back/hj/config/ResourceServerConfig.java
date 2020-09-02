@@ -38,7 +38,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 					.authenticated()
 				.and()
 			.formLogin()
-//				.loginPage("/api/accounts/signin")
+//				.loginPage("/api/accounts/signin") 로그인 페이지
+//				.defaultSuccessUrl(defaultSuccessUrl) 성공시
+//				.failureUrl(authenticationFailureUrl) 실패시
 				.and()
 			.cors()
 				.and()
