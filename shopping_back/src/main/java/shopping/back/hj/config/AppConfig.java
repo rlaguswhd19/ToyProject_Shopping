@@ -1,6 +1,7 @@
 package shopping.back.hj.config;
 
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -17,7 +18,6 @@ import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.accounts.address.Address;
-import shopping.back.hj.accounts.address.AddressRepository;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.enums.AccountRole;
 
@@ -68,10 +68,15 @@ public class AppConfig {
 						.birth("1994/08/23")
 						.build();
 				
-				Account account = (Account) accountService.createAccount(Admin).getBody();
-				account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
-				System.out.println(account);
-				accountRepository.save(account);
+				Optional<Account> optionalAccount = accountRepository.findByEmail(Admin.getEmail());
+				
+				if(optionalAccount.isEmpty()) {
+					Account account = (Account) accountService.createAccount(Admin).getBody();
+					account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
+					System.out.println(account);
+					accountRepository.save(account);
+				}
+				
 				
 				Address address2 = Address.builder()
 						.post("54903")
@@ -88,8 +93,11 @@ public class AppConfig {
 						.phone_number("01096012309")
 						.birth("1994/08/23")
 						.build();
+				optionalAccount = accountRepository.findByEmail(User.getEmail());
 				
-				accountService.createAccount(User);
+				if(optionalAccount.isEmpty()) {
+					accountService.createAccount(User);
+				}
 			}
 		};
 	}
