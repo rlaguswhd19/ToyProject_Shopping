@@ -17,6 +17,7 @@ import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.accounts.address.Address;
+import shopping.back.hj.accounts.address.AddressRepository;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.enums.AccountRole;
 
@@ -48,44 +49,47 @@ public class AppConfig {
 			
 			@Override
 			public void run(ApplicationArguments args) throws Exception {
-//				Address address1 = Address.builder()
-//						.post("Test")
-//						.road("Test")
-//						.jibun("Test")
-//						.detail("Test")
-//						.extra("Test")
-//						.build();
-//				
-//				AccountDto Admin = AccountDto.builder()
-//						.email(appProperties.getAdminEmail())
-//						.password(appProperties.getAdminPassword())
-//						.address(address1)
-//						.phone_number("010-4732-1566")
-//						.birth("1994/08/23")
-//						.build();
-//				
-//				Account account = (Account) accountService.createAccount(Admin).getBody();
-//				account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
-//				
-//				accountRepository.save(account);
-//				
-//				Address address2 = Address.builder()
-//						.post("54903")
-//						.road("전북 전주시 덕진구 호성로 132")
-//						.jibun("전북 전주시 덕진구 호성동1가 829-4")
-//						.detail("진흥더블파크1단지아파트")
-//						.extra("105동 703호")
-//						.build();
-//				
-//				AccountDto User = AccountDto.builder()
-//						.email(appProperties.getUserEmail())
-//						.password(appProperties.getUserPassword())
-//						.address(address2)
-//						.phone_number("010-4732-1566")
-//						.birth("1994/08/23")
-//						.build();
-//				
-//				accountService.createAccount(User);
+				
+//				Account의 유니크로 인해서 에러가 발생해 앱이 실행되지 않음 이에러를 핸들링 해야됌
+				
+				Address address1 = Address.builder()
+						.post("Test")
+						.road("Test")
+						.jibun("Test")
+						.detail("Test")
+						.extra("Test")
+						.build();
+					
+				AccountDto Admin = AccountDto.builder()
+						.email(appProperties.getAdminEmail())
+						.password(appProperties.getAdminPassword())
+						.address(address1)
+						.phone_number("01047321566")
+						.birth("1994/08/23")
+						.build();
+				
+				Account account = (Account) accountService.createAccount(Admin).getBody();
+				account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
+				System.out.println(account);
+				accountRepository.save(account);
+				
+				Address address2 = Address.builder()
+						.post("54903")
+						.road("전북 전주시 덕진구 호성로 132")
+						.jibun("전북 전주시 덕진구 호성동1가 829-4")
+						.detail("진흥더블파크1단지아파트")
+						.extra("105동 703호")
+						.build();
+				
+				AccountDto User = AccountDto.builder()
+						.email(appProperties.getUserEmail())
+						.password(appProperties.getUserPassword())
+						.address(address2)
+						.phone_number("01096012309")
+						.birth("1994/08/23")
+						.build();
+				
+				accountService.createAccount(User);
 			}
 		};
 	}

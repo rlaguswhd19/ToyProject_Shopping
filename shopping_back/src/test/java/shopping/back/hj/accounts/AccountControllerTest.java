@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
@@ -55,7 +55,21 @@ public class AccountControllerTest {
 	@Test
 	@TestDescription("createAccount")
 	public void createAccount() throws JsonProcessingException, Exception {
-		AccountDto accountDto = AccountDto.builder().build();
+		Address address = Address.builder()
+				.post("54903")
+				.road("전북 전주시 덕진구 호성로 132")
+				.jibun("전북 전주시 덕진구 호성동1가 829-4")
+				.detail("진흥더블파크1단지아파트")
+				.extra("105동 703호")
+				.build();
+		
+		AccountDto accountDto = AccountDto.builder()
+				.email(appProperties.getUserEmail())
+				.password(appProperties.getUserPassword())
+				.address(address)
+				.phone_number("01047321566")
+				.birth("1994/08/23")
+				.build();
 		
 		ResultActions perform = mockMvc.perform(post("/api/accounts")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)

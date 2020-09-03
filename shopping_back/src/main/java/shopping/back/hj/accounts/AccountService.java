@@ -56,9 +56,23 @@ public class AccountService implements UserDetailsService {
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
 		Account account = modelMapper.map(accountDto, Account.class);
 		
+		// encode
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		
+		// birth -> LocalDate
 		String[] birth_arr = accountDto.getBirth().split("/");
 		account.setBirth(LocalDate.of(Integer.parseInt(birth_arr[0]), Integer.parseInt(birth_arr[1]), Integer.parseInt(birth_arr[2])));
+		
+		
+		System.out.println("????????????????????????????????????????????");
+		// 전화번호 바꾸기
+		StringBuilder number = new StringBuilder(accountDto.getPhone_number());
+		number.insert(3, "-");
+		number.insert(8, "-");
+		account.setPhone_number(number.toString());
+		
+		System.out.println(account);
+		
 		Account newAccount = accountRespository.save(account);
 		
 		WebMvcLinkBuilder selfLinkBuilder = linkTo(DressController.class).slash(newAccount.getId());
