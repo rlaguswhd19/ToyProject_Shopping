@@ -53,8 +53,38 @@ public class AccountControllerTest {
 	private AppProperties appProperties;
 	
 	@Test
-	@TestDescription("createAccount")
+	@TestDescription("정상적으로 Account를 생성하는 Test")
 	public void createAccount() throws JsonProcessingException, Exception {
+		Address address = Address.builder()
+				.post("54903")
+				.road("전북 전주시 덕진구 호성로 132")
+				.jibun("전북 전주시 덕진구 호성동1가 829-4")
+				.detail("진흥더블파크1단지아파트")
+				.extra("105동 703호")
+				.build();
+		
+		AccountDto accountDto = AccountDto.builder()
+				.email("Test@naver.com")
+				.password("Test")
+				.address(address)
+				.phone_number("01047321566")
+				.birth("1994/08/23")
+				.build();
+		
+		ResultActions perform = mockMvc.perform(post("/api/accounts")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE)
+				.content(objectMapper.writeValueAsString(accountDto))
+				)
+				.andDo(print())
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("id").exists())
+				;
+	}
+	
+	@Test
+	@TestDescription("Account의 Email이 미이 있는 경우 생성하는 Test")
+	public void createAccount_Email() throws JsonProcessingException, Exception {
 		Address address = Address.builder()
 				.post("54903")
 				.road("전북 전주시 덕진구 호성로 132")
@@ -77,8 +107,7 @@ public class AccountControllerTest {
 				.content(objectMapper.writeValueAsString(accountDto))
 				)
 				.andDo(print())
-				.andExpect(status().isCreated())
-				.andExpect(jsonPath("id").exists())
+				.andExpect(status().isBadRequest())
 				;
 	}
 	
