@@ -15,11 +15,8 @@ public class AccountValidator {
 	private AccountRepository accountRepository;
 	
 	public void validator(AccountDto accountDto, Errors errors) {
-//		TODO 
 		
 //		email 검증하기
-		System.out.println(accountDto.getEmail()+" : "+isValidEmailAddress(accountDto.getEmail()));
-		
 		if(!isValidEmailAddress(accountDto.getEmail())) {
 			errors.rejectValue("email", accountDto.getEmail()+"의 형식이 잘못되었습니다.");
 			errors.reject("Wrongemail", "wrong email form");
@@ -31,11 +28,29 @@ public class AccountValidator {
 			errors.rejectValue("email", accountDto.getEmail()+"는 이미 존재합니다.");
 			errors.reject("Wrongemail", "email overlap");
 		}
+		
+		//TODO Password 검증
+		if(!isValidPassword(accountDto.getPassword())) {
+			errors.rejectValue("password", "비밀번호의 형식이 잘못되었습니다.");
+			errors.reject("WrongPassword", "wrong password form");
+		}
+		
+		//TODO birth 검증
+		
+		//TODO phone 검증
 	}
 	
 	// 아파치꺼
 	public boolean commonEmailValidator(String email) {
 		return EmailValidator.getInstance().isValid(email);
+	}
+	
+	public boolean isValidPassword(String password) {
+		// 숫자 소문자 대문자 구분 8~16자리 특수문자 포함
+		String pwPattern = "^(?=.*[0-9])(?=.*[~`!@#$%^&*()-])(?=.*[a-zA-Z]).{8,16}$";
+		Pattern p = Pattern.compile(pwPattern);
+		Matcher m = p.matcher(password);
+		return m.matches();
 	}
 	
 	// 정규식 사용 잘모르겠다~

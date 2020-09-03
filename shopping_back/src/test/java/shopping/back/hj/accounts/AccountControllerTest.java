@@ -119,6 +119,24 @@ public class AccountControllerTest {
 		}
 	}
 	
+	@Test
+	@TestDescription("password 구조 검증하는 Test")
+	public void createAccount_Password_WrongForm() {
+		String[] invalid_password = { "12341234125, TestETESTET, !@#$!@$@!%, qwer1234, 1234!@#4, !@#$qQWR", "1234", "qwerqqw",
+				"!@#$", "1234qwe", "1234!@#", "qwer!@" };
+		
+		boolean isOk;
+		for (int i = 0; i < invalid_password.length; i++) {
+			isOk = accountValidator.isValidPassword(invalid_password[i]);
+			
+			assertThat(isOk).isFalse();
+		}
+		
+		String valid_password = "1q2w3e4r!@";
+		isOk = accountValidator.isValidPassword(valid_password);
+		assertThat(isOk).isTrue();
+	}
+	
 	private AccountDto generatedAccountDto() {
 		Address address = Address.builder()
 				.post("54903")
