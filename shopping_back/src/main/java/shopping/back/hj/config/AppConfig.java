@@ -57,7 +57,7 @@ public class AppConfig {
 						.road("Test")
 						.jibun("Test")
 						.detail("Test")
-						.extra("Test")
+						.building("Test")
 						.build();
 					
 				AccountDto Admin = AccountDto.builder()
@@ -77,13 +77,12 @@ public class AppConfig {
 					accountRepository.save(account);
 				}
 				
-				
 				Address address2 = Address.builder()
 						.post("54903")
 						.road("전북 전주시 덕진구 호성로 132")
 						.jibun("전북 전주시 덕진구 호성동1가 829-4")
-						.detail("진흥더블파크1단지아파트")
-						.extra("105동 703호")
+						.detail("105동 703호")
+						.building("진흥더블파크1단지아파트")
 						.build();
 				
 				AccountDto User = AccountDto.builder()

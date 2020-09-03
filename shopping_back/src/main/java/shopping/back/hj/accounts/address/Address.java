@@ -31,13 +31,13 @@ public class Address {
 	private String jibun;
 	
 	@NotEmpty
-	private String detail; //상세 주소
+	private String building; //추가 주소 = 동, 호수
 	
-	private String extra; //추가 주소 = 동, 호수
+	private String detail; // 동 호수
 
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", post=" + post + ", road=" + road + ", jibun=" + jibun + ", detail=" + detail
-				+ ", extra=" + extra + "]";
+				+ ", extra=" + building + "]";
 	}
 }

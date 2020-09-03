@@ -123,8 +123,8 @@
 			<input
 				type="text"
 				class="hj_input"
-				placeholder="참고항목"
-				v-model="accountDto.address.extra"
+				placeholder="건물"
+				v-model="accountDto.address.building"
 				readonly
 			/>
 			<v-btn
@@ -189,7 +189,7 @@ export default {
 					road: '',
 					jibun: '',
 					detail: '',
-					extra: '',
+					building: '',
 				},
 			},
 			password_input: {
@@ -304,13 +304,9 @@ export default {
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
+			}).then(r => {
+				console.log(r)
 			})
-				.then(r => {
-					console.log(r)
-				})
-				.catch(e => {
-					console.log(e)
-				})
 		},
 	},
 }

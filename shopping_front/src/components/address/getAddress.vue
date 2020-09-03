@@ -15,15 +15,7 @@ export default {
 	props: [],
 
 	data() {
-		return {
-			address: {
-				post_num: '',
-				road_addr: '',
-				jibun_addr: '',
-				detail_addr: '',
-				extra_addr: '',
-			},
-		}
+		return {}
 	},
 	methods: {
 		getAddress() {
@@ -32,7 +24,7 @@ export default {
 				road: '',
 				jibun: '',
 				detail: '',
-				extra: '',
+				building: '',
 			}
 
 			new daum.Postcode({
@@ -40,7 +32,7 @@ export default {
 					address.post = data.zonecode
 					address.road = data.roadAddress
 					address.jibun = data.jibunAddress
-					address.extra = data.buildingName
+					address.building = data.buildingName
 
 					EventBus.$emit('get_address', address)
 					// this.address.post_num = data.zonecode
