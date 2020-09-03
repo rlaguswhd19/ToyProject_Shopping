@@ -92,15 +92,16 @@ public class AccountControllerTest {
 	}
 	
 	@Test
-	@TestDescription("AccountDto의 틀린 이메일 형식 Test")
+	@TestDescription("Validator email")
 	public void createAccount_Email_WrongForm() {
+		boolean isOk;
 		String[] valid_email = { "email@domain.com", "firstname.lastname@domain.com", "email@subdomain.domain.com",
 				"firstname+lastname@domain.com", "email@123.123.123.123", "email@[123.123.123.123]",
 				"'email'@domain.com", "1234567890@domain.com", "email@domain-one.com", "_______@domain.com",
 				"email@domain.name", "email@domain.co.jp", "firstname-lastname@domain.com" };
 		
 		for (int i = 0; i < valid_email.length; i++) {
-			boolean isOk = accountValidator.isValidEmailAddress(valid_email[i]);
+			isOk = accountValidator.isValidEmailAddress(valid_email[i]);
 			
 			assertThat(isOk).isTrue();
 		}
@@ -110,7 +111,9 @@ public class AccountControllerTest {
 				"email..email@domain.com", "あいうえお@domain.com", "email@domain.com (Joe Smith)", "email@domain",
 				"email@-domain.com", "email@domain.web", "email@111.222.333.44444", "email@domain..com" };
 		for (int i = 0; i < invalid_email.length; i++) {
-			boolean isOk = accountValidator.isValidEmailAddress(invalid_email[i]);
+			isOk = accountValidator.isValidEmailAddress(invalid_email[i]);
+			
+			// 이부분 정규식 수정해야되는데 잘 모르겠어.. 너무 복잡해
 			if(i == 13 || i == 14) {
 				continue;
 			}
@@ -120,12 +123,13 @@ public class AccountControllerTest {
 	}
 	
 	@Test
-	@TestDescription("password 구조 검증하는 Test")
+	@TestDescription("Validator password")
 	public void createAccount_Password_WrongForm() {
+		boolean isOk;
+		
 		String[] invalid_password = { "12341234125, TestETESTET, !@#$!@$@!%, qwer1234, 1234!@#4, !@#$qQWR", "1234", "qwerqqw",
 				"!@#$", "1234qwe", "1234!@#", "qwer!@" };
 		
-		boolean isOk;
 		for (int i = 0; i < invalid_password.length; i++) {
 			isOk = accountValidator.isValidPassword(invalid_password[i]);
 			
@@ -135,6 +139,23 @@ public class AccountControllerTest {
 		String valid_password = "1q2w3e4r!@";
 		isOk = accountValidator.isValidPassword(valid_password);
 		assertThat(isOk).isTrue();
+	}
+	
+	@Test
+	@TestDescription("Validator birth")
+	public void createAccount_Birth_Wrong() {
+		boolean isOk;
+		String[] valid_birth = {"1994/08/23", "1920/10/20", "1920/09/03", "2020/09/03"};
+		for (int i = 0; i < valid_birth.length; i++) {
+			isOk = accountValidator.isValidBirth(valid_birth[i]);
+			assertThat(isOk).isTrue();
+		}
+		
+		String[] invalid_birth = {"1880/10/12", "2020/02/30", "1920/13/02", "1920/09/02"};
+		for (int i = 0; i < invalid_birth.length; i++) {
+			isOk = accountValidator.isValidBirth(invalid_birth[i]);
+			assertThat(isOk).isFalse();
+		}
 	}
 	
 	private AccountDto generatedAccountDto() {

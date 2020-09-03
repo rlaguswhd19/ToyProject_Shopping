@@ -1,5 +1,6 @@
 package shopping.back.hj.accounts;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +38,42 @@ public class AccountValidator {
 		
 		//TODO birth 검증
 		
+		
+		if(!isValidBirth(accountDto.getBirth())) {
+			errors.rejectValue("birth", "날짜가 잘못되었습니다.");
+			errors.reject("WrongBirth", "wrong birth");
+		}
+		
 		//TODO phone 검증
+	}
+	
+	public boolean isValidBirth(String birth) {
+		String[] temp = birth.split("/");
+		Integer[] date = {Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2])};
+		LocalDate current = LocalDate.now();
+		
+		if(current.getYear() < date[0] || current.getYear()-100 > date[0]) {
+			return false;
+		}
+		
+		if(0 >= date[1] || 12 < date[1]) {
+			return false;
+		}
+		
+		LocalDate check = LocalDate.of(date[0], date[1], 1);
+		if(date[2] > check.lengthOfMonth() || date[2] < 1) {
+			return false;
+		}
+		
+		LocalDate input_date = LocalDate.of(date[0], date[1], date[2]);
+		
+		System.out.println(input_date);
+		
+		if(input_date.isBefore(current.minusYears(100)) || input_date.isAfter(current)) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	// 아파치꺼
