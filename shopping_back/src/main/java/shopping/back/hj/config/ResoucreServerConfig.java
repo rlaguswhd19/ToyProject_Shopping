@@ -31,6 +31,8 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 					.permitAll()
 				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
+				.mvcMatchers(HttpMethod.POST, "/oauth/token")
+					.permitAll()
 				.anyRequest()
 					.authenticated()
 				.and()
@@ -52,5 +54,4 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 	    source.registerCorsConfiguration("/**", configuration);
 	    return source;
 	}
-	
 }
