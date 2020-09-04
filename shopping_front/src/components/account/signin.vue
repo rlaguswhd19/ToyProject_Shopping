@@ -7,10 +7,10 @@
 					type="email"
 					class="hj_input"
 					placeholder="이메일"
-					v-model="account.email"
+					v-model="account.username"
 				/>
 				<input
-					type="text"
+					type="password"
 					class="hj_input"
 					placeholder="비밀번호"
 					v-model="account.password"
@@ -33,6 +33,7 @@
 						border-radius: 0;
 						height: 50px;
 					"
+					@click="login()"
 					>로그인</v-btn
 				>
 			</div>
@@ -47,13 +48,36 @@ export default {
 	data() {
 		return {
 			account: {
-				email: '',
+				username: '',
 				password: '',
+				grant_type: 'password',
 			},
-			test: '',
 		}
 	},
-	methods() {},
+	methods: {
+		login() {
+			let form = new FormData()
+			form.append('username', this.account.username)
+			form.append('password', this.account.password)
+			form.append('grant_type', this.account.grant_type)
+
+			this.$axios({
+				method: 'post',
+				url: 'http://localhost:8080/oauth/token',
+				data: form,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+				auth: {
+					username: 'hjapp',
+					password: 'hjpass',
+				},
+			}).then(r => {
+				console.log(r)
+			})
+		},
+	},
 }
 </script>
 

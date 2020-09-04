@@ -504,7 +504,7 @@ export default {
 			],
 			checks: [true, true, true, true, true, true, true, true, true],
 			dateMax: '',
-			auth: '4442befa-9abc-43e0-9104-51925dab89db',
+			auth: '1db5c32c-d565-4179-99ab-382fdaf97a34',
 		}
 	},
 	mounted() {
@@ -602,7 +602,7 @@ export default {
 				url: 'http://localhost:8080/api/dimages',
 				data: formData,
 				headers: {
-					// Authorization: 'Bearer' + this.auth,
+					Authorization: 'Bearer' + this.auth,
 					'Content-Type': 'multipart/form-data',
 				},
 			}).then(response => {
@@ -618,7 +618,7 @@ export default {
 					'http://localhost:8080/api/dimages/' +
 					this.dressDto.dimage.id,
 				headers: {
-					// Authorization: 'Bearer' + this.auth,
+					Authorization: 'Bearer' + this.auth,
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
@@ -633,7 +633,7 @@ export default {
 				url: 'http://localhost:8080/api/dress',
 				data: this.dressDto,
 				headers: {
-					// Authorization: 'Bearer' + this.auth,
+					Authorization: 'Bearer' + this.auth,
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
