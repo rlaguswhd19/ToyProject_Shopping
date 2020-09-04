@@ -14,11 +14,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
+public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-		resources.resourceId("hj_resources");
+		resources.resourceId("hj_resource");
 	}
 
 	@Override
@@ -27,22 +27,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 			.anonymous()
 				.and()
 			.authorizeRequests()
-			
-				// GET 요청 모두 허용
 				.mvcMatchers(HttpMethod.GET, "/api/**")
 					.permitAll()
-				// 회원가입은 로그인 하지 않은 사용자만 가능하다.
 				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
-//				 Test
-//				.mvcMatchers(HttpMethod.POST, "/api/**").permitAll()
 				.anyRequest()
 					.authenticated()
-				.and()
-			.formLogin()
-//				.loginPage("/api/accounts/signin") 로그인 페이지
-//				.defaultSuccessUrl(defaultSuccessUrl) 성공시
-//				.failureUrl(authenticationFailureUrl) 실패시
 				.and()
 			.cors()
 				.and()
@@ -53,14 +43,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-	       // - (3)
-	       configuration.addAllowedOrigin("*");
-	       configuration.addAllowedMethod("*");
-	       configuration.addAllowedHeader("*");
-	       configuration.setAllowCredentials(true);
+	    configuration.addAllowedOrigin("*");
+	    configuration.addAllowedMethod("*");
+	    configuration.addAllowedHeader("*");
+	    configuration.setAllowCredentials(true);
 	       
-	       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	       source.registerCorsConfiguration("/**", configuration);
-	       return source;
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
 	}
+	
 }

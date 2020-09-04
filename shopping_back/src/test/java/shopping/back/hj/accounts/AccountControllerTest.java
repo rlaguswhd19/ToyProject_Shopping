@@ -145,7 +145,7 @@ public class AccountControllerTest {
 	@TestDescription("Validator birth")
 	public void createAccount_Birth_Wrong() {
 		boolean isOk;
-		String[] valid_birth = {"1994/08/23", "1920/10/20", "1920/09/03", "2020/09/03"};
+		String[] valid_birth = {"1994/08/23", "1920/10/20", "1925/09/03", "2020/09/03"};
 		for (int i = 0; i < valid_birth.length; i++) {
 			isOk = accountValidator.isValidBirth(valid_birth[i]);
 			assertThat(isOk).isTrue();
@@ -154,6 +154,23 @@ public class AccountControllerTest {
 		String[] invalid_birth = {"1880/10/12", "2020/02/30", "1920/13/02", "1920/09/02"};
 		for (int i = 0; i < invalid_birth.length; i++) {
 			isOk = accountValidator.isValidBirth(invalid_birth[i]);
+			assertThat(isOk).isFalse();
+		}
+	}
+	
+	@Test
+	@TestDescription("Validator phone_number")
+	public void createAccount_PhoneNumber_Wrong() {
+		boolean isOk;
+		String[] valid_phone = {"01012345678","01047321566","01096012309","01612341234","01910001004"};
+		for (int i = 0; i < valid_phone.length; i++) {
+			isOk = accountValidator.isValidPhone(valid_phone[i]);
+			assertThat(isOk).isTrue();
+		}
+		
+		String[] invalid_phone = {"02012341234","12345678123","21123412341","010123412341","0101234"};
+		for (int i = 0; i < invalid_phone.length; i++) {
+			isOk = accountValidator.isValidPhone(invalid_phone[i]);
 			assertThat(isOk).isFalse();
 		}
 	}
@@ -169,7 +186,7 @@ public class AccountControllerTest {
 		
 		AccountDto accountDto = AccountDto.builder()
 				.email("test@naver.com")
-				.password("Test")
+				.password("1q2w3e4r!@")
 				.address(address)
 				.phone_number("01047321566")
 				.birth("1994/08/23")

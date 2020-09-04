@@ -37,14 +37,23 @@ public class AccountValidator {
 		}
 		
 		//TODO birth 검증
-		
-		
 		if(!isValidBirth(accountDto.getBirth())) {
 			errors.rejectValue("birth", "날짜가 잘못되었습니다.");
 			errors.reject("WrongBirth", "wrong birth");
 		}
 		
 		//TODO phone 검증
+		if(!isValidPhone(accountDto.getPhone_number())) {
+			errors.rejectValue("phone_number", "전화번호가 잘못되었습니다.");
+			errors.reject("WrongPhone_Number", "wrong phone_number");
+		}
+	}
+	
+	public boolean isValidPhone(String phone) {
+		String pnPattern = "^01(?:0|1|[6-9])(\\d{8})$";
+		Pattern p = Pattern.compile(pnPattern);
+		Matcher m = p.matcher(phone);
+		return m.matches();
 	}
 	
 	public boolean isValidBirth(String birth) {
