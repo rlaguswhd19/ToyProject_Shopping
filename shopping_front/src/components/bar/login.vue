@@ -21,13 +21,18 @@
 						회원가입
 					</v-btn>
 				</li>
-				<li>
+				<li v-if="!this.$store.state.login">
 					<v-btn text small @click="go('/account/signIn')">
 						로그인
 					</v-btn>
 				</li>
-				<li>
-					<v-btn text small> 고객센터 </v-btn>
+				<li v-else>
+					<v-btn text small @click="go('/account/signIn')">
+						{{ this.$store.state.email }}
+					</v-btn>
+					<v-btn text small @click="logout()">
+						logout
+					</v-btn>
 				</li>
 			</ul>
 		</div>
@@ -36,9 +41,19 @@
 
 <script>
 export default {
+	data() {
+		return {}
+	},
+
 	methods: {
 		go(to) {
 			this.$router.push(to)
+		},
+		logout() {
+			this.$store.state.login = false
+			this.$store.state.auth = ''
+			this.$store.state.email = ''
+			alert('logout')
 		},
 	},
 }

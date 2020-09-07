@@ -54,6 +54,7 @@ export default {
 			},
 		}
 	},
+
 	methods: {
 		login() {
 			let form = new FormData()
@@ -73,9 +74,24 @@ export default {
 					username: 'hjapp',
 					password: 'hjpass',
 				},
-			}).then(r => {
-				console.log(r)
 			})
+				.then(r => {
+					let email = this.account.username.substr(
+						0,
+						this.account.username.indexOf('@'),
+					)
+
+					this.$store.state.user = r.data
+					this.$store.state.login = true
+					this.$store.state.email = email
+
+					alert('login')
+					this.$router.push('/')
+				})
+				.catch(e => {
+					console.log(e)
+					alert('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.')
+				})
 		},
 	},
 }
