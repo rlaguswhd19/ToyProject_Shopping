@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 
 @Component
 public class AccountValidator {
+	
 	@Autowired
 	private AccountRepository accountRepository;
 	

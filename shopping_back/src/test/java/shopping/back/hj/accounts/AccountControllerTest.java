@@ -56,7 +56,6 @@ public class AccountControllerTest {
 	
 	@Autowired
 	private AccountValidator accountValidator;
-	
 	@Test
 	@TestDescription("정상적으로 Account를 생성하는 Test")
 	public void createAccount() throws JsonProcessingException, Exception {

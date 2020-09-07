@@ -4,11 +4,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -24,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dress.DressController;
 import shopping.back.hj.enums.AccountRole;
 
@@ -56,6 +54,7 @@ public class AccountService implements UserDetailsService {
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
 		Account account = modelMapper.map(accountDto, Account.class);
 		
+		encodeDress(account);
 		// encode
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		
@@ -77,5 +76,17 @@ public class AccountService implements UserDetailsService {
 		URI createUri = selfLinkBuilder.toUri();
 		
 		return ResponseEntity.created(createUri).body(newAccount);
+	}
+	
+	public void encodeDress(Account account) {
+		Address address = account.getAddress();
+		
+		address.setPost(passwordEncoder.encode(address.getPost()));
+		address.setRoad(passwordEncoder.encode(address.getRoad()));
+		address.setJibun(passwordEncoder.encode(address.getJibun()));
+		address.setBuilding(passwordEncoder.encode(address.getBuilding()));
+		address.setDetail(passwordEncoder.encode(address.getDetail()));
+		
+		account.setAddress(address);
 	}
 }
