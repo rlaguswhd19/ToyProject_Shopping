@@ -30,7 +30,7 @@ public class AccountController {
 			return badRequest(errors);
 		}
 		
-		accountValidator.validator(accountDto, errors); 
+		accountValidator.validator(accountDto, errors);
 		
 		if(errors.hasErrors()) {
 			return badRequest(errors);
