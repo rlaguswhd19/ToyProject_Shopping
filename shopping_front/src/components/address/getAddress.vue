@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="margin: auto;">
 		<!-- <v-btn @click="getAddress">Test</v-btn> -->
 		<v-btn @click="getAddress()" color="primary">우편번호</v-btn>
 	</div>

@@ -92,14 +92,16 @@
 					style="width: 30%;"
 				></v-select>
 			</div>
-			<getAddress />
-			<input
-				type="text"
-				class="hj_input"
-				placeholder="우편번호"
-				v-model="accountDto.address.post"
-				readonly
-			/>
+			<div class="content_row">
+				<input
+					type="text"
+					class="hj_input"
+					placeholder="우편번호"
+					v-model="accountDto.address.post"
+					readonly
+				/>
+				<getAddress />
+			</div>
 			<input
 				type="text"
 				class="hj_input"
@@ -304,9 +306,13 @@ export default {
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
-			}).then(r => {
-				console.log(r)
 			})
+				.then(r => {
+					console.log(r)
+				})
+				.catch(e => {
+					console.log(e.response.data)
+				})
 		},
 	},
 }

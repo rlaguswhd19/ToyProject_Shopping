@@ -43,12 +43,7 @@
 									margin-right: 5px;
 								"
 							>
-								{{
-									get_discountedPrice(
-										dress.price,
-										dress.discount,
-									)
-								}}원
+								{{ dress.discount_price }}원
 							</span>
 							<span
 								style="
@@ -99,12 +94,9 @@ export default {
 	},
 	mounted() {
 		this.get_dressLists()
+		alert(this.$store.state.login)
 	},
 	methods: {
-		Test(dress) {
-			alert(dress.id)
-			console.log(dress)
-		},
 		get_imagePath(dress) {
 			let image_path = dress.dimage.image_files.split('/')
 			let idx = dress.dimage.image_repIdx
@@ -114,9 +106,6 @@ export default {
 				'/' +
 				image_path[idx]
 			)
-		},
-		get_discountedPrice(price, discount) {
-			return (price * (100 - discount)) / 100
 		},
 		get_dressLists() {
 			let sort

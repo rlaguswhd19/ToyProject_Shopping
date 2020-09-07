@@ -76,14 +76,9 @@ export default {
 				},
 			})
 				.then(r => {
-					let email = this.account.username.substr(
-						0,
-						this.account.username.indexOf('@'),
-					)
-
 					this.$store.state.user = r.data
 					this.$store.state.login = true
-					this.$store.state.email = email
+					this.$store.state.email = this.account.username
 
 					alert('login')
 					this.$router.push('/')

@@ -28,7 +28,7 @@
 				</li>
 				<li v-else>
 					<v-btn text small @click="go('/account/signIn')">
-						{{ this.$store.state.email }}
+						{{ this.getUser() }}
 					</v-btn>
 					<v-btn text small @click="logout()">
 						logout
@@ -54,6 +54,15 @@ export default {
 			this.$store.state.auth = ''
 			this.$store.state.email = ''
 			alert('logout')
+			this.$router.push('/')
+		},
+		getUser() {
+			let email = this.$store.state.email.substr(
+				0,
+				this.$store.state.email.indexOf('@'),
+			)
+
+			return email
 		},
 	},
 }
