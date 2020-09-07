@@ -186,6 +186,7 @@ public class DressCountrollerTest {
 							fieldWithPath("color").type(JsonFieldType.STRING).description("색상"),
 							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
 							fieldWithPath("discount").type(JsonFieldType.NUMBER).description("할인율"),
+							fieldWithPath("discount_price").type(JsonFieldType.NUMBER).description("실제가격"),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("설명"),
 							fieldWithPath("created").type(JsonFieldType.STRING).description("등록 날짜"),
 							fieldWithPath("dimage").type(JsonFieldType.OBJECT).description("이미지 FK"),

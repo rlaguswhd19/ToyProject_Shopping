@@ -62,7 +62,9 @@ public class Dress {
 	// 할인 가격
 //	@Column(columnDefinition = "Integer default '0'")
 	private Integer discount;
-
+	
+	private Long discount_price;
+	
 	// 설명
 	private String explanation;
 

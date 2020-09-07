@@ -43,6 +43,7 @@ public class DressService {
 		String manufacture = dressDto.getManufacture();
 		String[] temp = manufacture.split("-");
 		dress.setManufacture(LocalDate.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), 1));
+		dress.setDiscount_price(dress.getPrice() * (100 - dress.getDiscount()));
 		
 		System.out.println(dress);
 
