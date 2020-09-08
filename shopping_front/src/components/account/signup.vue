@@ -36,6 +36,11 @@
 					</v-card>
 				</v-dialog>
 			</div>
+			<div class="error_alert">
+				<p v-if="!this.response_error.email">
+					이메일 형식이 올바르지 않습니다.
+				</p>
+			</div>
 			<input
 				type="password"
 				class="hj_input"
@@ -48,13 +53,15 @@
 				placeholder="비밀번호확인"
 				v-model="password_input.check"
 			/>
-			<div style="float: right;">
-				<p
-					v-if="!this.check_result"
-					style="color: red; font-size: 13px;"
-				>
-					비밀번호를 확인해주세요.
+			<div class="error_alert">
+				<p v-if="!this.pass_match">
+					비밀번호가 일치하지 않습니다.
 				</p>
+				<div v-else>
+					<p v-if="!this.response_error.pass">
+						영문, 숫자, 특수문자가 포함되어야 합니다.
+					</p>
+				</div>
 			</div>
 			<input
 				type="text"
@@ -62,6 +69,11 @@
 				placeholder="휴대폰번호 '-'없이 입력해주세요."
 				v-model="accountDto.phone_number"
 			/>
+			<div class="error_alert">
+				<p v-if="!this.response_error.phone">
+					휴대폰번호의 형식이 올바르지 않습니다.
+				</p>
+			</div>
 			<!-- 생년월일 만들기 -->
 			<div style="margin: 30px 0 5px 0;">
 				<span>생년월일</span>
@@ -143,6 +155,10 @@
 		</div>
 		<div class="signup_right">
 			<ul>
+				<li style="margin: 0;">
+					<i class="mdi mdi-check" style="color: blue;" />
+					<span style="color: blue;">H STROE</span>
+				</li>
 				<li>
 					<i class="mdi mdi-check" style="color: blue;" />회원가입은
 					14세 이상 고객만 가능합니다.
@@ -153,14 +169,12 @@
 					않습니다.
 				</li>
 				<li>
-					<i class="mdi mdi-check" style="color: blue;" />매장에서
-					가입하신 고객은 웹 회원가입 과정을 거쳐야, 정식
-					아이디/패스워드가 등록됩니다.
+					<i class="mdi mdi-check" style="color: blue;" />비밀번호는
+					영문, 숫자, 특수문자가 포함되어야 합니다. (8~16자리)
 				</li>
 				<li>
-					<i class="mdi mdi-check" style="color: blue;" />가입 후
-					휴대전화로 전송해 드린 아디클럽 회원증을 다운로드 하시면,
-					오프라인 매장에서도 상품 구매 후 포인트 적립이 가능합니다.
+					<i class="mdi mdi-check" style="color: blue;" />상세주소를
+					기입하지 않을 경우 제품배송이 여려울 수 있습니다.
 				</li>
 				<li>
 					<i class="mdi mdi-check" style="color: blue;" />마케팅
@@ -181,6 +195,7 @@ export default {
 
 	data() {
 		return {
+			// 계정 정보
 			accountDto: {
 				email: 'test@naver.com',
 				password: 'test',
@@ -194,21 +209,32 @@ export default {
 					building: '',
 				},
 			},
+			// 비밀번호
 			password_input: {
 				check: '',
 				input: '',
 			},
-			check_result: false,
+			// 비밀번호 확인
+			pass_match: true,
+			// 입력된 생년월일
 			input_birth: {
 				year: '',
 				month: '',
 				date: '',
 			},
+			// 생년월일 selector 값
 			years: [],
 			months: [],
 			dates: [],
+			// 이메일 인증
 			auth: false,
 			auth_num: '',
+			// error response check
+			response_error: {
+				email: true,
+				pass: true,
+				phone: true,
+			},
 		}
 	},
 	mounted() {
@@ -243,9 +269,9 @@ export default {
 			deep: true,
 			handler() {
 				if (this.password_input.input == this.password_input.check) {
-					this.check_result = true
+					this.pass_match = true
 				} else {
-					this.check_result = false
+					this.pass_match = false
 				}
 			},
 		},
@@ -290,8 +316,8 @@ export default {
 				this.input_birth.date
 
 			// 패스워드 체크
-			if (!this.check_result) {
-				alert('패스워드를 다시 입력하세요')
+			if (!this.pass_match) {
+				alert('비밀번호가 일치하지 않습니다.')
 				return
 			}
 			this.accountDto.password = this.password_input.input
@@ -309,9 +335,24 @@ export default {
 			})
 				.then(r => {
 					console.log(r)
+					alert('회원가입 완료')
 				})
 				.catch(e => {
 					console.log(e.response.data)
+					let errors = e.response.data.content
+
+					for (let i = 0; i < errors.length; i++) {
+						let error = errors[i]
+						if (error.field != null) {
+							if (error.field == 'email') {
+								this.response_error.email = false
+							} else if (error.field == 'password') {
+								this.response_error.pass = false
+							} else {
+								this.response_error.phone = false
+							}
+						}
+					}
 				})
 		},
 	},
@@ -352,5 +393,10 @@ export default {
 
 .signup_right .mdi-check {
 	margin-right: 5px;
+}
+.error_alert {
+	color: red;
+	float: right;
+	font-size: 13px;
 }
 </style>
