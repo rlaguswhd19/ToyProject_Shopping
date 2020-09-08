@@ -21,7 +21,7 @@
 						회원가입
 					</v-btn>
 				</li>
-				<li v-if="!this.$store.state.login">
+				<li v-if="this.email == ''">
 					<v-btn text small @click="go('/account/signIn')">
 						로그인
 					</v-btn>
@@ -42,27 +42,29 @@
 <script>
 export default {
 	data() {
-		return {}
+		return {
+			email: '',
+		}
 	},
-
+	mounted() {
+		if (sessionStorage.getItem('email') != null) {
+			this.email = sessionStorage.getItem('email')
+		}
+	},
 	methods: {
 		go(to) {
 			this.$router.push(to)
 		},
 		logout() {
-			this.$store.state.login = false
-			this.$store.state.auth = ''
-			this.$store.state.email = ''
+			sessionStorage.clear()
 			alert('logout')
-			this.$router.push('/')
+			window.location.href = 'http://localhost:3000'
 		},
 		getUser() {
-			let email = this.$store.state.email.substr(
-				0,
-				this.$store.state.email.indexOf('@'),
-			)
+			let email = sessionStorage.getItem('email')
+			let temp = email.substr(0, email.indexOf('@'))
 
-			return email
+			return temp
 		},
 	},
 }

@@ -94,7 +94,6 @@ export default {
 	},
 	mounted() {
 		this.get_dressLists()
-		alert(this.$store.state.login)
 	},
 	methods: {
 		get_imagePath(dress) {
@@ -132,7 +131,9 @@ export default {
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
 			}).then(response => {
-				this.dressLists = response.data._embedded.dressList
+				if (response.data._embedded != null) {
+					this.dressLists = response.data._embedded.dressList
+				}
 				console.log(response.data)
 			})
 		},

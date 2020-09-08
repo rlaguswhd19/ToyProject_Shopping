@@ -48,8 +48,8 @@ export default {
 	data() {
 		return {
 			account: {
-				username: '',
-				password: '',
+				username: 'user@naver.com',
+				password: 'user',
 				grant_type: 'password',
 			},
 		}
@@ -76,15 +76,22 @@ export default {
 				},
 			})
 				.then(r => {
-					this.$store.state.user = r.data
-					this.$store.state.login = true
-					this.$store.state.email = this.account.username
+					console.log(r.data)
+					window.sessionStorage.setItem(
+						'email',
+						this.account.username,
+					)
+
+					for (var key in window.sessionStorage) {
+						// getItem( ) 메서드를 이용하여 key 값의 value 값을 찾는다.
+						console.log(key, sessionStorage.getItem(key))
+					}
 
 					alert('login')
-					this.$router.push('/')
+					window.location.href = 'http://localhost:3000'
 				})
 				.catch(e => {
-					console.log(e)
+					console.log(e.response)
 					alert('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.')
 				})
 		},
