@@ -56,8 +56,8 @@ public class DressService {
 
 		// link
 		dressModel.add(new Link("/docs/dress.html#resources-create-Dress").withRel("profile"));
-		dressModel.link_Lists(dressModel);
-		dressModel.link_Update(dressModel);
+		dressModel.link_lists(dressModel);
+		dressModel.link_update(dressModel);
 		dressModel.link_imagePath(dressModel, newDress.getDimage());
 
 		return ResponseEntity.created(createUri).body(dressModel);

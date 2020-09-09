@@ -49,8 +49,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shopping.back.hj.accounts.Account;
-import shopping.back.hj.accounts.AccountDto;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.common.AppProperties;

@@ -68,14 +68,14 @@ public class AccountService implements UserDetailsService {
 		number.insert(8, "-");
 		account.setPhone_number(number.toString());
 		
-		System.out.println(account);
-		
 		Account newAccount = accountRespository.save(account);
 		
-		WebMvcLinkBuilder selfLinkBuilder = linkTo(DressController.class).slash(newAccount.getId());
+		WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(newAccount.getId());
 		URI createUri = selfLinkBuilder.toUri();
 		
-		return ResponseEntity.created(createUri).body(newAccount);
+		AccountModel accountModel = new AccountModel(newAccount);
+		
+		return ResponseEntity.created(createUri).body(accountModel);
 	}
 	
 	public void encodeDress(Account account) {

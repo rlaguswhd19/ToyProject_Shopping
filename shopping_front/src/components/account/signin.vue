@@ -90,7 +90,7 @@ export default {
 					}
 
 					alert('login')
-					// window.location.href = 'http://localhost:3000'
+					window.location.href = 'http://localhost:3000'
 				})
 				.catch(e => {
 					console.log(e)

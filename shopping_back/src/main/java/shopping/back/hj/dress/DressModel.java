@@ -15,20 +15,16 @@ public class DressModel extends EntityModel<Dress> {
 		add(linkTo(DressController.class).slash(content.getId()).withSelfRel());
 	}
 
-	public DressModel link_Update(DressModel dressModel) {
+	public void link_update(DressModel dressModel) {
 		// PUT
 		dressModel.add(linkTo(DressController.class).withRel("update-dress"));
-		return dressModel;
 	}
 
-	public DressModel link_Lists(DressModel dressModel) {
+	public void link_lists(DressModel dressModel) {
 		dressModel.add(linkTo(DressController.class).withRel("lists-dress"));
-		return dressModel;
 	}
 
-	public DressModel link_imagePath(DressModel dressModel, Dimage dimage) {
+	public void link_imagePath(DressModel dressModel, Dimage dimage) {
 		dressModel.add(new Link("/assets/images/" + dimage.getId()).withRel("images-dress"));
-		return dressModel;
 	}
-
 }

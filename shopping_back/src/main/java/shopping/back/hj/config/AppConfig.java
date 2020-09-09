@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import shopping.back.hj.accounts.Account;
 import shopping.back.hj.accounts.AccountDto;
+import shopping.back.hj.accounts.AccountModel;
 import shopping.back.hj.accounts.AccountRepository;
 import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.accounts.address.Address;
@@ -71,7 +72,8 @@ public class AppConfig {
 				Optional<Account> optionalAccount = accountRepository.findByEmail(Admin.getEmail());
 				
 				if(optionalAccount.isEmpty()) {
-					Account account = (Account) accountService.createAccount(Admin).getBody();
+					AccountModel accountModel = (AccountModel) accountService.createAccount(Admin).getBody();
+					Account account = accountModel.getContent();
 					account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
 					System.out.println(account);
 					accountRepository.save(account);
