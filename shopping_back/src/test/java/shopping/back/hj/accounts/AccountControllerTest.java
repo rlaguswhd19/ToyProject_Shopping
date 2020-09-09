@@ -88,37 +88,6 @@ public class AccountControllerTest {
 				.andDo(print())
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("id").exists())
-				.andDo(document("create-account",
-					links(
-							linkWithRel("self").description("link to self")
-					),
-					requestHeaders(
-							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
-							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
-					),
-					relaxedRequestFields(
-							fieldWithPath("email").description("이메일"),
-							fieldWithPath("password").description("비밀번호"),
-							fieldWithPath("phone_number").description("전화번호"),
-							fieldWithPath("birth").description("생년월일"),
-							fieldWithPath("address").description("주소 객체")
-					),
-					responseHeaders(
-							headerWithName(HttpHeaders.LOCATION).description("Location header"),
-							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
-					),
-					relaxedResponseFields(
-							fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-							fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
-							fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-							fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-							fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
-							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
-							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
-							fieldWithPath("dpage_arr").type(JsonFieldType.ARRAY).description("생성한 페이지 목록"),
-							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한")
-					)
-				))
 				;
 	}
 	
