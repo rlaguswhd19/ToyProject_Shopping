@@ -77,21 +77,23 @@ export default {
 			})
 				.then(r => {
 					console.log(r.data)
-					window.sessionStorage.setItem(
-						'email',
-						this.account.username,
+					sessionStorage.setItem('email', this.account.username)
+					sessionStorage.setItem('access_token', r.data.access_token)
+					sessionStorage.setItem('expires_in', r.data.expires_in)
+					sessionStorage.setItem(
+						'refresh_token',
+						r.data.refresh_token,
 					)
-
 					for (var key in window.sessionStorage) {
 						// getItem( ) 메서드를 이용하여 key 값의 value 값을 찾는다.
 						console.log(key, sessionStorage.getItem(key))
 					}
 
 					alert('login')
-					window.location.href = 'http://localhost:3000'
+					// window.location.href = 'http://localhost:3000'
 				})
 				.catch(e => {
-					console.log(e.response)
+					console.log(e)
 					alert('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.')
 				})
 		},
