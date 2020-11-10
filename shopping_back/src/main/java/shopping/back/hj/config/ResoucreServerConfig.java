@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
@@ -31,6 +32,9 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 					.permitAll()
 				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
+				
+//				.requestMatchers(CorsUtils::isPreFlightRequest)
+//					.permitAll()
 //				.mvcMatchers(HttpMethod.POST, "/oauth/token")
 //					.permitAll()
 				.anyRequest()
@@ -41,7 +45,7 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 			.exceptionHandling()
 				.accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
-	
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
