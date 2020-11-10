@@ -32,9 +32,8 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 					.permitAll()
 				.mvcMatchers(HttpMethod.POST, "/api/accounts")
 					.anonymous()
-				
-//				.requestMatchers(CorsUtils::isPreFlightRequest)
-//					.permitAll()
+				.requestMatchers(CorsUtils::isPreFlightRequest)
+					.permitAll()
 //				.mvcMatchers(HttpMethod.POST, "/oauth/token")
 //					.permitAll()
 				.anyRequest()
