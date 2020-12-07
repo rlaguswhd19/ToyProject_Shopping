@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import signup from '../../components/account/signUp'
+import signup from '../../components/account/signup'
 
 export default {
 	name: 'SignUp',
