@@ -134,7 +134,7 @@ export default {
 				if (response.data._embedded != null) {
 					this.dressLists = response.data._embedded.dressList
 				}
-				console.log(response.data)
+				// console.log(response.data)
 			})
 		},
 	},

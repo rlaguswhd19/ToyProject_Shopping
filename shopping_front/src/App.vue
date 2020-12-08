@@ -6,19 +6,23 @@
 			<div class="router-content">
 				<router-view />
 			</div>
-			<div class="content_right"></div>
+			<div class="content_right">
+				<Token />
+			</div>
 		</div>
 	</v-app>
 </template>
 
 <script>
 import Nav from './views/Nav'
+import Token from './components/bar/token'
 
 export default {
 	name: 'App',
 
 	components: {
 		Nav,
+		Token,
 	},
 }
 </script>
@@ -28,6 +32,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	padding: 20px 0;
+	height: 100%;
 }
 
 .content_right {

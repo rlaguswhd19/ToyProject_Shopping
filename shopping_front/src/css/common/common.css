@@ -22,3 +22,11 @@
 	border-color: #719ECE;
 	box-shadow: 1px 1px 20px #cce6ff;
 }
+
+.hj_button {
+	width: 100%;
+	margin: auto;
+	margin-top: 10px;
+	border-radius: 0;
+	height: 50px;
+}

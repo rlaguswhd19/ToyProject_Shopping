@@ -25,7 +25,7 @@ export default {
 .header {
 	display: flex;
 	flex-direction: column;
-	position: relative;
+	/* position: fixed; */
 }
 
 hr {

@@ -31,7 +31,7 @@
 						{{ this.getUser() }}
 					</v-btn>
 					<v-btn text small @click="logout()">
-						logout
+						로그아웃
 					</v-btn>
 				</li>
 			</ul>
@@ -51,9 +51,9 @@ export default {
 			this.email = sessionStorage.getItem('email')
 		}
 
-		console.log(sessionStorage.getItem('access_token'))
-		console.log(sessionStorage.getItem('refresh_token'))
-		console.log(sessionStorage.getItem('expires_in'))
+		// console.log(sessionStorage.getItem('access_token'))
+		// console.log(sessionStorage.getItem('refresh_token'))
+		// console.log(sessionStorage.getItem('expires_in'))
 	},
 	methods: {
 		go(to) {
