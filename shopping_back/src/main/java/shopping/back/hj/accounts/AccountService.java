@@ -5,6 +5,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dress.DressController;
@@ -54,7 +56,7 @@ public class AccountService implements UserDetailsService {
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
 		Account account = modelMapper.map(accountDto, Account.class);
 		
-		encodeDress(account);
+		encodeAdress(account);
 		// encode
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		
@@ -78,7 +80,7 @@ public class AccountService implements UserDetailsService {
 		return ResponseEntity.created(createUri).body(accountModel);
 	}
 	
-	public void encodeDress(Account account) {
+	public void encodeAdress(Account account) {
 		Address address = account.getAddress();
 		
 		address.setPost(passwordEncoder.encode(address.getPost()));
@@ -88,5 +90,16 @@ public class AccountService implements UserDetailsService {
 		address.setDetail(passwordEncoder.encode(address.getDetail()));
 		
 		account.setAddress(address);
+	}
+
+	public ResponseEntity<?> findByEmail(String email) {
+		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
+		if(optionalAccount.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Account account = optionalAccount.get();
+		
+		return ResponseEntity.ok(account);
 	}
 }

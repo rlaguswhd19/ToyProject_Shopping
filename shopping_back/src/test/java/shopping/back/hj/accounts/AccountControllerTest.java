@@ -1,26 +1,20 @@
 package shopping.back.hj.accounts;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.relaxedLinks;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +27,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -115,10 +108,23 @@ public class AccountControllerTest {
 							fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
 							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
-							fieldWithPath("dpage_arr").type(JsonFieldType.ARRAY).description("생성한 페이지 목록"),
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한")
 					)
 				))
+				;
+	}
+	
+	@Test
+	@TestDescription("email을 활용해 id를 가져오는 Test")
+	public void findByEmail() throws Exception {
+		String email = appProperties.getUserEmail();
+		
+		mockMvc.perform(get("/api/accounts/{email}", email)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE)
+				)
+				.andDo(print())
+				.andExpect(jsonPath("id").value(3))
 				;
 	}
 	
@@ -160,4 +166,30 @@ public class AccountControllerTest {
 		return parser.parseMap(responseBody).get("access_token").toString();
 	}
 	
+	@Test
+	@TestDescription("refresh_token을 활용하여 access_token 재발급 Test")
+	public void getAccessTokenByRefreshToken() throws Exception {
+		
+		ResultActions perform = mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
+				.param("grant_type", "password")
+				);
+		
+		var responseBody = perform.andReturn().getResponse().getContentAsString();
+		Jackson2JsonParser parser = new Jackson2JsonParser();
+		String reefresh_token = parser.parseMap(responseBody).get("refresh_token").toString();
+		
+		mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("refresh_token", reefresh_token)
+				.param("grant_type", "refresh_token")
+				)
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("access_token").exists())
+				.andExpect(jsonPath("expires_in").exists())
+				;
+	}
 }

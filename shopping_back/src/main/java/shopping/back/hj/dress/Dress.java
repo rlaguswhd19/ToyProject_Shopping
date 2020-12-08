@@ -9,6 +9,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -18,6 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shopping.back.hj.accounts.Account;
 import shopping.back.hj.dress.dimages.Dimage;
 import shopping.back.hj.dress.dsize.Dsize;
 import shopping.back.hj.enums.DressCategory;
@@ -82,17 +86,19 @@ public class Dress {
 	private String origin;
 	
 	private LocalDate manufacture;
+	
+	private Long view = 0L;
+	
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	private Account account;
 
 	@Override
 	public String toString() {
 		return "Dress [id=" + id + ", name=" + name + ", color=" + color + ", article_number=" + article_number
 				+ ", category=" + category + ", sex=" + sex + ", price=" + price + ", discount=" + discount
-				+ ", explanation=" + explanation + ", created=" + created + ", dimage=" + dimage + ", dsize="
-				+ dsize + ", material=" + material + ", origin=" + origin + ", manufacture=" + manufacture + "]";
+				+ ", discount_price=" + discount_price + ", explanation=" + explanation + ", created=" + created
+				+ ", dimage=" + dimage + ", dsize=" + dsize + ", material=" + material + ", origin=" + origin
+				+ ", manufacture=" + manufacture + ", view=" + view + ", account=" + account + "]";
 	}
-	
-//	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
-//	private Account manager;
-	
-	
 }

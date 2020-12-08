@@ -1,7 +1,5 @@
 package shopping.back.hj.accounts;
 
-import java.util.Set;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

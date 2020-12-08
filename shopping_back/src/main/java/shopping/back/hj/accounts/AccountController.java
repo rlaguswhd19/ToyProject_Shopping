@@ -7,6 +7,8 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +39,11 @@ public class AccountController {
 		}
 		
 		return accountService.createAccount(accountDto);
+	}
+	
+	@GetMapping("/{email}")
+	public ResponseEntity<?> findByEmail(@PathVariable String email){
+		return accountService.findByEmail(email);
 	}
 	
 	private ResponseEntity<?> badRequest(Errors errors) {

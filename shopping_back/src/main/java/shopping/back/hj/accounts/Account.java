@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -48,12 +49,8 @@ public class Account {
 	private String phone_number;
 	
 	// 양방향 드레스 리스트
-	@OneToMany
+	@OneToMany(mappedBy = "account")
 	private Set<Dress> dress_arr = new HashSet<Dress>();
-	
-	// 양방향 페이지 리스트
-	@OneToMany
-	private Set<Dpage> dpage_arr = new HashSet<Dpage>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
@@ -62,7 +59,6 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", birth=" + birth + ", email=" + email + ", password=" + password + ", address="
-				+ address + ", phone_number=" + phone_number + ", dress_arr=" + dress_arr + ", dpage_arr=" + dpage_arr
-				+ ", roles=" + roles + "]";
+				+ address + ", phone_number=" + phone_number + ", dress_arr=" + dress_arr + ", roles=" + roles + "]";
 	}
 }
