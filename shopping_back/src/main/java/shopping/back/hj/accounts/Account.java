@@ -63,7 +63,11 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", birth=" + birth + ", email=" + email + ", password=" + password + ", address="
+<<<<<<< HEAD
 				+ address + ", phone_number=" + phone_number + ", sex=" + sex + ", dress_arr=" + dress_arr + ", roles="
 				+ roles + "]";
+=======
+				+ address + ", phone_number=" + phone_number + ", dress_arr=" + dress_arr + ", roles=" + roles + "]";
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 	}
 }

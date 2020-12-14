@@ -1,6 +1,9 @@
 package shopping.back.hj.accounts;
 
+<<<<<<< HEAD
 import static org.assertj.core.api.Assertions.assertThat;
+=======
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
@@ -11,10 +14,15 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+<<<<<<< HEAD
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+=======
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +39,10 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+<<<<<<< HEAD
 import org.springframework.security.crypto.password.PasswordEncoder;
+=======
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -123,14 +134,19 @@ public class AccountControllerTest {
 							fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
 							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
+<<<<<<< HEAD
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
 							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별")
+=======
+							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한")
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 					)
 				))
 				;
 	}
 	
 	@Test
+<<<<<<< HEAD
 	@TestDescription("Account 계정 정보 수정 Test")
 	public void updateAccount() throws JsonProcessingException, Exception {
 		String email = appProperties.getUserEmail();
@@ -172,6 +188,8 @@ public class AccountControllerTest {
 	
 	
 	@Test
+=======
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 	@TestDescription("email을 활용해 id를 가져오는 Test")
 	public void findByEmail() throws Exception {
 		String email = appProperties.getUserEmail();

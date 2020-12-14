@@ -66,7 +66,16 @@ public class AccountController {
 	public ResponseEntity<?> findByEmail(@PathVariable String email) {
 		return accountService.findByEmail(email);
 	}
+<<<<<<< HEAD
 
+=======
+	
+	@GetMapping("/{email}")
+	public ResponseEntity<?> findByEmail(@PathVariable String email){
+		return accountService.findByEmail(email);
+	}
+	
+>>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 	private ResponseEntity<?> badRequest(Errors errors) {
 		return ResponseEntity.badRequest().body(new ErrorsModel(errors));
 	}
