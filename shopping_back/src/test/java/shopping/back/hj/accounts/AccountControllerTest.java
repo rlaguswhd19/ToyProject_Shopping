@@ -63,19 +63,7 @@ public class AccountControllerTest {
 	private ModelMapper modelMapper;
 	
 	@Autowired
-	private AccountRepository accountRepository;
-	
-	@Autowired
-	private AccountService accountService;
-	
-	@Autowired
 	private AppProperties appProperties;
-	
-	@Autowired
-	private AccountValidator accountValidator;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@Test
 	@TestDescription("정상적으로 Account를 생성하는 Test")
@@ -136,7 +124,6 @@ public class AccountControllerTest {
 				);
 		
 		perform
-//			.andDo(print())
 			.andExpect(jsonPath("id").value(3));
 		
 		

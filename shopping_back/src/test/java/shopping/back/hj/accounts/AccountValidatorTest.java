@@ -121,7 +121,8 @@ public class AccountValidatorTest {
 	@TestDescription("Validator birth")
 	public void createAccount_Birth_Wrong() {
 		boolean isOk;
-		String[] valid_birth = {"1994/08/23", "1920/10/20", "1925/09/03", "2020/09/03"};
+		String[] valid_birth = {"1994/08/23", "1925/09/03", "2020/09/03"};
+		
 		for (int i = 0; i < valid_birth.length; i++) {
 			isOk = accountValidator.isValidBirth(valid_birth[i]);
 			assertThat(isOk).isTrue();

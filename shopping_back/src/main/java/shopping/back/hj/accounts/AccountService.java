@@ -77,7 +77,9 @@ public class AccountService implements UserDetailsService {
 		Account account = optionalAccount.get();
 		
 		modelMapper.map(accountDto, account);
-		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		
+		// 비밀번호 인코딩은 되어있기 떄문에 다시 할필요가 없다. 비밀번호만 바꾸는 다른 method를 만들것
+//		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		
 		toBirth(accountDto, account);
 		toPhone(accountDto, account);
