@@ -21,6 +21,7 @@ import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.enums.AccountRole;
+import shopping.back.hj.enums.Sex;
 
 @Configuration
 public class AppConfig {
@@ -67,6 +68,7 @@ public class AppConfig {
 						.address(address1)
 						.phone_number("01047321566")
 						.birth("1994/08/23")
+						.sex(Sex.Women)
 						.build();
 				
 				Optional<Account> optionalAccount = accountRepository.findByEmail(Admin.getEmail());
@@ -93,6 +95,7 @@ public class AppConfig {
 						.address(address2)
 						.phone_number("01096012309")
 						.birth("1994/08/23")
+						.sex(Sex.Men)
 						.build();
 				optionalAccount = accountRepository.findByEmail(User.getEmail());
 				

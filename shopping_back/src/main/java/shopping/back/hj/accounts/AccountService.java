@@ -5,8 +5,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
+import lombok.experimental.Tolerate;
 import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dress.DressController;
 import shopping.back.hj.enums.AccountRole;
@@ -54,19 +59,14 @@ public class AccountService implements UserDetailsService {
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
 		Account account = modelMapper.map(accountDto, Account.class);
 		
-		encodeDress(account);
-		// encode
+		// password encoding
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		
 		// birth -> LocalDate
-		String[] birth_arr = accountDto.getBirth().split("/");
-		account.setBirth(LocalDate.of(Integer.parseInt(birth_arr[0]), Integer.parseInt(birth_arr[1]), Integer.parseInt(birth_arr[2])));
+		toBirth(accountDto, account);
 		
 		// 전화번호 바꾸기
-		StringBuilder number = new StringBuilder(accountDto.getPhone_number());
-		number.insert(3, "-");
-		number.insert(8, "-");
-		account.setPhone_number(number.toString());
+		toPhone(accountDto, account);
 		
 		Account newAccount = accountRespository.save(account);
 		
@@ -74,19 +74,46 @@ public class AccountService implements UserDetailsService {
 		URI createUri = selfLinkBuilder.toUri();
 		
 		AccountModel accountModel = new AccountModel(newAccount);
-		
 		return ResponseEntity.created(createUri).body(accountModel);
 	}
 	
-	public void encodeDress(Account account) {
-		Address address = account.getAddress();
+
+	public ResponseEntity<?> findByEmail(String email) {
+		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
+		if(optionalAccount.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
 		
-		address.setPost(passwordEncoder.encode(address.getPost()));
-		address.setRoad(passwordEncoder.encode(address.getRoad()));
-		address.setJibun(passwordEncoder.encode(address.getJibun()));
-		address.setBuilding(passwordEncoder.encode(address.getBuilding()));
-		address.setDetail(passwordEncoder.encode(address.getDetail()));
+		Account account = optionalAccount.get();
 		
-		account.setAddress(address);
+		return ResponseEntity.ok(account);
+	}
+
+	public ResponseEntity<?> updateAccount(AccountDto accountDto) {
+		Optional<Account> optionalAccount = accountRespository.findByEmail(accountDto.getEmail());
+		Account account = optionalAccount.get();
+		
+		modelMapper.map(accountDto, account);
+		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		
+		toBirth(accountDto, account);
+		toPhone(accountDto, account);
+		
+		Account updateAccount = accountRespository.save(account);
+		
+		AccountModel accountModel = new AccountModel(updateAccount);
+		return ResponseEntity.ok(accountModel);
+	}
+	
+	public void toBirth(AccountDto accountDto, Account account) {
+		String[] birth_arr = accountDto.getBirth().split("/");
+		account.setBirth(LocalDate.of(Integer.parseInt(birth_arr[0]), Integer.parseInt(birth_arr[1]), Integer.parseInt(birth_arr[2])));
+	}
+	
+	public void toPhone(AccountDto accountDto, Account account) {
+		StringBuilder number = new StringBuilder(accountDto.getPhone_number());
+		number.insert(3, "-");
+		number.insert(8, "-");
+		account.setPhone_number(number.toString());
 	}
 }

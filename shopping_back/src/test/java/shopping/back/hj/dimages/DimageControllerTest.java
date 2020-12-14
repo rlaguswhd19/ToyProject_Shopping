@@ -28,10 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
-import shopping.back.hj.accounts.Account;
-import shopping.back.hj.accounts.AccountDto;
-import shopping.back.hj.accounts.AccountRepository;
-import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
@@ -55,13 +51,7 @@ public class DimageControllerTest {
 	private DimageService dimagesService;
 	
 	@Autowired
-	private AccountService accountService;
-	
-	@Autowired
 	private DressRepository dressRepository;
-	
-	@Autowired
-	private AccountRepository accountRepository;
 	
 	@Autowired
 	private DimageRepository dimageRepository;

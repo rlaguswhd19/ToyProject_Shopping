@@ -50,7 +50,6 @@ export default {
 		if (sessionStorage.getItem('email') != null) {
 			this.email = sessionStorage.getItem('email')
 		}
-
 		// console.log(sessionStorage.getItem('access_token'))
 		// console.log(sessionStorage.getItem('refresh_token'))
 		// console.log(sessionStorage.getItem('expires_in'))

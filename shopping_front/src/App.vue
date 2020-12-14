@@ -37,7 +37,7 @@ export default {
 
 .content_right {
 	width: 20%;
-	outline: black 1px solid;
+	/* outline: black 1px solid; */
 }
 
 .content_left {

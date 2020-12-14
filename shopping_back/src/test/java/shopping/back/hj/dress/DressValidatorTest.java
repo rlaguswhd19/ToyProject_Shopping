@@ -29,10 +29,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shopping.back.hj.accounts.Account;
-import shopping.back.hj.accounts.AccountDto;
-import shopping.back.hj.accounts.AccountRepository;
-import shopping.back.hj.accounts.AccountService;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
@@ -59,24 +55,13 @@ public class DressValidatorTest {
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	private AccountService accountService;
-	
-	@Autowired
 	private DimageRepository dimageRepository;
 	
 	@Autowired
 	private DressRepository dressRepository;
 	
 	@Autowired
-	private AccountRepository accountRepository;
-	
-	@Autowired
 	private AppProperties appProperties;
-	
-	private MockMultipartFile file1 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
-	private MockMultipartFile file2 = new MockMultipartFile("files", "test.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "some jpg".getBytes());
-	
-	private MockMultipartFile wrongFile = new MockMultipartFile("files", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "some txt".getBytes());
 	
 	@Before
 	public void setUp() {

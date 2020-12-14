@@ -104,6 +104,14 @@
 					style="width: 30%;"
 				></v-select>
 			</div>
+			<v-select
+				:items="sexs"
+				label="성별"
+				v-model="sex"
+				dense
+				solo
+				style="width: 30%; margin-left: 70%;"
+			></v-select>
 			<div class="content_row">
 				<input
 					type="text"
@@ -201,6 +209,7 @@ export default {
 				password: 'test',
 				phone_number: '01047321566',
 				birth: '',
+				sex: '',
 				address: {
 					post: '',
 					road: '',
@@ -235,6 +244,8 @@ export default {
 				pass: true,
 				phone: true,
 			},
+			sexs: ['남자', '여자'],
+			sex: '',
 		}
 	},
 	mounted() {
@@ -315,6 +326,11 @@ export default {
 				'/' +
 				this.input_birth.date
 
+			if (this.sex == '남자') {
+				this.accountDto.sex = 'Men'
+			} else {
+				this.accountDto.sex = 'Women'
+			}
 			// 패스워드 체크
 			if (!this.pass_match) {
 				alert('비밀번호가 일치하지 않습니다.')

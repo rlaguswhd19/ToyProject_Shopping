@@ -61,6 +61,8 @@ export default {
 			if (this.time <= 0) {
 				clearInterval(this.intervalid)
 				alert('token 시간 만료')
+				sessionStorage.clear()
+				window.location.href = 'http://localhost:3000'
 			}
 		},
 	},
@@ -72,7 +74,7 @@ export default {
 			this.time *= 1
 			this.intervalid = setInterval(this.IntervalTime, 1000)
 		} else {
-			console.log('없다')
+			clearInterval(this.intervalid)
 		}
 		// this.IntervalTime()
 	},
