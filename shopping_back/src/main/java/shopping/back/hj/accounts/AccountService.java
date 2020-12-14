@@ -9,8 +9,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -23,11 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
-import lombok.experimental.Tolerate;
-import shopping.back.hj.accounts.address.Address;
-import shopping.back.hj.dress.DressController;
 import shopping.back.hj.enums.AccountRole;
 
 @Service
@@ -59,12 +53,7 @@ public class AccountService implements UserDetailsService {
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
 		Account account = modelMapper.map(accountDto, Account.class);
 		
-<<<<<<< HEAD
-		// password encoding
-=======
-		encodeAdress(account);
 		// encode
->>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		
 		// birth -> LocalDate
@@ -82,26 +71,10 @@ public class AccountService implements UserDetailsService {
 		return ResponseEntity.created(createUri).body(accountModel);
 	}
 	
-<<<<<<< HEAD
-
-	public ResponseEntity<?> findByEmail(String email) {
-		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
-		if(optionalAccount.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		Account account = optionalAccount.get();
-		
-		return ResponseEntity.ok(account);
-	}
 
 	public ResponseEntity<?> updateAccount(AccountDto accountDto) {
 		Optional<Account> optionalAccount = accountRespository.findByEmail(accountDto.getEmail());
 		Account account = optionalAccount.get();
-=======
-	public void encodeAdress(Account account) {
-		Address address = account.getAddress();
->>>>>>> 5c97819ea90f6566a0f1da282190fcd981b011c5
 		
 		modelMapper.map(accountDto, account);
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
