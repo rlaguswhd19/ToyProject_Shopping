@@ -83,26 +83,6 @@ export default {
 					}
 					alert('login')
 					window.location.href = 'http://localhost:3000'
-
-					// this.$axios({
-					// 	method: 'get',
-					// 	url:
-					// 		'http://localhost:8080/api/accounts/' +
-					// 		this.account.username,
-					// 	headers: {
-					// 		'Content-Type': 'application/json;charset=UTF-8',
-					// 		Accept: 'application/hal+json;charset=UTF-8',
-					// 	},
-					// }).then(r => {
-					// 	console.log(r)
-					// 	sessionStorage.setItem('id', r.data.id)
-					// 	for (var key in window.sessionStorage) {
-					// 		// getItem( ) 메서드를 이용하여 key 값의 value 값을 찾는다.
-					// 		console.log(key, sessionStorage.getItem(key))
-					// 	}
-					// 	alert('login')
-					// 	window.location.href = 'http://localhost:3000'
-					// })
 				})
 				.catch(e => {
 					console.log(e)

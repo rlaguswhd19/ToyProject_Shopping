@@ -21,14 +21,14 @@
 						회원가입
 					</v-btn>
 				</li>
-				<li v-if="this.email == ''">
+				<li v-if="checkLogin()">
 					<v-btn text small @click="go('/account/signIn')">
 						로그인
 					</v-btn>
 				</li>
 				<li v-else>
-					<v-btn text small @click="go('/account/signIn')">
-						{{ this.getUser() }}
+					<v-btn text small @click="go('/account/update')">
+						마이페이지
 					</v-btn>
 					<v-btn text small @click="logout()">
 						로그아웃
@@ -42,18 +42,9 @@
 <script>
 export default {
 	data() {
-		return {
-			email: '',
-		}
+		return {}
 	},
-	mounted() {
-		if (sessionStorage.getItem('email') != null) {
-			this.email = sessionStorage.getItem('email')
-		}
-		// console.log(sessionStorage.getItem('access_token'))
-		// console.log(sessionStorage.getItem('refresh_token'))
-		// console.log(sessionStorage.getItem('expires_in'))
-	},
+	mounted() {},
 	methods: {
 		go(to) {
 			this.$router.push(to)
@@ -63,11 +54,12 @@ export default {
 			alert('logout')
 			window.location.href = 'http://localhost:3000'
 		},
-		getUser() {
-			let email = sessionStorage.getItem('email')
-			let temp = email.substr(0, email.indexOf('@'))
+		checkLogin() {
+			if (sessionStorage.getItem('access_token') == null) {
+				return true
+			}
 
-			return temp
+			return false
 		},
 	},
 }
@@ -80,7 +72,6 @@ export default {
 }
 .login_nav_wrap ul {
 	list-style-type: none;
-	margin: auto 0;
 	display: flex;
 }
 
@@ -89,6 +80,6 @@ export default {
 }
 
 .v-btn {
-	margin: 0 10px;
+	margin: 0;
 }
 </style>

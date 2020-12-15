@@ -119,6 +119,7 @@
 					placeholder="우편번호"
 					v-model="accountDto.address.post"
 					readonly
+					style="margin-right: 10px;"
 				/>
 				<getAddress />
 			</div>
@@ -139,15 +140,15 @@
 			<input
 				type="text"
 				class="hj_input"
-				placeholder="상세주소"
-				v-model="accountDto.address.detail"
+				placeholder="건물"
+				v-model="accountDto.address.building"
+				readonly
 			/>
 			<input
 				type="text"
 				class="hj_input"
-				placeholder="건물"
-				v-model="accountDto.address.building"
-				readonly
+				placeholder="상세주소"
+				v-model="accountDto.address.detail"
 			/>
 			<v-btn
 				color="primary"

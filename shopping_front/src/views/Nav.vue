@@ -1,9 +1,13 @@
 <template>
 	<div class="header">
 		<hr />
-		<loginBar />
+		<div class="widthChange">
+			<loginBar />
+		</div>
 		<hr />
-		<mainBar />
+		<div class="widthChange">
+			<mainBar />
+		</div>
 		<hr />
 	</div>
 </template>
@@ -25,10 +29,14 @@ export default {
 .header {
 	display: flex;
 	flex-direction: column;
-	/* position: fixed; */
 }
 
 hr {
 	border-top: 1px #cccccc solid;
+}
+.widthChange {
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
 }
 </style>
