@@ -2,7 +2,9 @@
 	<div class="content_row" style="padding: 0 130px; margin-top: 50px;">
 		<div class="signup_left">
 			<span style="font-size: 30px; font-weight: 700;">회원가입</span>
-			<div class="content_row" style="margin-top: 20px;">
+			<br />
+			<h3 style="margin-top: 20px;">Account</h3>
+			<div class="content_row">
 				<input
 					type="email"
 					class="hj_input"
@@ -11,8 +13,9 @@
 					v-model="accountDto.email"
 				/>
 				<v-btn
-					style="margin: auto;"
 					color="primary"
+					class="hj_button"
+					style="width: 10%;"
 					@click="auth = true"
 					>인증</v-btn
 				>
@@ -29,7 +32,11 @@
 							/>
 						</v-card-text>
 						<v-card-actions>
-							<v-btn text color="primary" @click="auth = false"
+							<v-btn
+								text
+								color="primary"
+								class="hj_button"
+								@click="auth = false"
 								>ok</v-btn
 							>
 						</v-card-actions>
@@ -63,6 +70,7 @@
 					</p>
 				</div>
 			</div>
+			<h3>Phone</h3>
 			<input
 				type="text"
 				class="hj_input"
@@ -76,7 +84,7 @@
 			</div>
 			<!-- 생년월일 만들기 -->
 			<div style="margin: 30px 0 5px 0;">
-				<span>생년월일</span>
+				<h3>Birth</h3>
 			</div>
 			<div class="content_row">
 				<v-select
@@ -107,11 +115,12 @@
 			<v-select
 				:items="sexs"
 				label="성별"
-				v-model="sex"
+				v-model="accountDto.sex"
 				dense
 				solo
 				style="width: 30%; margin-left: 70%;"
 			></v-select>
+			<h3>Address</h3>
 			<div class="content_row">
 				<input
 					type="text"
@@ -150,15 +159,7 @@
 				placeholder="상세주소"
 				v-model="accountDto.address.detail"
 			/>
-			<v-btn
-				color="primary"
-				style="
-					width: 100%;
-					height: 50px;
-					border-radius: 1;
-					margin: 15px 0 0 0;
-				"
-				@click="post_account"
+			<v-btn color="primary" class="hj_button" @click="post_account"
 				>회원가입</v-btn
 			>
 		</div>
@@ -245,28 +246,15 @@ export default {
 				pass: true,
 				phone: true,
 			},
-			sexs: ['남자', '여자'],
-			sex: '',
+			sexs: ['Men', 'Women'],
 		}
 	},
 	mounted() {
-		let today = new Date()
-		let year = today.getFullYear()
-		this.input_birth.year = year
-		this.input_birth.month = today.getMonth() + 1
-		this.input_birth.date = today.getDate()
-
-		for (let i = 0; i <= 100; i++) {
-			this.years.push(year - i)
-		}
-
-		for (let i = 1; i <= 12; i++) {
-			this.months.push(i)
-		}
+		this.set_year_month()
 
 		EventBus.$on('get_address', address => {
 			this.accountDto.address = address
-			console.log(this.accountDto)
+			console.log('#signup')
 			// this.address = address
 		})
 	},
@@ -274,7 +262,7 @@ export default {
 		input_birth: {
 			deep: true,
 			handler() {
-				this.setDate()
+				this.set_date()
 			},
 		},
 		password_input: {
@@ -289,8 +277,22 @@ export default {
 		},
 	},
 	methods: {
-		setDate() {
-			let year = this.input_birth.year
+		set_year_month() {
+			let today = new Date()
+			let year = today.getFullYear()
+			this.input_birth.year = year
+			this.input_birth.month = today.getMonth() + 1
+			this.input_birth.date = today.getDate()
+
+			for (let i = 0; i <= 100; i++) {
+				this.years.push(year - i)
+			}
+
+			for (let i = 1; i <= 12; i++) {
+				this.months.push(i)
+			}
+		},
+		set_date() {
 			let temp = this.input_birth.date
 
 			let currentDay = new Date(
@@ -327,11 +329,6 @@ export default {
 				'/' +
 				this.input_birth.date
 
-			if (this.sex == '남자') {
-				this.accountDto.sex = 'Men'
-			} else {
-				this.accountDto.sex = 'Women'
-			}
 			// 패스워드 체크
 			if (!this.pass_match) {
 				alert('비밀번호가 일치하지 않습니다.')

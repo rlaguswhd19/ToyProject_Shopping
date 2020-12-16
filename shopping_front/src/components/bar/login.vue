@@ -16,14 +16,12 @@
 				<li>
 					<v-btn text small> 주문조회 </v-btn>
 				</li>
-				<li>
-					<v-btn text small @click="go('/account/signUp')">
-						회원가입
-					</v-btn>
-				</li>
-				<li v-if="checkLogin()">
+				<li v-if="check_login()">
 					<v-btn text small @click="go('/account/signIn')">
 						로그인
+					</v-btn>
+					<v-btn text small @click="go('/account/signUp')">
+						회원가입
 					</v-btn>
 				</li>
 				<li v-else>
@@ -54,7 +52,7 @@ export default {
 			alert('logout')
 			window.location.href = 'http://localhost:3000'
 		},
-		checkLogin() {
+		check_login() {
 			if (sessionStorage.getItem('access_token') == null) {
 				return true
 			}

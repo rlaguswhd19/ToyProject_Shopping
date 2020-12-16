@@ -1,14 +1,20 @@
 <template>
-	<div class="token_bar" v-if="time != -1">
+	<div class="token_bar" v-if="time != -1" style="outline: 1px black solid;">
 		<v-card class="token_box">
-			<v-card-title>Token Time</v-card-title>
-			<v-card-text>
-				<h1 style="text-align: center;">
-					{{ Math.floor(time / 60) }} : {{ time % 60 }}
-				</h1>
-			</v-card-text>
+			<div style="outline: 1px black solid;">
+				<v-card-title>Token Time</v-card-title>
+				<v-card-text>
+					<h1 style="text-align: center;">
+						{{ Math.floor(time / 60) }} : {{ time % 60 }}
+					</h1>
+				</v-card-text>
+			</div>
 			<!-- <v-btn @click="Stop()">stop</v-btn> -->
-			<v-btn color="primary" class="hj_button" @click="extension()"
+			<v-btn
+				color="primary"
+				class="hj_button"
+				style="width: 80%; margin: 10% 0% 10% 10%;"
+				@click="extension()"
 				>시간연장</v-btn
 			>
 		</v-card>
@@ -45,10 +51,16 @@ export default {
 					password: 'hjpass',
 				},
 			}).then(r => {
+				console.log(r)
 				sessionStorage.setItem('access_token', r.data.access_token)
 				sessionStorage.setItem('expires_in', r.data.expires_in)
 				sessionStorage.setItem('refresh_token', r.data.refresh_token)
+
+				clearInterval(this.intervalid)
 				this.time = r.data.expires_in
+				this.time *= 1
+
+				this.intervalid = setInterval(this.IntervalTime, 1000)
 				alert('연장되었습니다.')
 			})
 		},
@@ -56,6 +68,7 @@ export default {
 		IntervalTime() {
 			this.time -= 1
 			sessionStorage.setItem('expires_in', this.time)
+			console.log(this.time)
 			if (this.time <= 0) {
 				clearInterval(this.intervalid)
 				alert('token 시간 만료')
@@ -71,6 +84,7 @@ export default {
 			this.time = sessionStorage.getItem('expires_in')
 			this.time *= 1
 			this.intervalid = setInterval(this.IntervalTime, 1000)
+			console.log(this.intervalid)
 		} else {
 			clearInterval(this.intervalid)
 		}

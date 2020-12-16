@@ -1,7 +1,7 @@
 <template>
 	<div style="margin: auto;">
-		<!-- <v-btn @click="getAddress">Test</v-btn> -->
-		<v-btn @click="getAddress()" color="primary">우편번호</v-btn>
+		<!-- <v-btn @click="get_address">Test</v-btn> -->
+		<v-btn @click="get_address()" color="primary">주소 검색</v-btn>
 	</div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
 		return {}
 	},
 	methods: {
-		getAddress() {
+		get_address() {
 			var address = {
 				post: '',
 				road: '',
@@ -35,10 +35,6 @@ export default {
 					address.building = data.buildingName
 
 					EventBus.$emit('get_address', address)
-					// this.address.post_num = data.zonecode
-					// this.address.road_addr = data.roadAddress
-					// this.address.jibun_addr = data.jibunAddress
-					// this.extra_addr = data.buildingName
 				},
 				onclose(state) {
 					if (state === 'FORCE_CLOSE') {
