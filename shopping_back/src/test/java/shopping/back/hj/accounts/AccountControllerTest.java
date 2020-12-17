@@ -17,6 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -135,8 +138,9 @@ public class AccountControllerTest {
 		Address address = accountDto.getAddress();
 		address.setBuilding(newAddress);
 		accountDto.setAddress(address);
-		accountDto.setBirth("1997/01/23");
 		accountDto.setPhone_number(newPhone);
+		accountDto.setBirth("1997/01/23");
+		LocalDate birth = LocalDate.of(1997,1,23);
 		
 		ResultActions perform_update = mockMvc.perform(put("/api/accounts")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -150,6 +154,7 @@ public class AccountControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("address.building").value(newAddress))
 			.andExpect(jsonPath("phone_number").value("010-9701-2309"))
+			.andExpect(jsonPath("birth").value(birth.toString()))
 			;
 	}
 	
