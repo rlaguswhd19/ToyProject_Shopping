@@ -116,4 +116,12 @@ public class AccountService implements UserDetailsService {
 
 		return ResponseEntity.ok(account);
 	}
+
+	public ResponseEntity<?> changePassword(String newPassword, Account account) {
+		
+		account.setPassword(passwordEncoder.encode(newPassword));
+		accountRespository.save(account);
+		
+		return ResponseEntity.ok().build();
+	}
 }

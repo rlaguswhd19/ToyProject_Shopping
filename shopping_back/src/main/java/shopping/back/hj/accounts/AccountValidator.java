@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.validator.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -15,23 +16,42 @@ public class AccountValidator {
 
 	@Autowired
 	private AccountRepository accountRepository;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	// 중복 email 검사
-	public void isExistEmail(AccountDto accountDto, Errors errors) {
-		Optional<Account> optionalAccount = accountRepository.findByEmail(accountDto.getEmail());
+	public void isExistEmail(String email, Errors errors) {
+		Optional<Account> optionalAccount = accountRepository.findByEmail(email);
 
 		if (!optionalAccount.isEmpty()) {
-			errors.rejectValue("email", accountDto.getEmail() + "는 이미 존재합니다.");
-			errors.reject("Wrongemail", "email overlap");
+			errors.rejectValue("email", email + "는 이미 존재합니다.");
+			errors.reject("WrongEmail", "email overlap");
 		}
 	}
+	
+	public void isNotExistEmail(String email, Errors errors) {
+		Optional<Account> optionalAccount = accountRepository.findByEmail(email);
 
-	public void isValidPass(AccountDto accountDto, Errors errors) {
+		if (optionalAccount.isEmpty()) {
+			errors.rejectValue("email", email + "이 존재하지 않습니다.");
+			errors.reject("WrongEmail", "email is not exist");
+		}
+	}
+	
+	public void passwordCheck(String password, Account account, Errors errors) {
+		if(!passwordEncoder.matches(password, account.getPassword())) {
+			errors.rejectValue("password", password + "가 일치하지 않습니다.");
+			errors.reject("WrongePassword", "email is not exist");
+		}
+	}	
+
+	public void isValidPass(String password, Errors errors) {
 		
 		// TODO Password 검증
 		String pwPattern = "^(?=.*[0-9])(?=.*[~`!@#$%^&*()-])(?=.*[a-zA-Z]).{8,16}$";
 		Pattern p = Pattern.compile(pwPattern);
-		Matcher m = p.matcher(accountDto.getPassword());
+		Matcher m = p.matcher(password);
 		
 		if (!m.matches()) {
 			errors.rejectValue("password", "비밀번호의 형식이 잘못되었습니다.");
@@ -44,7 +64,7 @@ public class AccountValidator {
 		// TODO email 검증하기
 		if (!isValidEmailAddress(accountDto.getEmail())) {
 			errors.rejectValue("email", accountDto.getEmail() + "의 형식이 잘못되었습니다.");
-			errors.reject("Wrongemail", "wrong email form");
+			errors.reject("WrongEmail", "wrong email form");
 		}
 
 		// TODO birth 검증
@@ -66,7 +86,7 @@ public class AccountValidator {
 		Matcher m = p.matcher(phone);
 		return m.matches();
 	}
-
+	
 	public boolean isValidBirth(String birth) {
 		String[] temp = birth.split("/");
 		Integer[] date = { Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]) };

@@ -1,5 +1,6 @@
 package shopping.back.hj.accounts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
@@ -32,6 +33,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -42,6 +44,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shopping.back.hj.accounts.address.Address;
+import shopping.back.hj.accounts.changepass.ChangePass;
 import shopping.back.hj.common.AppProperties;
 import shopping.back.hj.common.RestDocsConfiguration;
 import shopping.back.hj.common.TestDescription;
@@ -66,6 +69,9 @@ public class AccountControllerTest {
 	
 	@Autowired
 	private AppProperties appProperties;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Test
 	@TestDescription("정상적으로 Account를 생성하는 Test")
@@ -158,6 +164,27 @@ public class AccountControllerTest {
 			;
 	}
 	
+	@Test
+	@TestDescription("password 변경하는 Test")
+	public void changePassword() throws Exception {
+		String newPassword = "1234qwer!@#$";
+		
+		ChangePass changePass = ChangePass.builder()
+				.email(appProperties.getUserEmail())
+				.newPassword(newPassword)
+				.password(appProperties.getUserPassword())
+				.build();
+		
+		mockMvc.perform(put("/api/accounts/password")
+				.content(objectMapper.writeValueAsString(changePass))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
+				)
+				.andDo(print())
+				.andExpect(status().isOk())
+		;
+	}
 	
 	@Test
 	@TestDescription("email을 활용해 id를 가져오는 Test")
