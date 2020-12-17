@@ -29,7 +29,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -108,7 +107,8 @@ public class AccountControllerTest {
 							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
-							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별")
+							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역")
 					)
 				))
 				;

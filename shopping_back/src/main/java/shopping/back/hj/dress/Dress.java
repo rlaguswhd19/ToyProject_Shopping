@@ -89,7 +89,7 @@ public class Dress {
 	
 	private Long view = 0L;
 	
-	@ManyToOne
+	@ManyToOne // 주인
 	@JoinColumn(name = "account_id")
 	private Account account;
 

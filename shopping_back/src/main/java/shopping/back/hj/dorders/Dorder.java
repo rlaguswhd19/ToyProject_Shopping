@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.Account;
+import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dress.Dress;
 import shopping.back.hj.enums.DressSize;
 
@@ -39,8 +41,8 @@ public class Dorder {
 	// 옷정보
 	@ManyToOne
 	private Dress dress;
-
-	// 배송정보 = 수령인, 주소, 핸드폰
-	@ManyToOne
-	private Account account;
+	
+	// 주소
+	@OneToOne
+	private Address address;
 }

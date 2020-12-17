@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shopping.back.hj.accounts.address.Address;
+import shopping.back.hj.dorders.Dorder;
 import shopping.back.hj.dress.Dress;
 import shopping.back.hj.dress.dpages.Dpage;
 import shopping.back.hj.enums.AccountRole;
@@ -52,18 +53,21 @@ public class Account {
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	
-	// 양방향 드레스 리스트
+	// 양방향 드레스 리스트 slave
 	@OneToMany(mappedBy = "account")
 	private Set<Dress> dress_arr = new HashSet<Dress>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<AccountRole> roles = Set.of(AccountRole.USER);
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Dorder> dorder_arr = new HashSet<Dorder>();
 
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", birth=" + birth + ", email=" + email + ", password=" + password + ", address="
 				+ address + ", phone_number=" + phone_number + ", sex=" + sex + ", dress_arr=" + dress_arr + ", roles="
-				+ roles + "]";
+				+ roles + ", dorder_arr=" + dorder_arr + "]";
 	}
 }
