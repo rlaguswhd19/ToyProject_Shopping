@@ -34,8 +34,6 @@
 </template>
 
 <script>
-require('../../css/common/common.css')
-
 export default {
 	data() {
 		return {

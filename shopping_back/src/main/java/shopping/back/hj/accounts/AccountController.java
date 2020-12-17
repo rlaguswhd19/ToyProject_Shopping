@@ -43,7 +43,7 @@ public class AccountController {
 		if (errors.hasErrors()) {
 			return badRequest(errors);
 		}
-		System.out.println(accountDto);
+		
 		return accountService.createAccount(accountDto);
 	}
 

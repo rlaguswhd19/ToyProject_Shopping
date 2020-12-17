@@ -74,7 +74,6 @@
 
 <script>
 require('../../css/dress/dressLists.css')
-require('../../css/common/common.css')
 export default {
 	data() {
 		return {

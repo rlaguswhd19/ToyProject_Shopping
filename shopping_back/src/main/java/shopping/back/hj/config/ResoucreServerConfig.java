@@ -28,15 +28,13 @@ public class ResoucreServerConfig extends ResourceServerConfigurerAdapter {
 			.anonymous()
 				.and()
 			.authorizeRequests()
-				.mvcMatchers(HttpMethod.GET, "/api/**")
+				.mvcMatchers(HttpMethod.GET, "/api/**") //얻는 것
 					.permitAll()
-				.mvcMatchers(HttpMethod.POST, "/api/accounts")
+				.mvcMatchers(HttpMethod.POST, "/api/accounts") //회원가입
 					.anonymous()
-				.requestMatchers(CorsUtils::isPreFlightRequest)
+				.requestMatchers(CorsUtils::isPreFlightRequest) // Token 발급 option 근데 안돼서  Filter를 수정함
 					.permitAll()
-//				.mvcMatchers(HttpMethod.POST, "/oauth/token")
-//					.permitAll()
-				.anyRequest()
+				.anyRequest() // 다른 모든 요청 token 필요 
 					.authenticated()
 				.and()
 			.cors()

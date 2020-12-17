@@ -30,3 +30,7 @@
 	border-radius: 1;
 	height: 43px !important;
 }
+
+.hj_input::placeholder {
+	font-size: 12px;
+}

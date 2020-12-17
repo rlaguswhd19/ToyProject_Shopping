@@ -648,7 +648,6 @@ export default {
 					// 만드는데 실패하면 dimage 지우기
 					this.delete_dimage()
 					console.log(error)
-					console.log(1)
 				})
 		},
 	},

@@ -48,8 +48,44 @@
 					class="hj_button"
 					color="primary"
 					style="margin-bottom: 30px; width: 40%;"
+					@click="password_change_view = true"
 					>비밀번호 변경</v-btn
 				>
+				<v-dialog v-model="password_change_view" max-width="500px">
+					<v-card style="height: 500px;">
+						<v-card-title>비밀번호 변경</v-card-title>
+						<v-card-text>
+							<input
+								type="number"
+								class="hj_input"
+								style="margin-right: 10px;"
+								placeholder="현재 비밀번호"
+							/>
+
+							<input
+								type="number"
+								class="hj_input"
+								style="margin-right: 10px;"
+								placeholder="새 비밀번호"
+							/>
+							<input
+								type="number"
+								class="hj_input"
+								style="margin-right: 10px;"
+								placeholder="새 비밀번호 확인"
+							/>
+						</v-card-text>
+						<v-card-actions>
+							<v-btn
+								text
+								color="primary"
+								class="hj_button"
+								@click="password_change_view = false"
+								>ok</v-btn
+							>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
 				<h3>*Phone</h3>
 				<input
 					type="text"
@@ -201,6 +237,7 @@ export default {
 			months: [],
 			dates: [],
 			sexs: ['Men', 'Women'],
+			password_change_view: false,
 		}
 	},
 	methods: {
@@ -274,6 +311,24 @@ export default {
 			this.input_birth.date = temp
 		},
 		update_accountDto() {
+			this.accountDto.birth =
+				this.input_birth.year +
+				'/' +
+				this.input_birth.month +
+				'/' +
+				this.input_birth.date
+			console.log(this.accountDto)
+			this.$axios({
+				method: 'put',
+				url: 'http://localhost:8080/api/accounts',
+				data: this.accountDto,
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+			})
+		},
+		password_change() {
 			console.log(this.accountDto)
 		},
 	},
