@@ -219,6 +219,7 @@ export default {
 				birth: '',
 				sex: '',
 				address: {
+					id: '',
 					post: '',
 					road: '',
 					jibun: '',
@@ -226,6 +227,8 @@ export default {
 					building: '',
 				},
 			},
+			// address_id 임시저장
+			address_id: '',
 			// 입력된 생년월일
 			input_birth: {
 				year: '',
@@ -255,8 +258,7 @@ export default {
 				// email, address
 				this.accountDto.email = r.data.email
 				this.accountDto.address = r.data.address
-				delete this.accountDto.address.id // id 삭제
-
+				this.address_id = r.data.address.id
 				// phone_number는 -를 뺴고 넣어야한다.
 				this.accountDto.phone_number = r.data.phone_number.replaceAll(
 					'-',
@@ -317,16 +319,27 @@ export default {
 				this.input_birth.month +
 				'/' +
 				this.input_birth.date
+
+			this.accountDto.address.id = this.address_id
 			console.log(this.accountDto)
+
 			this.$axios({
 				method: 'put',
 				url: 'http://localhost:8080/api/accounts',
 				data: this.accountDto,
 				headers: {
+					Authorization:
+						'Bearer' + sessionStorage.getItem('access_token'),
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
 			})
+				.then(r => {
+					console.log(r)
+				})
+				.catch(e => {
+					console.log(e)
+				})
 		},
 		password_change() {
 			console.log(this.accountDto)

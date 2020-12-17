@@ -30,9 +30,9 @@ public class Address {
 	@NotEmpty
 	private String jibun;
 	
-	@NotEmpty
 	private String building; //추가 주소 = 동, 호수
 	
+	@NotEmpty
 	private String detail; // 동 호수
 
 	@Override
