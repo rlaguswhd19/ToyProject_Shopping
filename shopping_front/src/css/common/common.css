@@ -34,3 +34,9 @@
 .hj_input::placeholder {
 	font-size: 12px;
 }
+
+.error_alert {
+	color: red;
+	float: right;
+	font-size: 13px;
+}

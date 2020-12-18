@@ -38,12 +38,16 @@
 					type="email"
 					class="hj_input"
 					placeholder="이메일"
-					style="margin-bottom: 30px;"
 					v-model="accountDto.email"
 					readonly
 				/>
+				<div class="error_alert">
+					<p v-if="!this.response_error.email">
+						이메일 형식이 올바르지 않습니다.
+					</p>
+				</div>
 
-				<h3>*Password</h3>
+				<h3 style="margin-top: 30px;">*Password</h3>
 				<v-btn
 					class="hj_button"
 					color="primary"
@@ -52,36 +56,70 @@
 					>비밀번호 변경</v-btn
 				>
 				<v-dialog v-model="password_change_view" max-width="500px">
-					<v-card style="height: 500px;">
-						<v-card-title>비밀번호 변경</v-card-title>
+					<v-card style="height: 100%; padding: 20px;">
+						<v-card-title
+							>비밀번호 변경
+							<span style="color: blue; font-size: 13px;">
+								비밀번호는 영문, 숫자, 특수문자가 포함되어야
+								합니다. (8~16자리)
+							</span>
+						</v-card-title>
+						<br />
+
 						<v-card-text>
+							<h3 style="color: black;">현재 비밀번호</h3>
 							<input
-								type="number"
+								type="password"
 								class="hj_input"
-								style="margin-right: 10px;"
+								style="margin-right: 10px; margin-bottom: 30px;"
 								placeholder="현재 비밀번호"
+								v-model="input_password.now_password"
 							/>
 
+							<h3 style="color: black;">새 비밀번호</h3>
 							<input
-								type="number"
+								type="password"
 								class="hj_input"
 								style="margin-right: 10px;"
 								placeholder="새 비밀번호"
+								v-model="input_password.new_password"
 							/>
 							<input
-								type="number"
+								type="password"
 								class="hj_input"
 								style="margin-right: 10px;"
 								placeholder="새 비밀번호 확인"
+								v-model="input_password.new_password_check"
 							/>
+							<div class="error_alert">
+								<div v-if="!this.pass_match">
+									<p>
+										비밀번호가 일치하지 않습니다.
+									</p>
+								</div>
+								<div v-else>
+									<p v-if="!this.response_error.pass">
+										영문, 숫자, 특수문자가 포함되어야
+										합니다.
+									</p>
+								</div>
+							</div>
 						</v-card-text>
+						<br />
 						<v-card-actions>
 							<v-btn
 								text
 								color="primary"
-								class="hj_button"
+								@click="password_change()"
+								style="margin-left: auto; width: 20%;"
+								>저장</v-btn
+							>
+							<v-btn
+								text
+								color="primary"
 								@click="password_change_view = false"
-								>ok</v-btn
+								style="width: 20%;"
+								>취소</v-btn
 							>
 						</v-card-actions>
 					</v-card>
@@ -90,11 +128,16 @@
 				<input
 					type="text"
 					class="hj_input"
-					style="margin-bottom: 30px;"
 					placeholder="휴대폰번호 '-'없이 입력해주세요."
 					v-model="accountDto.phone_number"
 				/>
-				<h3>Birth</h3>
+				<div class="error_alert">
+					<p v-if="!this.response_error.phone">
+						휴대폰번호의 형식이 올바르지 않습니다.
+					</p>
+				</div>
+
+				<h3 style="margin-top: 30px;">Birth</h3>
 				<div class="content_row">
 					<v-select
 						:items="years"
@@ -129,7 +172,7 @@
 					solo
 					style="width: 30%; margin-left: 70%;"
 				></v-select>
-				<h3>*Address</h3>
+				<h3 style="margin-top: 30px;">*Address</h3>
 				<div class="content_row">
 					<input
 						type="text"
@@ -209,6 +252,13 @@ export default {
 				this.set_date()
 			},
 		},
+
+		input_password: {
+			deep: true,
+			handler() {
+				this.input_password_check()
+			},
+		},
 	},
 	data() {
 		return {
@@ -241,6 +291,17 @@ export default {
 			dates: [],
 			sexs: ['Men', 'Women'],
 			password_change_view: false,
+			input_password: {
+				now_password: '',
+				new_password: '',
+				new_password_check: '',
+			},
+			pass_match: true,
+			response_error: {
+				email: true,
+				pass: true,
+				phone: true,
+			},
 		}
 	},
 	methods: {
@@ -335,14 +396,60 @@ export default {
 				},
 			})
 				.then(r => {
+					alert('정보 수정 완료!')
+				})
+				.catch(e => {
+					// console.log(e.response.data)
+					let errors = e.response.data.content
+
+					for (let i = 0; i < errors.length; i++) {
+						let error = errors[i]
+						if (error.field != null) {
+							if (error.field == 'email') {
+								this.response_error.email = false
+							} else if (error.field == 'password') {
+								this.response_error.pass = false
+							} else {
+								this.response_error.phone = false
+							}
+						}
+					}
+				})
+		},
+		input_password_check() {
+			if (
+				this.input_password.new_password_check ==
+				this.input_password.new_password
+			) {
+				this.pass_match = true
+			} else {
+				this.pass_match = false
+			}
+		},
+		password_change() {
+			this.$axios({
+				method: 'put',
+				url: 'http://localhost:8080/api/accounts/password',
+				data: {
+					password: this.input_password.now_password,
+					newPassword: this.input_password.new_password,
+					email: sessionStorage.getItem('email'),
+				},
+				headers: {
+					Authorization:
+						'Bearer' + sessionStorage.getItem('access_token'),
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+			})
+				.then(r => {
 					console.log(r)
+					alert('비밀번호 변경 완료!')
+					this.password_change_view = false
 				})
 				.catch(e => {
 					console.log(e)
 				})
-		},
-		password_change() {
-			console.log(this.accountDto)
 		},
 	},
 }
