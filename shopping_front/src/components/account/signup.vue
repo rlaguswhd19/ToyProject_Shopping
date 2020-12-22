@@ -66,7 +66,7 @@
 				</p>
 				<div v-else>
 					<p v-if="!this.response_error.pass">
-						영문, 숫자, 특수문자가 포함되어야 합니다.
+						영문, 숫자, 특수문자가 포함된 8~16자리여야 합니다.
 					</p>
 				</div>
 			</div>
@@ -407,10 +407,5 @@ export default {
 
 .signup_right .mdi-check {
 	margin-right: 5px;
-}
-.error_alert {
-	color: red;
-	float: right;
-	font-size: 13px;
 }
 </style>

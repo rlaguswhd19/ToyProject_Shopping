@@ -1,0 +1,26 @@
+.update_wrap {
+	/* outline: 1px black solid; */
+	display: flex;
+}
+.update_left {
+	/* outline: 1px blue solid; */
+	width: 20%;
+	padding: 10px;
+}
+.update_right {
+	/* outline: 1px red solid; */
+	width: 80%;
+	padding: 10px;
+}
+
+.update_left li {
+	list-style-type: none;
+	margin: 20px 0;
+	font-size: 13px;
+	font-weight: bolder;
+}
+
+.update_input {
+	width: 60%;
+	margin-top: 30px;
+}

@@ -16,22 +16,35 @@
 				<li>
 					<v-btn text small> 주문조회 </v-btn>
 				</li>
-				<li v-if="check_login()">
-					<v-btn text small @click="go('/account/signIn')">
-						로그인
-					</v-btn>
-					<v-btn text small @click="go('/account/signUp')">
-						회원가입
-					</v-btn>
-				</li>
-				<li v-else>
-					<v-btn text small @click="go('/account/update')">
-						마이페이지
-					</v-btn>
-					<v-btn text small @click="logout()">
-						로그아웃
-					</v-btn>
-				</li>
+				<div class="content_row" v-if="check_login()">
+					<li>
+						<v-btn text small @click="go('/account/signIn')">
+							로그인
+						</v-btn>
+					</li>
+					<li>
+						<v-btn text small @click="go('/account/signUp')">
+							회원가입
+						</v-btn>
+					</li>
+				</div>
+				<div class="content_row" v-else>
+					<li>
+						<v-btn text small @click="go('/account/update')">
+							마이페이지
+						</v-btn>
+					</li>
+					<li>
+						<v-btn text small @click="logout()">
+							로그아웃
+						</v-btn>
+					</li>
+					<li v-if="get_roles()">
+						<v-btn text small @click="go('/account/admin')">
+							ADMIN
+						</v-btn>
+					</li>
+				</div>
 			</ul>
 		</div>
 	</div>
@@ -58,6 +71,18 @@ export default {
 			}
 
 			return false
+		},
+		get_roles() {
+			if (sessionStorage.getItem('roles') == null) {
+				return false
+			}
+
+			let temp = sessionStorage.getItem('roles').split(',')
+			for (let i in temp) {
+				if (temp[i] == 'ADMIN') {
+					return true
+				}
+			}
 		},
 	},
 }

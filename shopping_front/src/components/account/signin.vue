@@ -75,12 +75,30 @@ export default {
 						r.data.refresh_token,
 					)
 
-					for (var key in window.sessionStorage) {
-						// getItem( ) 메서드를 이용하여 key 값의 value 값을 찾는다.
-						console.log(key, sessionStorage.getItem(key))
-					}
+					// 기본적인 Account의 정보를 가지고 있어야 겠는데?
+
 					alert('login')
-					window.location.href = 'http://localhost:3000'
+
+					// 성공하면 account의 등급이 필요해.. account의 정보를 가져오자.
+					this.$axios({
+						method: 'get',
+						url:
+							'http://localhost:8080/api/accounts/' +
+							this.account.username,
+						headers: {
+							'Content-Type': 'application/json;charset=UTF-8',
+							Accept: 'application/hal+json;charset=UTF-8',
+						},
+					})
+						.then(r => {
+							console.log(r)
+							sessionStorage.setItem('roles', r.data.roles)
+							window.location.href = 'http://localhost:3000'
+						})
+
+						.catch(e => {
+							console.log(e)
+						})
 				})
 				.catch(e => {
 					console.log(e)
