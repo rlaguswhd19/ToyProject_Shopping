@@ -97,12 +97,12 @@ operation::index[snippets='http-request,http-response,links']
 [[resources-account]]
 == Account
 
-Dress 리소스는 Dress를 만들거나 조회할 때 사용한다.
+Account 리소스는 계정을 만들거나 조회할 때 사용한다.
 
 [[resources-create-Account]]
 === Account 생성
 
-`POST` 요청을 사용해서 새Account를 만들 수 있다.
+`POST` 요청을 사용해서 새 Account를 만들 수 있다.
 
 operation::create-account[snippets='request-headers,request-fields,http-request,links']
 

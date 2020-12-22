@@ -30,6 +30,7 @@ public class AccountValidator {
 		}
 	}
 	
+	// email이 존재하는지 검사
 	public void isNotExistEmail(String email, Errors errors) {
 		Optional<Account> optionalAccount = accountRepository.findByEmail(email);
 
@@ -39,21 +40,19 @@ public class AccountValidator {
 		}
 	}
 	
+	// password가 일치하는지 검사
 	public void passwordCheck(String password, Account account, Errors errors) {
 		if(!passwordEncoder.matches(password, account.getPassword())) {
 			errors.rejectValue("password", password + "가 일치하지 않습니다.");
 			errors.reject("WrongePassword", "email is not exist");
 		}
 	}	
-
-	public void isValidPass(String password, Errors errors) {
+	
+	// password 검사
+	public void isValidPasswordWithErrors(String password, Errors errors) {
 		
 		// TODO Password 검증
-		String pwPattern = "^(?=.*[0-9])(?=.*[~`!@#$%^&*()-])(?=.*[a-zA-Z]).{8,16}$";
-		Pattern p = Pattern.compile(pwPattern);
-		Matcher m = p.matcher(password);
-		
-		if (!m.matches()) {
+		if (!isValidPassword(password)) {
 			errors.rejectValue("password", "비밀번호의 형식이 잘못되었습니다.");
 			errors.reject("WrongPassword", "wrong password form");
 		}
@@ -79,15 +78,10 @@ public class AccountValidator {
 			errors.reject("WrongPhone_Number", "wrong phone_number");
 		}
 	}
-
-	public boolean isValidPhone(String phone) {
-		String pnPattern = "^01(?:0|1|[6-9])(\\d{8})$";
-		Pattern p = Pattern.compile(pnPattern);
-		Matcher m = p.matcher(phone);
-		return m.matches();
-	}
 	
 	public boolean isValidBirth(String birth) {
+		// 현재 시각으로 부터 100년 이전의 생일만 입력 가능, 날짜 형식을 지켰는지 확인
+		
 		String[] temp = birth.split("/");
 		Integer[] date = { Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]) };
 		LocalDate current = LocalDate.now();
@@ -131,6 +125,13 @@ public class AccountValidator {
 		String pwPattern = "^(?=.*[0-9])(?=.*[~`!@#$%^&*()-])(?=.*[a-zA-Z]).{8,16}$";
 		Pattern p = Pattern.compile(pwPattern);
 		Matcher m = p.matcher(password);
+		return m.matches();
+	}
+	
+	public boolean isValidPhone(String phone) {
+		String pnPattern = "^01(?:0|1|[6-9])(\\d{8})$";
+		Pattern p = Pattern.compile(pnPattern);
+		Matcher m = p.matcher(phone);
 		return m.matches();
 	}
 }

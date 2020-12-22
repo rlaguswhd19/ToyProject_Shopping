@@ -23,36 +23,36 @@ import shopping.back.hj.enums.AccountRole;
 @SpringBootTest
 @ActiveProfiles("test")
 public class AccountServiceTest {
-	
+
 	@Autowired
 	private AccountService accountService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private AppProperties appProperties;
-	
+
 	@Test
 	public void findByUsername() {
 
 		// When
 		UserDetails userDetails = accountService.loadUserByUsername(appProperties.getUserEmail());
-		
+
 		// Then
 		assertThat(passwordEncoder.matches(appProperties.getUserPassword(), userDetails.getPassword())).isTrue();
 	}
-	
+
 	@Test
 	public void findByUsername_NotFound() {
-		
+
 		try {
 			accountService.loadUserByUsername("test");
 			fail("findByUsername_NotFound Test Fail");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			assertThat(e instanceof UsernameNotFoundException).isTrue();
 			assertThat(e.getMessage()).contains("test");
 		}
-		
+
 	}
 }

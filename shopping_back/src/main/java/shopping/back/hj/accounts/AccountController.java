@@ -44,7 +44,7 @@ public class AccountController {
 		accountValidator.isExistEmail(accountDto.getEmail(), errors);
 
 		// password 정규식 확인
-		accountValidator.isValidPass(accountDto.getPassword(), errors);
+		accountValidator.isValidPasswordWithErrors(accountDto.getPassword(), errors);
 
 		if (errors.hasErrors()) {
 			return badRequest(errors);
@@ -72,7 +72,7 @@ public class AccountController {
 	public ResponseEntity<?> changePassword(@RequestBody ChangePass changePass, Errors errors) {
 		
 		accountValidator.isNotExistEmail(changePass.getEmail(), errors);
-		accountValidator.isValidPass(changePass.getNewPassword(), errors);
+		accountValidator.isValidPasswordWithErrors(changePass.getNewPassword(), errors);
 
 		if (errors.hasErrors()) {
 			return badRequest(errors);

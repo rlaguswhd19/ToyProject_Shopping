@@ -1,6 +1,5 @@
 package shopping.back.hj.accounts;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
@@ -9,6 +8,8 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,9 +70,6 @@ public class AccountControllerTest {
 	@Autowired
 	private AppProperties appProperties;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
 	@Test
 	@TestDescription("정상적으로 Account를 생성하는 Test")
 	public void createAccount() throws JsonProcessingException, Exception {
@@ -95,24 +92,36 @@ public class AccountControllerTest {
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					relaxedRequestFields(
+					requestFields(
 							fieldWithPath("email").description("이메일"),
 							fieldWithPath("password").description("비밀번호"),
 							fieldWithPath("phone_number").description("전화번호"),
 							fieldWithPath("birth").description("생년월일"),
 							fieldWithPath("address").description("주소 객체"),
+							fieldWithPath("address.id").description("주소 id"),
+							fieldWithPath("address.post").description("주소 우편번호"),
+							fieldWithPath("address.road").description("주소 도로명"),
+							fieldWithPath("address.jibun").description("주소 지번"),
+							fieldWithPath("address.building").description("주소 건물"),
+							fieldWithPath("address.detail").description("주소 상세"),
 							fieldWithPath("sex").description("성별")
 					),
 					responseHeaders(
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					relaxedResponseFields(
+					relaxedRequestFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
 							fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
 							fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
 							fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
 							fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
+							fieldWithPath("address.id").type(JsonFieldType.NUMBER).description("주소 id"),
+							fieldWithPath("address.post").type(JsonFieldType.STRING).description("주소 우편번호"),
+							fieldWithPath("address.road").type(JsonFieldType.STRING).description("주소 도로명"),
+							fieldWithPath("address.jibun").type(JsonFieldType.STRING).description("주소 지번"),
+							fieldWithPath("address.building").type(JsonFieldType.STRING).description("주소 건물"),
+							fieldWithPath("address.detail").type(JsonFieldType.STRING).description("주소 상세"),
 							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
@@ -161,6 +170,38 @@ public class AccountControllerTest {
 			.andExpect(jsonPath("address.building").value(newAddress))
 			.andExpect(jsonPath("phone_number").value("010-9701-2309"))
 			.andExpect(jsonPath("birth").value(birth.toString()))
+			.andDo(document("update-account",
+					links(
+							linkWithRel("self").description("link to self")
+					),
+					requestHeaders(
+							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
+							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+					),
+					relaxedRequestFields(
+							fieldWithPath("email").description("이메일"),
+							fieldWithPath("password").description("인코딩된 비밀번호"),
+							fieldWithPath("phone_number").description("전화번호"),
+							fieldWithPath("birth").description("생일"),
+							fieldWithPath("address").description("주소"),
+							fieldWithPath("sex").description("성별")
+					),
+					responseHeaders(
+							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+					),
+					relaxedResponseFields(
+							fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
+							fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
+							fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+							fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+							fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
+							fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
+							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
+							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
+							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역")
+					)
+			))
 			;
 	}
 	
@@ -170,9 +211,9 @@ public class AccountControllerTest {
 		String newPassword = "1234qwer!@#$";
 		
 		ChangePass changePass = ChangePass.builder()
-				.email(appProperties.getUserEmail())
+				.email(appProperties.getAdminEmail())
 				.newPassword(newPassword)
-				.password(appProperties.getUserPassword())
+				.password(appProperties.getAdminPassword())
 				.build();
 		
 		mockMvc.perform(put("/api/accounts/password")
@@ -199,6 +240,34 @@ public class AccountControllerTest {
 				.andExpect(jsonPath("id").value(3))
 				;
 	}
+	
+	@Test
+	@TestDescription("refresh_token을 활용하여 access_token 재발급 Test")
+	public void getAccessTokenByRefreshToken() throws Exception {
+		
+		ResultActions perform = mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("username", appProperties.getUserEmail())
+				.param("password", appProperties.getUserPassword())
+				.param("grant_type", "password")
+				);
+		
+		var responseBody = perform.andReturn().getResponse().getContentAsString();
+		Jackson2JsonParser parser = new Jackson2JsonParser();
+		String reefresh_token = parser.parseMap(responseBody).get("refresh_token").toString();
+		
+		mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.param("refresh_token", reefresh_token)
+				.param("grant_type", "refresh_token")
+				)
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("access_token").exists())
+				.andExpect(jsonPath("expires_in").exists())
+				;
+	}
+	
 	
 	private AccountDto generatedAccountDto() {
 		Address address = Address.builder()
@@ -237,32 +306,5 @@ public class AccountControllerTest {
 		var responseBody = perform.andReturn().getResponse().getContentAsString();
 		Jackson2JsonParser parser = new Jackson2JsonParser();
 		return parser.parseMap(responseBody).get("access_token").toString();
-	}
-	
-	@Test
-	@TestDescription("refresh_token을 활용하여 access_token 재발급 Test")
-	public void getAccessTokenByRefreshToken() throws Exception {
-		
-		ResultActions perform = mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
-				.param("username", appProperties.getUserEmail())
-				.param("password", appProperties.getUserPassword())
-				.param("grant_type", "password")
-				);
-		
-		var responseBody = perform.andReturn().getResponse().getContentAsString();
-		Jackson2JsonParser parser = new Jackson2JsonParser();
-		String reefresh_token = parser.parseMap(responseBody).get("refresh_token").toString();
-		
-		mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
-				.param("refresh_token", reefresh_token)
-				.param("grant_type", "refresh_token")
-				)
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("access_token").exists())
-				.andExpect(jsonPath("expires_in").exists())
-				;
 	}
 }

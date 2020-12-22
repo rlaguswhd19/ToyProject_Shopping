@@ -52,7 +52,7 @@ public class AccountValidatorTest {
 	private AccountValidator accountValidator;
 	
 	@Test
-	@TestDescription("Account의 Email이 미이 있는 경우 생성하는 Test")
+	@TestDescription("Account의 Email이 이미 존재하는 경우 Test")
 	public void createAccount_Email_OverLap() throws JsonProcessingException, Exception {
 		AccountDto accountDto = generatedAccountDto();
 		accountDto.setEmail(appProperties.getUserEmail());
@@ -172,23 +172,4 @@ public class AccountValidatorTest {
 		
 		return accountDto;
 	}
-	
-	private String getBearerToken() throws Exception {
-		return "Bearer"+getAccessToken();
-	}
-	
-	private String getAccessToken() throws Exception {
-		
-		ResultActions perform = mockMvc.perform(post("/oauth/token")
-				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
-				.param("username", appProperties.getUserEmail())
-				.param("password", appProperties.getUserPassword())
-				.param("grant_type", "password")
-				);
-		
-		var responseBody = perform.andReturn().getResponse().getContentAsString();
-		Jackson2JsonParser parser = new Jackson2JsonParser();
-		return parser.parseMap(responseBody).get("access_token").toString();
-	}
-	
 }

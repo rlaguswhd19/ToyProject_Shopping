@@ -97,7 +97,7 @@ operation::index[snippets='http-request,http-response,links']
 [[resources-dress]]
 == Dress
 
-Dress 리소스는 Dress를 만들거나 조회할 때 사용한다.
+Dress 리소스는 옷을 만들거나 조회할 때 사용한다.
 
 [[resources-create-Dress]]
 === Dress 생성
