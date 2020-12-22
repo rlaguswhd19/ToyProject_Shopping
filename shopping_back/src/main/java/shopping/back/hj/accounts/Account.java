@@ -59,7 +59,7 @@ public class Account {
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Set<AccountRole> roles = Set.of(AccountRole.USER);
+	private Set<AccountRole> roles = Set.of(AccountRole.BRONZE);
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dorder> dorder_arr = new HashSet<Dorder>();

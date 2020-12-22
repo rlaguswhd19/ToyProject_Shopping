@@ -47,11 +47,7 @@ public class AccountService implements UserDetailsService {
 		Account account = accountRespository.findByEmail(username)
 				.orElseThrow(() -> new UsernameNotFoundException(username));
 
-		return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
-	}
-
-	private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
-		return roles.stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toSet());
+		return new AccountAdapter(account);
 	}
 
 	public ResponseEntity<?> createAccount(AccountDto accountDto) {
@@ -72,6 +68,8 @@ public class AccountService implements UserDetailsService {
 		URI createUri = selfLinkBuilder.toUri();
 
 		AccountModel accountModel = new AccountModel(newAccount);
+		accountModel.link_update(accountModel);
+		
 		return ResponseEntity.created(createUri).body(accountModel);
 	}
 

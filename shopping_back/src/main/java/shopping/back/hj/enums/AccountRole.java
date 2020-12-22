@@ -1,5 +1,5 @@
 package shopping.back.hj.enums;
 
 public enum AccountRole {
-	USER, ADMIN;
+	BRONZE, SILVER, GOLD, PLATINUM, DIAMOND, ADMIN;
 }

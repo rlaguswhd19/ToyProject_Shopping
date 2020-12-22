@@ -78,7 +78,7 @@ public class AppConfig {
 				if(optionalAccount.isEmpty()) {
 					AccountModel accountModel = (AccountModel) accountService.createAccount(Admin).getBody();
 					Account account = accountModel.getContent();
-					account.setRoles(Set.of(AccountRole.USER, AccountRole.ADMIN));
+					account.setRoles(Set.of(AccountRole.DIAMOND, AccountRole.ADMIN));
 					System.out.println(account);
 					accountRepository.save(account);
 				}
