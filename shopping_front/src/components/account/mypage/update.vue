@@ -189,17 +189,25 @@
 				placeholder="상세주소"
 				v-model="accountDto.address.detail"
 			/>
-			<v-btn
-				color="primary"
-				class="hj_button"
-				style="
-						margin: 20px 0 0 60%;
-						width: 40%
+			<div class="content_row" style="margin: 20px 0 0 0; width: 100%;">
+				<v-btn
+					color="primary"
+					style="
 						height: 50px !important;
+						margin-left: auto;
+						margin-right: 10px;
+						width: 30%;
 					"
-				@click="update_accountDto()"
-				>정보 수정</v-btn
-			>
+					@click="update_accountDto()"
+					>정보 수정</v-btn
+				>
+				<v-btn
+					color="primary"
+					style="height: 50px !important; width: 30%;"
+					@click="$router.push('mypage')"
+					>취소</v-btn
+				>
+			</div>
 		</div>
 	</div>
 </template>

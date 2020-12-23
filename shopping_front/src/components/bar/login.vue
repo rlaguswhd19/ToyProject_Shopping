@@ -30,7 +30,7 @@
 				</div>
 				<div class="content_row" v-else>
 					<li>
-						<v-btn text small @click="go('/account/update')">
+						<v-btn text small @click="go('/account/mypage')">
 							마이페이지
 						</v-btn>
 					</li>

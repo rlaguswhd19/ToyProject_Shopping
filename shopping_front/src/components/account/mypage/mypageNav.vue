@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<ul>
-			<h1>MY PAGE</h1>
+			<a @click="go('mypage')" style="color: black;"><h1>MY PAGE</h1></a>
 			<li>
-				<a>회원정보 수정</a>
+				<a @click="go('update')">회원정보 수정</a>
 			</li>
 			<li>
-				<a>쇼핑내역</a>
+				<a>쇼핑 내역</a>
 			</li>
 			<li>
 				<a>1:1 문의 내역</a>
@@ -15,8 +15,27 @@
 				<a>장바구니</a>
 			</li>
 			<li>
-				<a>주문조회</a>
+				<a>주문 조회</a>
 			</li>
 		</ul>
 	</div>
 </template>
+
+<script>
+export default {
+	data() {
+		return {}
+	},
+	methods: {
+		go(to) {
+			this.$router.push(to)
+		},
+	},
+}
+</script>
+
+<style>
+a {
+	text-decoration: none;
+}
+</style>
