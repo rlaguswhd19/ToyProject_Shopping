@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>회원정보</h1>
+		<h1>회원정보 수정</h1>
 		<hr style="margin: 10px;" />
 		<ul style="font-size: 13px;">
 			<li>

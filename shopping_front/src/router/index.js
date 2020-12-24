@@ -7,6 +7,7 @@ import SignIn from '../views/account/SignIn.vue'
 import Admin from '../views/account/Admin/Admin.vue'
 import Update from '../views/account/Mypage/Update.vue'
 import Mypage from '../views/account/Mypage/Mypage.vue'
+import Delete from '../views/account/Mypage/Delete.vue'
 // import { component } from 'vue/types/umd'
 
 Vue.use(VueRouter)
@@ -46,6 +47,11 @@ const routes = [
 		path: '/account/mypage',
 		name: 'Mypage',
 		component: Mypage,
+	},
+	{
+		path: '/account/delete',
+		name: 'Delete',
+		component: Delete,
 	},
 ]
 

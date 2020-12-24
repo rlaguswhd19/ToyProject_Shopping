@@ -6,6 +6,9 @@
 				<a @click="go('update')">회원정보 수정</a>
 			</li>
 			<li>
+				<a @click="go('delete')">회원 탈퇴</a>
+			</li>
+			<li>
 				<a>쇼핑 내역</a>
 			</li>
 			<li>

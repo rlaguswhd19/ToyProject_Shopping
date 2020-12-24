@@ -40,3 +40,7 @@
 	float: right;
 	font-size: 13px;
 }
+
+li {
+	list-style-type: none;
+}
