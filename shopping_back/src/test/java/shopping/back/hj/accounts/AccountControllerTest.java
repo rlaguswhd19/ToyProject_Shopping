@@ -12,6 +12,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.testSecurityContext;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -86,7 +88,8 @@ public class AccountControllerTest {
 				.andExpect(jsonPath("id").exists())
 				.andDo(document("create-account",
 					links(
-							linkWithRel("self").description("link to self")
+							linkWithRel("self").description("link to self"),
+							linkWithRel("update-account").description("link to update")
 					),
 					requestHeaders(
 							headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
@@ -110,7 +113,7 @@ public class AccountControllerTest {
 							headerWithName(HttpHeaders.LOCATION).description("Location header"),
 							headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
 					),
-					relaxedRequestFields(
+					relaxedResponseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
 							fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
 							fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
@@ -156,7 +159,6 @@ public class AccountControllerTest {
 		accountDto.setPhone_number(newPhone);
 		accountDto.setBirth("1997/01/23");
 		LocalDate birth = LocalDate.of(1997,1,23);
-		
 		ResultActions perform_update = mockMvc.perform(put("/api/accounts")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE)
@@ -238,6 +240,22 @@ public class AccountControllerTest {
 				)
 				.andDo(print())
 				.andExpect(jsonPath("id").value(3))
+				;
+	}
+	
+	@Test
+	@TestDescription("Account를 삭제하는 Test")
+	public void deleteAccount() throws Exception {
+		String email = appProperties.getDeleteEmail();
+		
+		mockMvc.perform(delete("/api/accounts/{email}", email)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaTypes.HAL_JSON_VALUE)
+				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
+				)
+				.andDo(print())
+				.andExpect(status().isOk())
+				//TODO restDocs create
 				;
 	}
 	

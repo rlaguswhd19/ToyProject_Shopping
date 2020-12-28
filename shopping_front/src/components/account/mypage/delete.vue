@@ -25,6 +25,7 @@
 					width: 25%;
 					height: 45px !important;
 				"
+				@click="deleteAccount()"
 				color="primary"
 				>회원 탈퇴</v-btn
 			>
@@ -40,6 +41,27 @@ export default {
 	data() {
 		return {}
 	},
-	methods: {},
+	methods: {
+		deleteAccount() {
+			this.$axios({
+				method: 'delete',
+				url:
+					'http://localhost:8080/api/accounts/' +
+					sessionStorage.getItem('email'),
+				headers: {
+					Authorization:
+						'Bearer' + sessionStorage.getItem('access_token'),
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/hal+json;charset=UTF-8',
+				},
+			})
+				.then(r => {
+					console.log(r)
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		},
+	},
 }
 </script>

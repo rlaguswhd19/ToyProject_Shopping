@@ -297,7 +297,7 @@ export default {
 					'http://localhost:8080/api/accounts/' +
 					sessionStorage.getItem('email'),
 				headers: {
-					'update-Type': 'application/json;charset=UTF-8',
+					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/hal+json;charset=UTF-8',
 				},
 			}).then(r => {

@@ -26,6 +26,12 @@ public class AppProperties {
 	private String userPassword;
 	
 	@NotEmpty
+	private String deleteEmail;
+	
+	@NotEmpty
+	private String deletePassword;
+	
+	@NotEmpty
 	private String clientId;
 	
 	@NotEmpty

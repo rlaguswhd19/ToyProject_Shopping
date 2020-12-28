@@ -104,6 +104,28 @@ public class AppConfig {
 				if(optionalAccount.isEmpty()) {
 					accountService.createAccount(User);
 				}
+				
+				Address address3 = Address.builder()
+						.post("54554")
+						.road("delete")
+						.jibun("delete")
+						.detail("delete")
+						.building("delete")
+						.build();
+				
+				AccountDto Delete = AccountDto.builder()
+						.email(appProperties.getDeleteEmail())
+						.password(appProperties.getDeletePassword())
+						.address(address3)
+						.phone_number("01012341234")
+						.birth("1994/08/23")
+						.sex(Sex.Men)
+						.build();
+				optionalAccount = accountRepository.findByEmail(Delete.getEmail());
+				
+				if(optionalAccount.isEmpty()) {
+					accountService.createAccount(Delete);
+				}
 			}
 		};
 	}

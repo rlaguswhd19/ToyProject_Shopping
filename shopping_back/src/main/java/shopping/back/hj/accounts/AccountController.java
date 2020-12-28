@@ -7,6 +7,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,6 +92,11 @@ public class AccountController {
 	@GetMapping("/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable String email) {
 		return accountService.findByEmail(email);
+	}
+	
+	@DeleteMapping("/{email}")
+	public ResponseEntity<?> deleteByEmail(@PathVariable String email){
+		return accountService.deleteByEmail(email);
 	}
 
 	private ResponseEntity<?> badRequest(Errors errors) {

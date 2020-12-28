@@ -93,17 +93,6 @@ public class AccountService implements UserDetailsService {
 		return ResponseEntity.ok(accountModel);
 	}
 
-	public ResponseEntity<?> findByEmail(String email) {
-		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
-		if (optionalAccount.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-
-		Account account = optionalAccount.get();
-
-		return ResponseEntity.ok(account);
-	}
-
 	public ResponseEntity<?> changePassword(String newPassword, Account account) {
 		
 		account.setPassword(passwordEncoder.encode(newPassword));
@@ -112,6 +101,28 @@ public class AccountService implements UserDetailsService {
 		return ResponseEntity.ok().build();
 	}
 	
+	public ResponseEntity<?> findByEmail(String email) {
+		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
+		if (optionalAccount.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		Account account = optionalAccount.get();
+		
+		return ResponseEntity.ok(account);
+	}
+	
+	public ResponseEntity<?> deleteByEmail(String email) {
+		Optional<Account> optionalAccount = accountRespository.findByEmail(email);
+		if (optionalAccount.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		Account account = optionalAccount.get();
+		accountRespository.delete(account);
+		
+		return ResponseEntity.ok().build();
+	}
 	
 	// 데이터 전처리
 	public void toBirth(AccountDto accountDto, Account account) {
@@ -126,4 +137,5 @@ public class AccountService implements UserDetailsService {
 		number.insert(8, "-");
 		account.setPhone_number(number.toString());
 	}
+
 }
