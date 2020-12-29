@@ -63,11 +63,13 @@ public class Account {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dorder> dorder_arr = new HashSet<Dorder>();
+	
+	private Integer money = 0;
 
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", birth=" + birth + ", email=" + email + ", password=" + password + ", address="
 				+ address + ", phone_number=" + phone_number + ", sex=" + sex + ", dress_arr=" + dress_arr + ", roles="
-				+ roles + ", dorder_arr=" + dorder_arr + "]";
+				+ roles + ", dorder_arr=" + dorder_arr + ", money=" + money + "]";
 	}
 }

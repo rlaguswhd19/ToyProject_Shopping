@@ -134,7 +134,8 @@ public class AccountControllerTest {
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
 							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
-							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역")
+							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역"),
+							fieldWithPath("money").type(JsonFieldType.NUMBER).description("사용 금액")
 					)
 				))
 				;
@@ -206,7 +207,8 @@ public class AccountControllerTest {
 							fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
 							fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
 							fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
-							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역")
+							fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역"),
+							fieldWithPath("money").type(JsonFieldType.NUMBER).description("사용 금액")
 					)
 			))
 			;
@@ -267,7 +269,8 @@ public class AccountControllerTest {
 								fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
 								fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
 								fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역"),
-								subsectionWithPath("address").type(JsonFieldType.OBJECT).description("주소")
+								subsectionWithPath("address").type(JsonFieldType.OBJECT).description("주소"),
+								fieldWithPath("money").type(JsonFieldType.NUMBER).description("사용 금액")
 						)
 				))
 				;
