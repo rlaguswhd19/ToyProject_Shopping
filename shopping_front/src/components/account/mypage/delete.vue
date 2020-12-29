@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>회원 탈퇴</h1>
-		<hr style="margin: 10px;" />
+		<hr />
 		<ul style="font-size: 13px;">
 			<li>
 				H STORE 온라인스토어 회원 탈퇴시 유의사항
@@ -20,13 +20,16 @@
 					margin-left: auto;
 					margin-right: 10px;
 					width: 25%;
-					height: 45px !important;
+					height: 50px !important;
 				"
 				@click="deleteAccount()"
 				color="primary"
 				>회원 탈퇴</v-btn
 			>
-			<v-btn color="primary" style="width: 25%; height: 45px !important;"
+			<v-btn
+				color="primary"
+				style="width: 25%; height: 50px !important; margin-right: 5%;"
+				@click="$router.push('mypage')"
 				>취소</v-btn
 			>
 		</div>

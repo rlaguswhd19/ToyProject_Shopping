@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>회원정보 수정</h1>
-		<hr style="margin: 10px;" />
+		<hr />
 		<ul style="font-size: 13px;">
 			<li>
 				회원님의 정보를 변경하실 수 있습니다. 변경 후 반드시 확인 버튼을
