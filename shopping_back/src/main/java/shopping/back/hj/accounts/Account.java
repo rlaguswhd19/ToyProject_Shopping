@@ -64,7 +64,7 @@ public class Account {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Dorder> dorder_arr = new HashSet<Dorder>();
 	
-	private Integer money = 0;
+	private Long money = 0L;
 
 	@Override
 	public String toString() {
