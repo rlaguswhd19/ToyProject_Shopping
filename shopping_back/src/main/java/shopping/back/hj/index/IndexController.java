@@ -12,6 +12,7 @@ public class IndexController {
 	public RepresentationModel<?> index() {
 		var index = new RepresentationModel<>();
 		index.add(new Link("/docs/dress.html").withRel("dress"));
+		index.add(new Link("/docs/account.html").withRel("account"));
 		return index;
 	}
 }

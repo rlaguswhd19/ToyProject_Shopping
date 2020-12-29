@@ -14,10 +14,7 @@
 				삭제됩니다.
 			</li>
 		</ul>
-		<div
-			class="content_row"
-			style="margin-top: 30%; width: 100%; outline: 1px black solid;"
-		>
+		<div class="content_row" style="margin-top: 35%; width: 100%;">
 			<v-btn
 				style="
 					margin-left: auto;
@@ -57,6 +54,9 @@ export default {
 			})
 				.then(r => {
 					console.log(r)
+					sessionStorage.clear()
+					alert('삭제 완료')
+					window.location.href = 'http://localhost:3000'
 				})
 				.catch(e => {
 					console.log(e)

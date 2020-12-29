@@ -10,7 +10,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedRequestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.testSecurityContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -34,6 +38,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.util.Jackson2JsonParser;
@@ -234,12 +239,37 @@ public class AccountControllerTest {
 	public void findByEmail() throws Exception {
 		String email = appProperties.getUserEmail();
 		
-		mockMvc.perform(get("/api/accounts/{email}", email)
+		mockMvc.perform(RestDocumentationRequestBuilders.get("/api/accounts/{email}", email)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE)
 				)
 				.andDo(print())
 				.andExpect(jsonPath("id").value(3))
+				.andDo(document("find-by-email", 
+						pathParameters(
+								parameterWithName("email").description("이메일")
+						),
+						requestHeaders(
+								headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
+								headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+						),
+						responseHeaders(
+								headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+						),
+						responseFields(
+								fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
+								fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
+								fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+								fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+								fieldWithPath("address").type(JsonFieldType.OBJECT).description("주소 객체"),
+								fieldWithPath("phone_number").type(JsonFieldType.STRING).description("전화번호"),
+								fieldWithPath("dress_arr").type(JsonFieldType.ARRAY).description("생성한 옷 목록"),
+								fieldWithPath("roles").type(JsonFieldType.ARRAY).description("권한"),
+								fieldWithPath("sex").type(JsonFieldType.STRING).description("성별"),
+								fieldWithPath("dorder_arr").type(JsonFieldType.ARRAY).description("주문 내역"),
+								subsectionWithPath("address").type(JsonFieldType.OBJECT).description("주소")
+						)
+				))
 				;
 	}
 	
@@ -248,14 +278,23 @@ public class AccountControllerTest {
 	public void deleteAccount() throws Exception {
 		String email = appProperties.getDeleteEmail();
 		
-		mockMvc.perform(delete("/api/accounts/{email}", email)
+		mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/accounts/{email}", email)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.accept(MediaTypes.HAL_JSON_VALUE)
 				.header(HttpHeaders.AUTHORIZATION, getBearerToken())
 				)
 				.andDo(print())
 				.andExpect(status().isOk())
-				//TODO restDocs create
+				.andDo(document("delete-account", 
+						pathParameters(
+								parameterWithName("email").description("이메일")
+						),
+						requestHeaders(
+								headerWithName(HttpHeaders.ACCEPT).description("Accept header"),
+								headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header"),
+								headerWithName(HttpHeaders.AUTHORIZATION).description("Access token header")
+						)
+				))
 				;
 	}
 	
