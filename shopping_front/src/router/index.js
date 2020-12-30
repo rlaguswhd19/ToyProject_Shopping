@@ -4,10 +4,11 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import SignUp from '../views/account/SignUp.vue'
 import SignIn from '../views/account/SignIn.vue'
-import Admin from '../views/account/Admin/Admin.vue'
-import Update from '../views/account/Mypage/Update.vue'
-import Mypage from '../views/account/Mypage/Mypage.vue'
-import Delete from '../views/account/Mypage/Delete.vue'
+import Admin from '../views/account/admin/Admin.vue'
+import Update from '../views/account/mypage/Update.vue'
+import Mypage from '../views/account/mypage/Mypage.vue'
+import Delete from '../views/account/mypage/Delete.vue'
+import CreateDress from '../views/dress/CreateDress.vue'
 // import { component } from 'vue/types/umd'
 
 Vue.use(VueRouter)
@@ -52,6 +53,11 @@ const routes = [
 		path: '/account/delete',
 		name: 'Delete',
 		component: Delete,
+	},
+	{
+		path: '/dress/createdress',
+		name: 'CreateDress',
+		component: CreateDress,
 	},
 ]
 

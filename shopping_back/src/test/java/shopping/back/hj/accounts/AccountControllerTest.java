@@ -328,7 +328,6 @@ public class AccountControllerTest {
 				;
 	}
 	
-	
 	private AccountDto generatedAccountDto() {
 		Address address = Address.builder()
 				.post("54903")

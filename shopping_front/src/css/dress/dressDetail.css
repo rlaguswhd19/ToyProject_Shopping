@@ -24,6 +24,7 @@
 .preview_list {
 	margin: 20px 5px;
 }
+
 .size_button{
 	outline: 1px black solid;
 	margin: 0 5px 10px 5px;
@@ -76,15 +77,6 @@ input[type="number"]::-webkit-inner-spin-button {
 /* .color_box:visited {
 	box-shadow: 1px 1px 10px #077deb;
 } */
-
-.content_row{
-	display: flex;
-}
-
-.content_col{
-	display: flex;
-	flex-direction: column;
-}
 
 .size_chart_wrap{
 	padding: 10px 90px;

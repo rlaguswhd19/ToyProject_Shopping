@@ -1,15 +1,15 @@
 <template>
 	<div>
-		<Address />
+		<getAddress />
 	</div>
 </template>
 
 <script>
-import Address from '../../components/address/getAddress'
+import getAddress from '../../components/address/getAddress'
 
 export default {
 	components: {
-		Address,
+		getAddress,
 	},
 }
 </script>

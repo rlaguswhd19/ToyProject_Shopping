@@ -9,7 +9,7 @@
 				<a>1:1 문의 내역</a>
 			</li>
 			<li>
-				<a>옷 등록</a>
+				<a @click="$router.push('/dress/createdress')">옷 등록</a>
 			</li>
 			<li>
 				<a>등록한 옷 리스트</a>

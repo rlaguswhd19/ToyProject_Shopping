@@ -1,15 +1,15 @@
 <template>
 	<div>
-		<createDress />
+		<dressInput />
 	</div>
 </template>
 
 <script>
-import createDress from '../components/dress/createDress'
+import dressInput from '../components/dress/dressInput'
 export default {
 	name: 'About',
 	components: {
-		createDress,
+		dressInput,
 	},
 }
 </script>

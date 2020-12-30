@@ -1,6 +1,12 @@
 <template>
 	<div class="content_wrap">
-		<div style="display: flex; margin-bottom: 100px;">
+		<div
+			style="
+				display: flex;
+				margin-bottom: 100px;
+				outline: 1px black solid;
+			"
+		>
 			<div class="preview_wrap">
 				<div class="preview_list_wrap">
 					<!-- <div v-for="preview in previews" :key="preview.id"> -->
@@ -90,33 +96,33 @@
 						contain
 						:alt="previews[bigPreview].name"
 					/>
-					<div class="content_row" style="margin-top: 15px;">
-						<v-file-input
-							type="file"
-							show-size
-							counter
-							multiple
-							label="File input"
-							v-model="files"
-							accept="image/*"
-							@change="change_image"
-							dense
-							outlined
-						></v-file-input>
-						<v-btn
-							v-if="this.previews.length == 0"
-							@click="representationPreview = bigPreview"
-							color="primary"
-							disabled
-							>대표이미지</v-btn
-						>
-						<v-btn
-							v-else
-							@click="representationPreview = bigPreview"
-							color="primary"
-							>대표이미지</v-btn
-						>
-					</div>
+				</div>
+				<div class="content_row" style="margin-top: 15px;">
+					<v-file-input
+						type="file"
+						show-size
+						counter
+						multiple
+						label="File input"
+						v-model="files"
+						accept="image/*"
+						@change="change_image"
+						dense
+						outlined
+					></v-file-input>
+					<v-btn
+						v-if="this.previews.length == 0"
+						@click="representationPreview = bigPreview"
+						color="primary"
+						disabled
+						>대표이미지</v-btn
+					>
+					<v-btn
+						v-else
+						@click="representationPreview = bigPreview"
+						color="primary"
+						>대표이미지</v-btn
+					>
 				</div>
 			</div>
 			<!-- 입력 -->
