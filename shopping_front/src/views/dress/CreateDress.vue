@@ -1,15 +1,14 @@
 <template>
-	<div class="content_row" style="margin: 10px; width: 100%;">
-		<dressPreview />
+	<div>
+		<dressInput />
 	</div>
 </template>
 
 <script>
-import dressPreview from '../../components/dress/dressPreview'
-
+import dressInput from '../../components/dress/dressInput'
 export default {
 	components: {
-		dressPreview,
+		dressInput,
 	},
 }
 </script>
