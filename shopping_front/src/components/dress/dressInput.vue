@@ -2,9 +2,8 @@
 	<div class="content_wrap">
 		<div class="content_row">
 			<dressPreview />
-
 			<div class="input_wrap">
-				<v-card style="height: 750px; padding: 20px;">
+				<v-card style="height: 730px; padding: 20px;">
 					<div class="content_row">
 						<h2>Dress Info</h2>
 						<p style="margin-left: auto;">
@@ -18,8 +17,8 @@
 						</p>
 					</div>
 
-					<span>category</span>
-					<div class="content_row" style="margin-bottom: 20px;">
+					<h4 style="margin-top: 20px;">category</h4>
+					<div class="content_row" style="margin: 10px 0;">
 						<v-select
 							:items="sexs"
 							label="성별"
@@ -54,16 +53,18 @@
 							placeholder="제품코드"
 						/>
 					</div>
-					<dressSize />
+					<div style="margin-top: 40px;">
+						<dressSize />
+					</div>
 					<div>
-						<span>colors</span>
+						<h4>colors</h4>
 						<v-select
 							:items="colors"
 							label="색상"
 							v-model="dressDto.color"
 							dense
 							solo
-							style="width: 100%;"
+							style="width: 100%; margin: 10px 0;"
 						></v-select>
 					</div>
 					<div class="content_row">
@@ -86,13 +87,13 @@
 						@click="test()"
 						color="primary"
 						width="100%"
-						style="margin: auto; margin-top: 50px;"
+						style="margin: auto; margin-top: 40px;"
 						>등록</v-btn
 					>
 				</v-card>
 			</div>
 		</div>
-		<div>
+		<div style="margin-top: 50px;">
 			<h2>Explanation</h2>
 			<textarea
 				rows="10"
@@ -323,7 +324,7 @@ export default {
 .input_wrap {
 	display: flex;
 	flex-direction: column;
-	margin: 20px 0 0 20px;
+	margin: 0 0 0 20px;
 	margin-bottom: 30px;
 }
 

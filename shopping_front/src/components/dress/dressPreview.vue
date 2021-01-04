@@ -14,7 +14,7 @@
 						:height="smallSize.height"
 						:alt="preview.name"
 						contain
-						style="outline: 1px black solid;"
+						style="outline: 1px black solid; margin-top: 30px;"
 						@mouseover="change_current(preview, index)"
 					/>
 					<v-img
@@ -24,6 +24,7 @@
 						:height="smallSize.height"
 						:alt="preview.name"
 						contain
+						style="margin-top: 30px;"
 						@mouseover="change_current(preview, index)"
 					/>
 				</div>
@@ -34,8 +35,8 @@
 					class="preview_current"
 					style="
 						outline: 1px black solid;
-						width: 630px;
-						height: 700px;
+						width: 620px;
+						height: 660px;
 					"
 				>
 					<h2>
