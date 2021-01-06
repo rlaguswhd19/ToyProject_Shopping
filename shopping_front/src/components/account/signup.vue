@@ -159,7 +159,11 @@
 				placeholder="상세주소"
 				v-model="accountDto.address.detail"
 			/>
-			<v-btn color="primary" class="hj_button" @click="post_account"
+			<v-btn
+				color="primary"
+				class="hj_button"
+				@click="post_account"
+				depressed
 				>회원가입</v-btn
 			>
 		</div>

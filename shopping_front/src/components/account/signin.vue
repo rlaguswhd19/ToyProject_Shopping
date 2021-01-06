@@ -25,7 +25,11 @@
 					<a>아이디</a> / <a>비밀번호 찾기</a>
 				</div>
 
-				<v-btn color="primary" class="hj_button" @click="login()"
+				<v-btn
+					color="primary"
+					class="hj_button"
+					@click="login()"
+					depressed
 					>로그인</v-btn
 				>
 			</div>
