@@ -70,7 +70,7 @@ public class AccountController {
 	}
 
 	@PutMapping("/password")
-	public ResponseEntity<?> changePassword(@RequestBody ChangePass changePass, Errors errors) {
+	public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePass changePass, Errors errors) {
 		
 		accountValidator.isNotExistEmail(changePass.getEmail(), errors);
 		accountValidator.isValidPasswordWithErrors(changePass.getNewPassword(), errors);
