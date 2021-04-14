@@ -40,7 +40,8 @@ public class IndexControllerTest {
 			.andDo(print())
 			.andDo(document("index", 
 					links(
-							linkWithRel("dress").description("link to dress api")
+							linkWithRel("dress").description("link to dress api"),
+							linkWithRel("account").description("link to account api")
 					)
 				))
 			;

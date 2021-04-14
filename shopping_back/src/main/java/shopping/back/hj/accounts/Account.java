@@ -13,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -26,7 +25,6 @@ import lombok.Setter;
 import shopping.back.hj.accounts.address.Address;
 import shopping.back.hj.dorders.Dorder;
 import shopping.back.hj.dress.Dress;
-import shopping.back.hj.dress.dpages.Dpage;
 import shopping.back.hj.enums.AccountRole;
 import shopping.back.hj.enums.Sex;
 

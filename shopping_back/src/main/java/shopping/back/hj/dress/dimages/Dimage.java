@@ -28,5 +28,4 @@ public class Dimage {
 	public String toString() {
 		return "Dimage [id=" + id + ", image_files=" + image_files + ", image_repIdx=" + image_repIdx + "]";
 	}
-	
 }
